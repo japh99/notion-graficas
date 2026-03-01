@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import urllib.parse
 
 NOTION_TOKEN = os.environ['NOTION_TOKEN']
 DATABASE_ID = os.environ['DATABASE_ID']
@@ -24,31 +25,33 @@ pendientes = 0
 for row in datos:
     try:
         estado = row["properties"]["Estado"]["status"]["name"]
-        if estado in["Done", "Hecho", "Completado"]:
+        if estado in ["Done", "Hecho", "Completado"]:
             completadas += 1
         else:
             pendientes += 1
-    except Exception as e:
+    except Exception:
         pass 
 
-# 3. Crear la gráfica y pedir un enlace corto y limpio
+# 3. Crear la gráfica
 chart_config = {
   "type": "doughnut",
   "data": {
     "labels":["Completadas", "Pendientes"],
-    "datasets": [{
+    "datasets":[{
         "data":[completadas, pendientes],
         "backgroundColor":["#2e7d32", "#d32f2f"]
     }]
   }
 }
 
-# Aquí le pedimos el enlace corto a QuickChart
-qc_response = requests.post("https://quickchart.io/chart/create", json={"chart": chart_config})
-chart_url = qc_response.json()["url"]
-print("Enlace limpio generado:", chart_url)
+# Convertimos la gráfica a texto seguro
+config_codificada = urllib.parse.quote(json.dumps(chart_config))
 
-# 4. Actualizar Notion con el enlace limpio
+# ¡EL TRUCO PARA NOTION! 
+# Usamos "chart.png" y agregamos "&ext=.png" al final para que Notion vea la extensión y lo acepte.
+chart_url = f"https://quickchart.io/chart.png?c={config_codificada}&ext=.png"
+
+# 4. Actualizar Notion
 url_block = f"https://api.notion.com/v1/blocks/{BLOCK_ID}"
 update_data = {
     "image": {
