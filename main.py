@@ -1,7 +1,6 @@
 import requests
 import json
 import os
-import urllib.parse
 
 NOTION_TOKEN = os.environ['NOTION_TOKEN']
 DATABASE_ID = os.environ['DATABASE_ID']
@@ -13,7 +12,7 @@ headers = {
     "Notion-Version": "2022-06-28"
 }
 
-# 1. Leer datos
+# 1. Leer datos de Notion
 url_db = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
 response = requests.post(url_db, headers=headers)
 datos = response.json().get("results",[])
@@ -25,14 +24,14 @@ pendientes = 0
 for row in datos:
     try:
         estado = row["properties"]["Estado"]["status"]["name"]
-        if estado in ["Done", "Hecho", "Completado"]:
+        if estado in["Done", "Hecho", "Completado"]:
             completadas += 1
         else:
             pendientes += 1
     except Exception as e:
         pass 
 
-# 3. Crear la gráfica
+# 3. Crear la gráfica y pedir un enlace corto y limpio
 chart_config = {
   "type": "doughnut",
   "data": {
@@ -44,10 +43,12 @@ chart_config = {
   }
 }
 
-config_codificada = urllib.parse.quote(json.dumps(chart_config))
-chart_url = f"https://quickchart.io/chart?c={config_codificada}"
+# Aquí le pedimos el enlace corto a QuickChart
+qc_response = requests.post("https://quickchart.io/chart/create", json={"chart": chart_config})
+chart_url = qc_response.json()["url"]
+print("Enlace limpio generado:", chart_url)
 
-# 4. Actualizar Notion (AQUÍ ESTÁ EL CAMBIO, YA NO TIENE EL "TYPE")
+# 4. Actualizar Notion con el enlace limpio
 url_block = f"https://api.notion.com/v1/blocks/{BLOCK_ID}"
 update_data = {
     "image": {
