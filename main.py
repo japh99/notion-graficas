@@ -1,67 +1,59 @@
 import requests
 import json
 import os
-import urllib.parse
 
+# SOLO NECESITAMOS LA LLAVE MAESTRA. ¡El robot buscará el resto!
 NOTION_TOKEN = os.environ['NOTION_TOKEN']
-DATABASE_ID = os.environ['DATABASE_ID']
-BLOCK_ID = os.environ['BLOCK_ID']
 
 headers = {
     "Authorization": f"Bearer {NOTION_TOKEN}",
-    "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
+    "Content-Type": "application/json"
 }
 
-# 1. Leer datos de Notion
-url_db = f"https://api.notion.com/v1/databases/{DATABASE_ID}/query"
-response = requests.post(url_db, headers=headers)
-datos = response.json().get("results",[])
+print("==========================================================")
+print(" 🕵️ INICIANDO EL SÚPER ESCÁNER DE NOTION... ")
+print("==========================================================\n")
 
-# 2. Contar tareas
-completadas = 0
-pendientes = 0
-
-for row in datos:
-    try:
-        estado = row["properties"]["Estado"]["status"]["name"]
-        if estado in ["Done", "Hecho", "Completado"]:
-            completadas += 1
-        else:
-            pendientes += 1
-    except Exception:
-        pass 
-
-# 3. Crear la gráfica
-chart_config = {
-  "type": "doughnut",
-  "data": {
-    "labels":["Completadas", "Pendientes"],
-    "datasets":[{
-        "data":[completadas, pendientes],
-        "backgroundColor":["#2e7d32", "#d32f2f"]
-    }]
-  }
-}
-
-# Convertimos la gráfica a texto seguro
-config_codificada = urllib.parse.quote(json.dumps(chart_config))
-
-# ¡EL TRUCO PARA NOTION! 
-# Usamos "chart.png" y agregamos "&ext=.png" al final para que Notion vea la extensión y lo acepte.
-chart_url = f"https://quickchart.io/chart.png?c={config_codificada}&ext=.png"
-
-# 4. Actualizar Notion
-url_block = f"https://api.notion.com/v1/blocks/{BLOCK_ID}"
-update_data = {
-    "image": {
-        "external": { "url": chart_url }
+# Le pedimos a Notion que nos devuelva TODAS las bases de datos conectadas
+url_search = "https://api.notion.com/v1/search"
+payload = {
+    "filter": {
+        "value": "database",
+        "property": "object"
     }
 }
-res = requests.patch(url_block, headers=headers, json=update_data)
 
-if res.status_code == 200:
-    print("¡Gráfica actualizada con éxito en Notion!")
+response = requests.post(url_search, headers=headers, json=payload)
+
+if response.status_code == 200:
+    bases_de_datos = response.json().get("results",[])
+    
+    if not bases_de_datos:
+        print("⚠️ No encontré ninguna base de datos.")
+        print("Asegúrate de haber ido a Notion > Tres puntitos > Conexiones > y agregar 'Graficas Automáticas' a tus tablas.")
+    else:
+        print(f"✅ ¡Encontré {len(bases_de_datos)} bases de datos conectadas!\n")
+        
+        for db in bases_de_datos:
+            # Extraer el nombre de la tabla
+            try:
+                nombre_db = db["title"][0]["plain_text"]
+            except:
+                nombre_db = "Base de datos sin título"
+            
+            db_id = db["id"]
+            
+            print(f"📁 NOMBRE: {nombre_db}")
+            print(f"🔑 ID A COPIAR: {db_id}")
+            print(f"📋 COLUMNAS QUE TIENE:")
+            
+            # Mostrar todas las columnas y qué tipo de datos guardan
+            for nombre_columna, info in db["properties"].items():
+                print(f"   👉 '{nombre_columna}' (Tipo: {info['type']})")
+                
+            print("-" * 50)
 else:
-    print("ERROR DE NOTION:", res.text)
-    raise Exception("El script falló al intentar actualizar la imagen en Notion.")
+    print(f"❌ Error de conexión: {response.text}")
+
+print("\n🚀 ESCANEO TERMINADO. Pásale este texto completo a la IA.")
