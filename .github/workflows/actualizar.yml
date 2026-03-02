@@ -3,4 +3,6 @@
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           DB_INGRESOS: ${{ secrets.DB_INGRESOS }}
           DB_EGRESOS: ${{ secrets.DB_EGRESOS }}
+          DB_TAREAS: ${{ secrets.DB_TAREAS }}
+          DB_HABITOS: ${{ secrets.DB_HABITOS }}
         run: python main.py
