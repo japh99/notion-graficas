@@ -15,12 +15,12 @@
     <body>
         <h3>Flujo de Caja</h3>
         <div class="chart-container"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">💰 <b>Ingresos:</b> $0 COP.<br>⚖️ <b>Balance:</b> $0 COP disponibles.</div>
+        <div class="insight-box">💰 <b>Ingresos:</b> $510,000 COP.<br>⚖️ <b>Balance:</b> $510,000 COP disponibles.</div>
         <script>
             Chart.defaults.color = '#A0A0A0';
             new Chart(document.getElementById('miGrafica'), {
                 type: 'bar',
-                data: { labels: ["Ingresos", "Egresos"], datasets:[{ data: [0, 0], backgroundColor: ["#2ea043", "#f85149"], borderWidth: 0 }] },
+                data: { labels: ["Ingresos", "Egresos"], datasets:[{ data: [510000, 0], backgroundColor: ["#2ea043", "#f85149"], borderWidth: 0 }] },
                 options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
             });
         </script>
