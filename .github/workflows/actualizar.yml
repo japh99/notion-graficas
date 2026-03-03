@@ -9,7 +9,7 @@ jobs:
   actualizar:
     runs-on: ubuntu-latest
     permissions:
-      contents: write    # Permiso vital para poder guardar los archivos HTML
+      contents: write    # Permiso obligatorio para guardar los archivos HTML
 
     steps:
       - name: Descargar código
