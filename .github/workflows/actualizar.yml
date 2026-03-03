@@ -1,15 +1,15 @@
-name: Actualizar Gráfica Notion
+name: Actualizar Datos Notion
 
 on:
   schedule:
     - cron: '0 * * * *'  # Se ejecuta automáticamente cada hora
-  workflow_dispatch:      # Te permite ejecutarlo manualmente con el botón
+  workflow_dispatch:      # Botón para ejecutar manualmente
 
 jobs:
   actualizar:
     runs-on: ubuntu-latest
     permissions:
-      contents: write    # Permiso obligatorio para guardar los archivos HTML
+      contents: write    # Permiso necesario para guardar el archivo datos.json
 
     steps:
       - name: Descargar código
@@ -23,7 +23,7 @@ jobs:
       - name: Instalar librerías
         run: pip install requests pytz
 
-      - name: Ejecutar Script de Python
+      - name: Ejecutar Script de Python (Extracción de Datos)
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           DB_INGRESOS: ${{ secrets.DB_INGRESOS }}
@@ -37,10 +37,10 @@ jobs:
           DB_COMPRAS: ${{ secrets.DB_COMPRAS }}
         run: python main.py
 
-      - name: Guardar páginas web en GitHub
+      - name: Guardar datos en GitHub
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add *.html || true
-          git commit -m "Actualizar graficas automaticas" || exit 0
+          git add datos.json
+          git commit -m "Actualizar datos.json desde Notion" || exit 0
           git push
