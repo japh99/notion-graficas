@@ -6,7 +6,7 @@ from datetime import datetime
 import pytz
 
 # ==========================================
-# ⚙️ CONFIGURACIÓN INICIAL
+# ⚙️ CONFIGURACIÓN Y LLAVES
 # ==========================================
 NOTION_TOKEN = os.environ['NOTION_TOKEN']
 headers = {
@@ -15,17 +15,19 @@ headers = {
     "Content-Type": "application/json"
 }
 
-# Configura tu zona horaria (Ej: America/Bogota, America/Mexico_City, Europe/Madrid)
+# Configuración de Tiempo
 zona_horaria = pytz.timezone('America/Bogota') 
 hora_actual = datetime.now(zona_horaria).strftime("%d/%m %I:%M %p")
 
-print("🤖 INICIANDO CEREBRO MAESTRO 3.0 (ALL-IN-ONE)...")
+# Orden cronológico para gráficas mensuales
+MESES_ORDEN = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+print(f"🤖 INICIANDO CEREBRO MAESTRO v3.0 - {hora_actual}")
 
 # ==========================================
 # 🧠 GENERADOR DE APPS INTERACTIVAS
 # ==========================================
 def crear_app(nombre_archivo, titulo, labels, datos, colores, mensaje, tipo_default='doughnut', index_axis='x'):
-    # Preparamos los datos para JavaScript
     js_labels = json.dumps(labels)
     js_data = json.dumps(datos)
     js_colors = json.dumps(colores)
@@ -35,16 +37,14 @@ def crear_app(nombre_archivo, titulo, labels, datos, colores, mensaje, tipo_defa
     <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <style>
-            body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }}
+            body {{ font-family: -apple-system, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }}
             h3 {{ margin: 0 0 10px 0; font-size: 16px; text-align: center; font-weight: 600; }}
-            .controls {{ display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center; }}
+            .controls {{ display: flex; gap: 6px; margin-bottom: 10px; }}
             button {{ background: #444; color: white; border: none; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; }}
             button:hover {{ background: #2ea043; }}
-            button.active {{ background: #2ea043; font-weight: bold; }}
-            .chart-box {{ width: 100%; max-width: 350px; position: relative; height: 220px; }}
+            .chart-box {{ width: 100%; max-width: 350px; height: 220px; position: relative; }}
             .insight-box {{ background-color: #262626; border-left: 4px solid {colores[0]}; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }}
             .timestamp {{ font-size: 10px; color: #888; margin-top: 10px; }}
         </style>
@@ -52,65 +52,46 @@ def crear_app(nombre_archivo, titulo, labels, datos, colores, mensaje, tipo_defa
     <body>
         <h3>{titulo}</h3>
         <div class="controls">
-            <button onclick="cambiarTipo('doughnut')" id="btn-doughnut">🍩</button>
-            <button onclick="cambiarTipo('bar')" id="btn-bar">📊</button>
-            <button onclick="cambiarTipo('line')" id="btn-line">📈</button>
-            <button onclick="cambiarTipo('pie')" id="btn-pie">🥧</button>
+            <button onclick="cambiarTipo('bar')">📊</button>
+            <button onclick="cambiarTipo('doughnut')">🍩</button>
+            <button onclick="cambiarTipo('line')">📈</button>
         </div>
         <div class="chart-box"><canvas id="miGrafica"></canvas></div>
         <div class="insight-box">{mensaje}</div>
-        <div class="timestamp">🔄 Actualizado: {hora_actual}</div>
-
+        <div class="timestamp">🔄 Sincronizado: {hora_actual}</div>
         <script>
-            const labels = {js_labels};
-            const dataValues = {js_data};
-            const backgroundColors = {js_colors};
             let myChart;
-
             function renderChart(tipo) {{
                 const ctx = document.getElementById('miGrafica').getContext('2d');
                 if (myChart) myChart.destroy();
-
-                const idxAxis = '{index_axis}'; // Para barras horizontales
-                
-                const options = {{
-                    indexAxis: idxAxis,
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {{ legend: {{ display: tipo === 'doughnut' || tipo === 'pie', position: 'bottom', labels: {{ color: '#ccc' }} }} }},
-                    scales: {{
-                        y: {{ display: tipo === 'bar' || tipo === 'line', ticks: {{ color: '#ccc' }} }},
-                        x: {{ display: tipo === 'bar' || tipo === 'line', ticks: {{ color: '#ccc' }} }}
-                    }}
-                }};
-
                 myChart = new Chart(ctx, {{
                     type: tipo,
                     data: {{
-                        labels: labels,
+                        labels: {js_labels},
                         datasets: [{{
-                            label: 'Datos',
-                            data: dataValues,
-                            backgroundColor: backgroundColors,
-                            borderColor: backgroundColors[0],
+                            label: 'Monto/Cantidad',
+                            data: {js_data},
+                            backgroundColor: {js_colors},
+                            borderColor: {js_colors}[0],
                             borderWidth: tipo === 'line' ? 2 : 0,
-                            borderRadius: 4,
                             tension: 0.4,
                             fill: tipo === 'line'
                         }}]
                     }},
-                    options: options
+                    options: {{
+                        indexAxis: '{index_axis}',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {{ legend: {{ display: tipo === 'doughnut', position: 'bottom', labels: {{ color: '#ccc' }} }} }},
+                        scales: {{
+                            y: {{ display: tipo !== 'doughnut', ticks: {{ color: '#ccc' }} }},
+                            x: {{ display: tipo !== 'doughnut', ticks: {{ color: '#ccc' }} }}
+                        }}
+                    }}
                 }});
             }}
-            
-            function cambiarTipo(t) {{
-                renderChart(t);
-                document.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-                const btn = document.getElementById('btn-'+t);
-                if(btn) btn.classList.add('active');
-            }}
-            
-            cambiarTipo('{tipo_default}');
+            function cambiarTipo(t) {{ renderChart(t); }}
+            renderChart('{tipo_default}');
         </script>
     </body>
     </html>
@@ -119,211 +100,152 @@ def crear_app(nombre_archivo, titulo, labels, datos, colores, mensaje, tipo_defa
         file.write(html)
 
 # ==========================================
-# 💸 1. FINANZAS (Ingresos y Egresos)
+# 📊 MÓDULO: FINANZAS (HISTÓRICO Y CATEGORÍAS)
 # ==========================================
 try:
-    print("💸 Analizando Finanzas...")
-    DB_EGRESOS = os.environ['DB_EGRESOS']
-    DB_INGRESOS = os.environ['DB_INGRESOS']
+    print("📈 Procesando Finanzas...")
+    db_egresos = os.environ['DB_EGRESOS']
+    db_ingresos = os.environ['DB_INGRESOS']
 
-    # Egresos
-    res_out = requests.post(f"https://api.notion.com/v1/databases/{DB_EGRESOS}/query", headers=headers).json().get("results",[])
-    cats = {}
-    total_out = 0
+    # --- EGRESOS ---
+    r_eg = requests.post(f"https://api.notion.com/v1/databases/{db_egresos}/query", headers=headers).json().get("results",[])
+    eg_mes = {m: 0 for m in MESES_ORDEN}
+    eg_cat = {}
+    total_eg = 0
     hormiga = 0
     
-    for r in res_out:
-        try:
-            m = r["properties"]["Monto"]["number"]
-            if m:
-                t = r["properties"]["Tipo"]["multi_select"]
-                c = t[0]["name"] if t else "Otros"
-                cats[c] = cats.get(c, 0) + m
-                total_out += m
-                if m <= 15000 and c not in ["Suscripciones", "Arriendo"]: hormiga += m
-        except: pass
-
-    msg_out = f"💸 Gastos Totales: <b>${total_out:,.0f}</b><br>🐜 Gastos Hormiga: <b>${hormiga:,.0f}</b>"
-    crear_app("egresos.html", "Mis Gastos", list(cats.keys()), list(cats.values()), 
-              ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0'], msg_out, 'doughnut')
-
-    # Ingresos
-    res_in = requests.post(f"https://api.notion.com/v1/databases/{DB_INGRESOS}/query", headers=headers).json().get("results",[])
-    total_in = sum([r["properties"]["Monto"]["number"] for r in res_in if r["properties"]["Monto"]["number"]])
-    balance = total_in - total_out
-    
-    msg_in = f"💰 Ingresos: ${total_in:,.0f}<br>⚖️ Balance: <b>${balance:,.0f}</b>"
-    crear_app("ingresos.html", "Flujo de Caja", ["Ingresos", "Egresos"], [total_in, total_out], 
-              ['#2ea043', '#f85149'], msg_in, 'bar')
-
-except Exception as e: print("Error Finanzas:", e)
-time.sleep(1)
-
-# ==========================================
-# 🚀 2. TAREAS (Productividad)
-# ==========================================
-try:
-    print("🚀 Analizando Tareas...")
-    DB_TAREAS = os.environ['DB_TAREAS']
-    res = requests.post(f"https://api.notion.com/v1/databases/{DB_TAREAS}/query", headers=headers).json().get("results",[])
-    hechas = 0
-    pendientes = 0
-    for r in res:
-        if r["properties"]["Hecho"]["checkbox"]: hechas += 1
-        else: pendientes += 1
+    for r in r_eg:
+        p = r["properties"]
+        monto = p["Monto"]["number"] or 0
+        mes = p["Mes"]["select"]["name"] if p["Mes"]["select"] else None
+        tipo_list = p["Tipo"]["multi_select"]
+        cat = tipo_list[0]["name"] if tipo_list else "Otros"
         
-    msg_t = f"🚀 Completadas: <b>{hechas}</b><br>⚠️ Pendientes: <b>{pendientes}</b>"
-    crear_app("tareas.html", "Progreso Tareas", ["Completadas", "Pendientes"], [hechas, pendientes], 
-              ['#2ea043', '#555555'], msg_t, 'doughnut')
-except Exception as e: print("Error Tareas:", e)
-time.sleep(1)
+        total_eg += monto
+        if mes in eg_mes: eg_mes[mes] += monto
+        eg_cat[cat] = eg_cat.get(cat, 0) + monto
+        if monto <= 15000 and cat not in ["Suscripciones", "Arriendo"]: hormiga += monto
+
+    crear_app("egresos_mes.html", "Gastos Mensuales", list(eg_mes.keys()), list(eg_mes.values()), ['#f85149'], f"Total Año: ${total_eg:,.0f}", 'bar')
+    crear_app("egresos.html", "Gastos por Categoría", list(eg_cat.keys()), list(eg_cat.values()), ['#ff6384', '#36a2eb', '#cc65fe'], f"🐜 Gastos Hormiga: ${hormiga:,.0f}", 'doughnut')
+
+    # --- INGRESOS ---
+    r_in = requests.post(f"https://api.notion.com/v1/databases/{db_ingresos}/query", headers=headers).json().get("results",[])
+    in_mes = {m: 0 for m in MESES_ORDEN}
+    total_in = 0
+    for r in r_in:
+        p = r["properties"]
+        monto = p["Monto"]["number"] or 0
+        mes = p["Mes"]["select"]["name"] if p["Mes"]["select"] else None
+        total_in += monto
+        if mes in in_mes: in_mes[mes] += monto
+
+    crear_app("ingresos_mes.html", "Ingresos Mensuales", list(in_mes.keys()), list(in_mes.values()), ['#2ea043'], f"Total Año: ${total_in:,.0f}", 'bar')
+    crear_app("ingresos.html", "Balance General", ["Ingresos", "Egresos"], [total_in, total_eg], ['#2ea043', '#f85149'], f"Saldo Actual: ${total_in-total_eg:,.0f}", 'bar')
+
+except Exception as e: print(f"Error Finanzas: {e}")
 
 # ==========================================
-# 🏆 3. HÁBITOS
+# 🛒 MÓDULO: COMPRAS (WISHLIST)
 # ==========================================
 try:
-    print("🏆 Analizando Hábitos...")
-    DB_HABITOS = os.environ['DB_HABITOS']
-    res = requests.post(f"https://api.notion.com/v1/databases/{DB_HABITOS}/query", headers=headers).json().get("results",[])
-    habs = {}
-    lista_habitos = ["Meditacion", "Leer", "Ejercicio", "Agua 2LT", "Agradecer"] # Tus columnas
-    
-    for h in lista_habitos: habs[h] = 0
+    print("🛒 Procesando Compras...")
+    db_c = os.environ['DB_COMPRAS']
+    res = requests.post(f"https://api.notion.com/v1/databases/{db_c}/query", headers=headers).json().get("results",[])
+    si, no, count_no = 0, 0, 0
     for r in res:
-        for h in lista_habitos:
-            if r["properties"].get(h, {}).get("checkbox"): habs[h] += 1
-            
-    msg_h = "La constancia es la clave. 🔥"
-    crear_app("habitos.html", "Racha de Hábitos", list(habs.keys()), list(habs.values()), 
-              ['#36a2eb', '#ffce56', '#4bc0c0', '#ff6384', '#9966ff'], msg_h, 'bar')
-except Exception as e: print("Error Hábitos:", e)
+        p = r["properties"]
+        val = p.get("Monto", p.get("Precio", {"number":0}))["number"] or 0
+        done = False
+        for k, v in p.items():
+            if v["type"] == "checkbox" and v["checkbox"]: done = True
+        if done: si += val
+        else: 
+            no += val
+            count_no += 1
+    crear_app("compras.html", "Presupuesto Wishlist", ["Comprado", "Pendiente"], [si, no], ['#2ea043', '#555555'], f"Faltan ${no:,.0f} para {count_no} items.", 'doughnut')
+except Exception as e: print(f"Error Compras: {e}")
 
 # ==========================================
-# 🍅 4. POMODORO
+# 💳 MÓDULO: SUSCRIPCIONES
 # ==========================================
 try:
-    print("🍅 Analizando Pomodoro...")
-    DB_POM = os.environ['DB_POMODORO']
-    res = requests.post(f"https://api.notion.com/v1/databases/{DB_POM}/query", headers=headers).json().get("results",[])
-    tiempos = {}
-    for r in res:
-        t = r["properties"]["Tipo"]["select"]["name"]
-        minutos = r["properties"]["Tiempo"]["number"]
-        if minutos: tiempos[t] = tiempos.get(t, 0) + minutos
-    
-    horas = sum(tiempos.values()) // 60
-    msg_pom = f"⏱️ Total Enfoque: <b>{horas} horas</b>."
-    crear_app("pomodoro.html", "Sesiones Pomodoro", list(tiempos.keys()), list(tiempos.values()), 
-              ['#ff6384', '#36a2eb', '#ffce56'], msg_pom, 'pie')
-except Exception as e: print("Error Pomodoro:", e)
-
-# ==========================================
-# 💀 5. MEMENTO MORI
-# ==========================================
-try:
-    print("💀 Analizando Vida...")
-    # EDAD MANUAL (Cámbiala por tu edad real aquí)
-    edad = 26 
-    esperanza = 80
-    vivido = edad
-    restante = esperanza - edad
-    
-    msg_mem = f"Has vivido <b>{edad} años</b>.<br>Te quedan aprox. <b>{restante} inviernos</b>. ¡Vive!"
-    crear_app("memento.html", "Mi Vida en Años", ["Vivido", "Restante"], [vivido, restante], 
-              ['#333333', '#EBEBEB'], msg_mem, 'bar', 'y') # 'y' para horizontal
-except Exception as e: print("Error Memento:", e)
-
-# ==========================================
-# 🛒 6. COMPRAS (Wishlist / Presupuesto)
-# ==========================================
-try:
-    print("🛒 Analizando Compras...")
-    DB_COMPRAS = os.environ['DB_COMPRAS']
-    res = requests.post(f"https://api.notion.com/v1/databases/{DB_COMPRAS}/query", headers=headers).json().get("results",[])
-    
-    comprado_val = 0
-    pendiente_val = 0
-    items_falta = 0
-    
-    for r in res:
-        try:
-            # Lógica para encontrar Precio
-            props = r["properties"]
-            precio = 0
-            if "Precio" in props: precio = props["Precio"]["number"]
-            elif "Monto" in props: precio = props["Monto"]["number"]
-            elif "Costo" in props: precio = props["Costo"]["number"]
-            if precio is None: precio = 0
-
-            # Lógica para encontrar el Checkbox
-            check = False
-            if "Comprado" in props: check = props["Comprado"]["checkbox"]
-            elif "Hecho" in props: check = props["Hecho"]["checkbox"]
-            elif "Check" in props: check = props["Check"]["checkbox"]
-            
-            if check: comprado_val += precio
-            else: 
-                pendiente_val += precio
-                items_falta += 1
-        except: pass
-            
-    progreso = (comprado_val / (comprado_val + pendiente_val) * 100) if (comprado_val + pendiente_val) > 0 else 0
-    msg_comp = f"Has completado el <b>{progreso:.0f}%</b> de tu lista.<br>Te faltan <b>${pendiente_val:,.0f}</b> para los {items_falta} deseos restantes."
-    
-    crear_app("compras.html", "Presupuesto de Deseos", ["Ya tengo ✅", "Me falta 💰"], [comprado_val, pendiente_val], 
-              ['#2ea043', '#555555'], msg_comp, 'doughnut')
-except Exception as e: print("Error Compras:", e)
-
-# ==========================================
-# 💳 7. SUSCRIPCIONES
-# ==========================================
-try:
-    print("💳 Analizando Suscripciones...")
-    DB_SUBS = os.environ['DB_SUBS']
-    res = requests.post(f"https://api.notion.com/v1/databases/{DB_SUBS}/query", headers=headers).json().get("results",[])
+    print("💳 Procesando Suscripciones...")
+    db_s = os.environ['DB_SUBS']
+    res = requests.post(f"https://api.notion.com/v1/databases/{db_s}/query", headers=headers).json().get("results",[])
     subs = {}
     for r in res:
         n = r["properties"]["Servicio"]["title"][0]["plain_text"]
-        p = r["properties"]["Precio"]["number"]
-        if p: subs[n] = p
-    
-    total_sub = sum(subs.values())
-    msg_sub = f"Gasto fijo mensual: <b>${total_sub:,.0f}</b>"
-    crear_app("suscripciones.html", "Suscripciones Mensuales", list(subs.keys()), list(subs.values()), 
-              ['#ff9f40', '#ff6384', '#4bc0c0'], msg_sub, 'bar')
-except Exception as e: print("Error Subs:", e)
+        v = r["properties"]["Precio"]["number"] or 0
+        subs[n] = v
+    crear_app("suscripciones.html", "Suscripciones", list(subs.keys()), list(subs.values()), ['#ff9f40'], f"Gasto Mensual: ${sum(subs.values()):,.0f}", 'bar')
+except Exception as e: print(f"Error Subs: {e}")
 
 # ==========================================
-# 💤 8. SUEÑO
+# ✅ MÓDULO: TAREAS
 # ==========================================
 try:
-    print("💤 Analizando Sueño...")
-    DB_SUENO = os.environ['DB_SUENO']
-    payload = { "sorts": [ { "property": "Hora de despertar", "direction": "ascending" } ] }
-    res = requests.post(f"https://api.notion.com/v1/databases/{DB_SUENO}/query", headers=headers, json=payload).json().get("results",[])
-    
-    dias = []
-    horas_sueno = []
+    print("🚀 Procesando Tareas...")
+    db_t = os.environ['DB_TAREAS']
+    res = requests.post(f"https://api.notion.com/v1/databases/{db_t}/query", headers=headers).json().get("results",[])
+    h, p = 0, 0
     for r in res:
-        # Intenta obtener los minutos desde una fórmula o número
-        mins = 0
-        props = r["properties"]
-        if "Minutos totales de sueño" in props: mins = props["Minutos totales de sueño"]["formula"]["number"]
-        elif "Minutos" in props: mins = props["Minutos"]["number"]
-        
-        # Obtener fecha
-        fecha = ""
-        if "Hora de despertar" in props and props["Hora de despertar"]["date"]:
-            fecha = props["Hora de despertar"]["date"]["start"][5:10] # MM-DD
-        
-        if mins and fecha:
-            dias.append(fecha)
-            horas_sueno.append(round(mins/60, 1))
-            
-    promedio = sum(horas_sueno)/len(horas_sueno) if horas_sueno else 0
-    msg_sueno = f"😴 Promedio: <b>{promedio:.1f} horas</b>."
-    crear_app("sueno.html", "Calidad de Sueño", dias[-7:], horas_sueno[-7:], 
-              ['#36a2eb'], msg_sueno, 'line')
-except Exception as e: print("Error Sueño:", e)
+        if r["properties"]["Hecho"]["checkbox"]: h += 1
+        else: p += 1
+    crear_app("tareas.html", "Productividad", ["Hecho", "Pendiente"], [h, p], ['#2ea043', '#f85149'], f"Tareas pendientes: {p}", 'doughnut')
+except Exception as e: print(f"Error Tareas: {e}")
 
-print("✅ ¡TODAS LAS GRÁFICAS GENERADAS CON ÉXITO!")
+# ==========================================
+# 🏆 MÓDULO: HÁBITOS
+# ==========================================
+try:
+    print("🏆 Procesando Hábitos...")
+    db_h = os.environ['DB_HABITOS']
+    res = requests.post(f"https://api.notion.com/v1/databases/{db_h}/query", headers=headers).json().get("results",[])
+    habs = {"Meditacion":0, "Leer":0, "Ejercicio":0, "Agua 2LT":0, "Agradecer":0}
+    for r in res:
+        for k in habs.keys():
+            if r["properties"].get(k, {}).get("checkbox"): habs[k] += 1
+    crear_app("habitos.html", "Consistencia de Hábitos", list(habs.keys()), list(habs.values()), ['#36a2eb'], "¡Mantén la racha!", 'bar')
+except Exception as e: print(f"Error Hábitos: {e}")
+
+# ==========================================
+# 💀 MÓDULO: MEMENTO MORI
+# ==========================================
+try:
+    vivido, esperanza = 26, 80 # Ajusta tu edad aquí
+    crear_app("memento.html", "Progreso de Vida (Años)", ["Vivido", "Restante"], [vivido, esperanza-vivido], ['#333', '#eee'], f"Te quedan {(esperanza-vivido)*52} semanas.", 'bar', 'y')
+except Exception as e: print(f"Error Memento: {e}")
+
+# ==========================================
+# 💤 MÓDULO: SUEÑO (ÚLTIMOS 7 DÍAS)
+# ==========================================
+try:
+    print("💤 Procesando Sueño...")
+    db_z = os.environ['DB_SUENO']
+    payload = { "sorts": [ { "property": "Hora de despertar", "direction": "ascending" } ], "page_size": 7 }
+    res = requests.post(f"https://api.notion.com/v1/databases/{db_z}/query", headers=headers, json=payload).json().get("results",[])
+    d, v = [], []
+    for r in res:
+        mins = r["properties"]["Minutos totales de sueño"]["formula"]["number"] or 0
+        fecha = r["properties"]["Hora de despertar"]["date"]["start"][5:10]
+        d.append(fecha); v.append(round(mins/60, 1))
+    crear_app("sueno.html", "Horas de Sueño", d, v, ['#36a2eb'], f"Promedio: {sum(v)/len(v) if v else 0:.1f}h", 'line')
+except Exception as e: print(f"Error Sueño: {e}")
+
+# ==========================================
+# 🍅 MÓDULO: POMODORO
+# ==========================================
+try:
+    print("🍅 Procesando Pomodoro...")
+    db_p = os.environ['DB_POMODORO']
+    res = requests.post(f"https://api.notion.com/v1/databases/{db_p}/query", headers=headers).json().get("results",[])
+    poms = {}
+    for r in res:
+        t = r["properties"]["Tipo"]["select"]["name"]
+        m = r["properties"]["Tiempo"]["number"] or 0
+        poms[t] = poms.get(t, 0) + m
+    crear_app("pomodoro.html", "Distribución Pomodoro", list(poms.keys()), list(poms.values()), ['#ff6384', '#36a2eb'], f"Total: {sum(poms.values())//60}h", 'doughnut')
+except Exception as e: print(f"Error Pomodoro: {e}")
+
+print("✅ Dashboard Centralizado Generado con Éxito.")
