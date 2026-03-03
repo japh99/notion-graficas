@@ -13,12 +13,12 @@
             button:hover { background: #2ea043; }
             button.active { background: #2ea043; font-weight: bold; }
             .chart-box { width: 100%; max-width: 350px; position: relative; height: 220px; }
-            .insight-box { background-color: #262626; border-left: 4px solid #36a2eb; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+            .insight-box { background-color: #262626; border-left: 4px solid #ff6384; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
             .timestamp { font-size: 10px; color: #888; margin-top: 10px; }
         </style>
     </head>
     <body>
-        <h3>Racha de Hábitos</h3>
+        <h3>Sesiones Pomodoro</h3>
         <div class="controls">
             <button onclick="cambiarTipo('doughnut')" id="btn-doughnut">🍩</button>
             <button onclick="cambiarTipo('bar')" id="btn-bar">📊</button>
@@ -26,13 +26,13 @@
             <button onclick="cambiarTipo('pie')" id="btn-pie">🥧</button>
         </div>
         <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">La constancia es la clave. 🔥</div>
+        <div class="insight-box">⏱️ Total Enfoque: <b>0 horas</b>.</div>
         <div class="timestamp">🔄 Actualizado: 02/03 09:28 PM</div>
 
         <script>
-            const labels = ["Meditacion", "Leer", "Ejercicio", "Agua 2LT", "Agradecer"];
-            const dataValues = [0, 0, 0, 0, 0];
-            const backgroundColors = ["#36a2eb", "#ffce56", "#4bc0c0", "#ff6384", "#9966ff"];
+            const labels = [];
+            const dataValues = [];
+            const backgroundColors = ["#ff6384", "#36a2eb", "#ffce56"];
             let myChart;
 
             function renderChart(tipo) {
@@ -78,7 +78,7 @@
                 if(btn) btn.classList.add('active');
             }
             
-            cambiarTipo('bar');
+            cambiarTipo('pie');
         </script>
     </body>
     </html>

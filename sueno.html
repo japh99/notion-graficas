@@ -18,7 +18,7 @@
         </style>
     </head>
     <body>
-        <h3>Racha de Hábitos</h3>
+        <h3>Calidad de Sueño</h3>
         <div class="controls">
             <button onclick="cambiarTipo('doughnut')" id="btn-doughnut">🍩</button>
             <button onclick="cambiarTipo('bar')" id="btn-bar">📊</button>
@@ -26,13 +26,13 @@
             <button onclick="cambiarTipo('pie')" id="btn-pie">🥧</button>
         </div>
         <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">La constancia es la clave. 🔥</div>
+        <div class="insight-box">😴 Promedio: <b>0.0 horas</b>.</div>
         <div class="timestamp">🔄 Actualizado: 02/03 09:28 PM</div>
 
         <script>
-            const labels = ["Meditacion", "Leer", "Ejercicio", "Agua 2LT", "Agradecer"];
-            const dataValues = [0, 0, 0, 0, 0];
-            const backgroundColors = ["#36a2eb", "#ffce56", "#4bc0c0", "#ff6384", "#9966ff"];
+            const labels = [];
+            const dataValues = [];
+            const backgroundColors = ["#36a2eb"];
             let myChart;
 
             function renderChart(tipo) {
@@ -78,7 +78,7 @@
                 if(btn) btn.classList.add('active');
             }
             
-            cambiarTipo('bar');
+            cambiarTipo('line');
         </script>
     </body>
     </html>
