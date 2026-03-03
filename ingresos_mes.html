@@ -11,19 +11,19 @@
             button { background: #444; color: white; border: none; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; }
             button:hover { background: #2ea043; }
             .chart-box { width: 100%; max-width: 350px; height: 220px; position: relative; }
-            .insight-box { background-color: #262626; border-left: 4px solid #ff6384; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+            .insight-box { background-color: #262626; border-left: 4px solid #2ea043; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
             .timestamp { font-size: 10px; color: #888; margin-top: 10px; }
         </style>
     </head>
     <body>
-        <h3>Distribución Pomodoro</h3>
+        <h3>Ingresos Mensuales</h3>
         <div class="controls">
             <button onclick="cambiarTipo('bar')">📊</button>
             <button onclick="cambiarTipo('doughnut')">🍩</button>
             <button onclick="cambiarTipo('line')">📈</button>
         </div>
         <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">Total: 0h</div>
+        <div class="insight-box">Total Año: $510,000</div>
         <div class="timestamp">🔄 Sincronizado: 02/03 10:24 PM</div>
         <script>
             let myChart;
@@ -33,12 +33,12 @@
                 myChart = new Chart(ctx, {
                     type: tipo,
                     data: {
-                        labels: [],
+                        labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
                         datasets: [{
                             label: 'Monto/Cantidad',
-                            data: [],
-                            backgroundColor: ["#ff6384", "#36a2eb"],
-                            borderColor: ["#ff6384", "#36a2eb"][0],
+                            data: [0, 510000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            backgroundColor: ["#2ea043"],
+                            borderColor: ["#2ea043"][0],
                             borderWidth: tipo === 'line' ? 2 : 0,
                             tension: 0.4,
                             fill: tipo === 'line'
@@ -57,7 +57,7 @@
                 });
             }
             function cambiarTipo(t) { renderChart(t); }
-            renderChart('doughnut');
+            renderChart('bar');
         </script>
     </body>
     </html>

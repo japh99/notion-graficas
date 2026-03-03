@@ -3,82 +3,61 @@
     <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
+            body { font-family: -apple-system, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
             h3 { margin: 0 0 10px 0; font-size: 16px; text-align: center; font-weight: 600; }
-            .controls { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center; }
+            .controls { display: flex; gap: 6px; margin-bottom: 10px; }
             button { background: #444; color: white; border: none; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; }
             button:hover { background: #2ea043; }
-            button.active { background: #2ea043; font-weight: bold; }
-            .chart-box { width: 100%; max-width: 350px; position: relative; height: 220px; }
+            .chart-box { width: 100%; max-width: 350px; height: 220px; position: relative; }
             .insight-box { background-color: #262626; border-left: 4px solid #ff6384; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
             .timestamp { font-size: 10px; color: #888; margin-top: 10px; }
         </style>
     </head>
     <body>
-        <h3>Mis Gastos</h3>
+        <h3>Gastos por Categoría</h3>
         <div class="controls">
-            <button onclick="cambiarTipo('doughnut')" id="btn-doughnut">🍩</button>
-            <button onclick="cambiarTipo('bar')" id="btn-bar">📊</button>
-            <button onclick="cambiarTipo('line')" id="btn-line">📈</button>
-            <button onclick="cambiarTipo('pie')" id="btn-pie">🥧</button>
+            <button onclick="cambiarTipo('bar')">📊</button>
+            <button onclick="cambiarTipo('doughnut')">🍩</button>
+            <button onclick="cambiarTipo('line')">📈</button>
         </div>
         <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">💸 Gastos Totales: <b>$0</b><br>🐜 Gastos Hormiga: <b>$0</b></div>
-        <div class="timestamp">🔄 Actualizado: 02/03 09:44 PM</div>
-
+        <div class="insight-box">🐜 Gastos Hormiga: $0</div>
+        <div class="timestamp">🔄 Sincronizado: 02/03 10:24 PM</div>
         <script>
-            const labels = [];
-            const dataValues = [];
-            const backgroundColors = ["#ff6384", "#36a2eb", "#cc65fe", "#ffce56", "#4bc0c0"];
             let myChart;
-
             function renderChart(tipo) {
                 const ctx = document.getElementById('miGrafica').getContext('2d');
                 if (myChart) myChart.destroy();
-
-                const idxAxis = 'x'; // Para barras horizontales
-                
-                const options = {
-                    indexAxis: idxAxis,
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: tipo === 'doughnut' || tipo === 'pie', position: 'bottom', labels: { color: '#ccc' } } },
-                    scales: {
-                        y: { display: tipo === 'bar' || tipo === 'line', ticks: { color: '#ccc' } },
-                        x: { display: tipo === 'bar' || tipo === 'line', ticks: { color: '#ccc' } }
-                    }
-                };
-
                 myChart = new Chart(ctx, {
                     type: tipo,
                     data: {
-                        labels: labels,
+                        labels: [],
                         datasets: [{
-                            label: 'Datos',
-                            data: dataValues,
-                            backgroundColor: backgroundColors,
-                            borderColor: backgroundColors[0],
+                            label: 'Monto/Cantidad',
+                            data: [],
+                            backgroundColor: ["#ff6384", "#36a2eb", "#cc65fe"],
+                            borderColor: ["#ff6384", "#36a2eb", "#cc65fe"][0],
                             borderWidth: tipo === 'line' ? 2 : 0,
-                            borderRadius: 4,
                             tension: 0.4,
                             fill: tipo === 'line'
                         }]
                     },
-                    options: options
+                    options: {
+                        indexAxis: 'x',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: tipo === 'doughnut', position: 'bottom', labels: { color: '#ccc' } } },
+                        scales: {
+                            y: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } },
+                            x: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } }
+                        }
+                    }
                 });
             }
-            
-            function cambiarTipo(t) {
-                renderChart(t);
-                document.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-                const btn = document.getElementById('btn-'+t);
-                if(btn) btn.classList.add('active');
-            }
-            
-            cambiarTipo('doughnut');
+            function cambiarTipo(t) { renderChart(t); }
+            renderChart('doughnut');
         </script>
     </body>
     </html>
