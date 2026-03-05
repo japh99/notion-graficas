@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { --bg: transparent; --text: #37352f; }
+        @media (prefers-color-scheme: dark) { :root { --text: #EBEBEB; } }
+        body { font-family: sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; margin: 0; }
+        .chart-box { width: 100%; max-width: 350px; height: 280px; }
+        .insight { background: rgba(125, 125, 125, 0.1); padding: 10px; border-radius: 8px; width: 90%; font-size: 13px; border-left: 4px solid #2ea043; }
+    </script>
+</head>
+<body>
+    <h3>Balance General</h3>
+    <div class="chart-box"><canvas id="canvas"></canvas></div>
+    <div id="info" class="insight">Cargando balance...</div>
+
+    <script>
+        fetch('datos.json').then(r => r.json()).then(data => {
+            const sum = (arr) => arr.reduce((a, b) => a + (b.properties.Monto.number || 0), 0);
+            const inc = sum(data.ingresos);
+            const exp = sum(data.egresos);
+            const bal = inc - exp;
+
+            document.getElementById('info').innerHTML = `💰 <b>Ingresos:</b> $${inc.toLocaleString()}<br>⚖️ <b>Balance:</b> $${bal.toLocaleString()}`;
+
+            new Chart(document.getElementById('canvas'), {
+                type: 'bar',
+                data: {
+                    labels: ['Ingresos', 'Egresos'],
+                    datasets: [{ data: [inc, exp], backgroundColor: ['#2ea043', '#f85149'] }]
+                },
+                options: { 
+                    plugins: { legend: { display: false } },
+                    scales: { y: { ticks: { color: getComputedStyle(document.body).getPropertyValue('--text') } } }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
