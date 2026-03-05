@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { --text: #37352f; }
+        @media (prefers-color-scheme: dark) { :root { --text: #EBEBEB; } }
+        body { font-family: sans-serif; background: transparent; color: var(--text); display: flex; flex-direction: column; align-items: center; }
+        .chart-box { width: 100%; max-width: 350px; height: 250px; }
+        .insight { background: rgba(248, 81, 73, 0.1); padding: 10px; border-radius: 8px; width: 90%; font-size: 12px; border-left: 4px solid #f85149; }
+    </style>
+</head>
+<body>
+    <h3>Análisis de Egresos</h3>
+    <div class="chart-box"><canvas id="canvas"></canvas></div>
+    <div id="insight" class="insight"></div>
+
+    <script>
+        fetch('datos.json').then(r => r.json()).then(data => {
+            let cats = {}; let hormigaMonto = 0; let hormigaCount = 0;
+
+            data.egresos.forEach(r => {
+                const m = r.properties.Monto.number || 0;
+                const t = r.properties.Tipo.multi_select[0]?.name || "Otros";
+                cats[t] = (cats[t] || 0) + m;
+                if(m > 0 && m <= 15000) { hormigaMonto += m; hormigaCount++; }
+            });
+
+            const sortedCats = Object.entries(cats).sort((a,b) => b[1]-a[1]);
+            
+            document.getElementById('insight').innerHTML = `🐜 <b>Gasto Hormiga:</b> Has hecho ${hormigaCount} compras pequeñas ($${hormigaMonto.toLocaleString()}).<br>💡 <b>Sugerencia:</b> Reduce los gastos en <b>${sortedCats[0][0]}</b> para ahorrar un 10% más este mes.`;
+
+            new Chart(document.getElementById('canvas'), {
+                type: 'doughnut',
+                data: {
+                    labels: sortedCats.map(c => c[0]),
+                    datasets: [{ data: sortedCats.map(c => c[1]), backgroundColor: ['#f85149', '#ff7b72', '#a5d6ff', '#d2a8ff', '#f2cc60'] }]
+                },
+                options: { plugins: { legend: { position: 'bottom', labels: { color: '#888', font: { size: 10 } } } } }
+            });
+        });
+    </script>
+</body>
+</html>
