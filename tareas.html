@@ -1,64 +1,457 @@
-
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <style>
-            body { font-family: -apple-system, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
-            h3 { margin: 0 0 10px 0; font-size: 16px; text-align: center; font-weight: 600; }
-            .controls { display: flex; gap: 6px; margin-bottom: 10px; }
-            button { background: #444; color: white; border: none; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-            button:hover { background: #2ea043; }
-            .chart-box { width: 100%; max-width: 350px; height: 220px; position: relative; }
-            .insight-box { background-color: #262626; border-left: 4px solid #2ea043; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-            .timestamp { font-size: 10px; color: #888; margin-top: 10px; }
-        </style>
-    </head>
-    <body>
-        <h3>Productividad</h3>
-        <div class="controls">
-            <button onclick="cambiarTipo('bar')">📊</button>
-            <button onclick="cambiarTipo('doughnut')">🍩</button>
-            <button onclick="cambiarTipo('line')">📈</button>
-        </div>
-        <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">Tareas pendientes: 42</div>
-        <div class="timestamp">🔄 Sincronizado: 02/03 10:24 PM</div>
-        <script>
-            let myChart;
-            function renderChart(tipo) {
-                const ctx = document.getElementById('miGrafica').getContext('2d');
-                if (myChart) myChart.destroy();
-                myChart = new Chart(ctx, {
-                    type: tipo,
-                    data: {
-                        labels: ["Hecho", "Pendiente"],
-                        datasets: [{
-                            label: 'Monto/Cantidad',
-                            data: [58, 42],
-                            backgroundColor: ["#2ea043", "#f85149"],
-                            borderColor: ["#2ea043", "#f85149"][0],
-                            borderWidth: tipo === 'line' ? 2 : 0,
-                            tension: 0.4,
-                            fill: tipo === 'line'
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'x',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: tipo === 'doughnut', position: 'bottom', labels: { color: '#ccc' } } },
-                        scales: {
-                            y: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } },
-                            x: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } }
-                        }
-                    }
-                });
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAPH 2026 - Gestión de Tareas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #2c2c2c;
+            --text-secondary: #6b6b6b;
+            --accent: #3b82f6;
+            --accent-light: #60a5fa;
+            --border: #e0e0e0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-bg: #ffffff;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #191919;
+                --bg-secondary: #252525;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --accent: #60a5fa;
+                --accent-light: #93c5fd;
+                --border: #2f2f2f;
+                --success: #34d399;
+                --warning: #fbbf24;
+                --danger: #f87171;
+                --card-bg: #202020;
             }
-            function cambiarTipo(t) { renderChart(t); }
-            renderChart('doughnut');
-        </script>
-    </body>
-    </html>
-    
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover { transform: translateY(-2px); }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label { font-size: 0.85rem; color: var(--text-secondary); }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chart-wrapper { position: relative; height: 300px; }
+        
+        .priority-matrix {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .quadrant {
+            padding: 1rem;
+            border-radius: 8px;
+            min-height: 150px;
+        }
+        
+        .q1 { background: rgba(239, 68, 68, 0.1); border: 2px solid var(--danger); }
+        .q2 { background: rgba(245, 158, 11, 0.1); border: 2px solid var(--warning); }
+        .q3 { background: rgba(59, 130, 246, 0.1); border: 2px solid var(--accent); }
+        .q4 { background: rgba(16, 185, 129, 0.1); border: 2px solid var(--success); }
+        
+        .quadrant h4 { font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .q1 h4 { color: var(--danger); }
+        .q2 h4 { color: var(--warning); }
+        .q3 h4 { color: var(--accent); }
+        .q4 h4 { color: var(--success); }
+        
+        .task-list { list-style: none; font-size: 0.85rem; }
+        .task-list li { padding: 0.25rem 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        
+        .insights {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ Sistema de Gestión de Tareas</h1>
+        <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
+        
+        <div class="stats-grid" id="statsGrid">
+            <div class="loading">Cargando tareas...</div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">Estado de Tareas</div>
+                <div class="chart-wrapper">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Distribución por Prioridad</div>
+                <div class="chart-wrapper">
+                    <canvas id="priorityChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container" style="margin-bottom: 1.5rem;">
+            <div class="chart-title">Tareas Completadas por Día (Últimos 14 días)</div>
+            <div class="chart-wrapper" style="height: 250px;">
+                <canvas id="completionChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="priority-matrix">
+            <div class="chart-title">📊 Matriz de Eisenhower (Urgencia vs Importancia)</div>
+            <div class="matrix-grid" id="matrixGrid">
+                <div class="quadrant q1">
+                    <h4>🔥 Hacer (Urgente + Importante)</h4>
+                    <ul class="task-list" id="q1List"><li>Cargando...</li></ul>
+                </div>
+                <div class="quadrant q2">
+                    <h4>📅 Programar (Importante)</h4>
+                    <ul class="task-list" id="q2List"><li>Cargando...</li></ul>
+                </div>
+                <div class="quadrant q3">
+                    <h4>⚡ Delegar (Urgente)</h4>
+                    <ul class="task-list" id="q3List"><li>Cargando...</li></ul>
+                </div>
+                <div class="quadrant q4">
+                    <h4>🗑️ Eliminar (Ninguna)</h4>
+                    <ul class="task-list" id="q4List"><li>Cargando...</li></ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="insights">
+            <div class="chart-title">💡 Análisis de Productividad</div>
+            <div id="insightsList"></div>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('datos.json');
+                const data = await response.json();
+                
+                document.getElementById('lastUpdate').textContent = 
+                    data.metadata?.ultima_actualizacion || 'Desconocida';
+                
+                const tareas = data.datos?.tareas || data.tareas || [];
+                processTasks(tareas);
+            } catch (error) {
+                document.getElementById('statsGrid').innerHTML = 
+                    `<div style="color: var(--danger);">Error: ${error.message}</div>`;
+            }
+        }
+        
+        function processTasks(tareas) {
+            const processed = tareas.map(t => {
+                const props = t.properties || {};
+                return {
+                    nombre: props.Nombre?.title?.[0]?.plain_text || 'Sin nombre',
+                    estado: props.Estado?.select?.name || props.Estado?.status?.name || 'Sin estado',
+                    prioridad: props.Prioridad?.select?.name || 'Media',
+                    urgencia: props.Urgencia?.select?.name || 'Media',
+                    fecha: props.Fecha?.date?.start || t.created_time,
+                    completada: ['Completado', 'Done', 'Finalizado'].includes(
+                        props.Estado?.select?.name || props.Estado?.status?.name
+                    )
+                };
+            });
+            
+            renderStats(processed);
+            renderCharts(processed);
+            renderMatrix(processed);
+            generateInsights(processed);
+        }
+        
+        function renderStats(tareas) {
+            const pendientes = tareas.filter(t => !t.completada).length;
+            const completadas = tareas.filter(t => t.completadas).length;
+            const altaPrioridad = tareas.filter(t => 
+                !t.completada && t.prioridad === 'Alta'
+            ).length;
+            const vencidas = tareas.filter(t => {
+                if (t.completada) return false;
+                const fecha = new Date(t.fecha);
+                return fecha < new Date() && fecha < new Date(Date.now() - 86400000);
+            }).length;
+            
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${pendientes}</div>
+                    <div class="stat-label">Pendientes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--success);">${completadas}</div>
+                    <div class="stat-label">Completadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--danger);">${altaPrioridad}</div>
+                    <div class="stat-label">Alta Prioridad</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--warning);">${vencidas}</div>
+                    <div class="stat-label">Vencidas</div>
+                </div>
+            `;
+        }
+        
+        function renderCharts(tareas) {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const textColor = isDark ? '#ffffff' : '#2c2c2c';
+            const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
+            
+            // Gráfico de estados
+            const estados = {};
+            tareas.forEach(t => {
+                estados[t.estado] = (estados[t.estado] || 0) + 1;
+            });
+            
+            new Chart(document.getElementById('statusChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(estados),
+                    datasets: [{
+                        data: Object.values(estados),
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: textColor } }
+                    }
+                }
+            });
+            
+            // Gráfico de prioridades
+            const prioridades = { Alta: 0, Media: 0, Baja: 0 };
+            tareas.filter(t => !t.completada).forEach(t => {
+                if (prioridades[t.prioridad] !== undefined) {
+                    prioridades[t.prioridad]++;
+                }
+            });
+            
+            new Chart(document.getElementById('priorityChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(prioridades),
+                    datasets: [{
+                        label: 'Tareas pendientes',
+                        data: Object.values(prioridades),
+                        backgroundColor: ['#ef4444', '#f59e0b', '#10b981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: gridColor }, ticks: { color: textColor } },
+                        x: { grid: { display: false }, ticks: { color: textColor } }
+                    }
+                }
+            });
+            
+            // Gráfico de completadas por día
+            const ultimos14 = {};
+            for (let i = 13; i >= 0; i--) {
+                const fecha = new Date(Date.now() - i * 86400000);
+                const key = fecha.toLocaleDateString('es', { weekday: 'short' });
+                ultimos14[key] = 0;
+            }
+            
+            tareas.filter(t => t.completada).forEach(t => {
+                const fecha = new Date(t.fecha);
+                const key = fecha.toLocaleDateString('es', { weekday: 'short' });
+                if (ultimos14.hasOwnProperty(key)) {
+                    ultimos14[key]++;
+                }
+            });
+            
+            new Chart(document.getElementById('completionChart'), {
+                type: 'line',
+                data: {
+                    labels: Object.keys(ultimos14),
+                    datasets: [{
+                        label: 'Completadas',
+                        data: Object.values(ultimos14),
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: textColor } } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor } },
+                        x: { grid: { color: gridColor }, ticks: { color: textColor } }
+                    }
+                }
+            });
+        }
+        
+        function renderMatrix(tareas) {
+            const q1 = tareas.filter(t => !t.completada && t.urgencia === 'Alta' && t.prioridad === 'Alta');
+            const q2 = tareas.filter(t => !t.completada && t.urgencia !== 'Alta' && t.prioridad === 'Alta');
+            const q3 = tareas.filter(t => !t.completada && t.urgencia === 'Alta' && t.prioridad !== 'Alta');
+            const q4 = tareas.filter(t => !t.completada && t.urgencia !== 'Alta' && t.prioridad !== 'Alta');
+            
+            const renderList = (tasks, elementId) => {
+                const list = document.getElementById(elementId);
+                if (tasks.length === 0) {
+                    list.innerHTML = '<li style="color: var(--text-secondary); font-style: italic;">Sin tareas</li>';
+                    return;
+                }
+                list.innerHTML = tasks.slice(0, 5).map(t => 
+                    `<li>${t.nombre.substring(0, 30)}${t.nombre.length > 30 ? '...' : ''}</li>`
+                ).join('') + (tasks.length > 5 ? `<li style="color: var(--text-secondary);">... y ${tasks.length - 5} más</li>` : '');
+            };
+            
+            renderList(q1, 'q1List');
+            renderList(q2, 'q2List');
+            renderList(q3, 'q3List');
+            renderList(q4, 'q4List');
+        }
+        
+        function generateInsights(tareas) {
+            const pendientes = tareas.filter(t => !t.completada);
+            const completadas = tareas.filter(t => t.completada);
+            const ratio = completadas.length / (tareas.length || 1);
+            
+            const insights = [];
+            
+            if (ratio < 0.3) {
+                insights.push('📉 <strong>Baja tasa de finalización:</strong> Tienes muchas tareas acumuladas. Considera revisar prioridades o delegar.');
+            } else if (ratio > 0.8) {
+                insights.push('🌟 <strong>Excelente productividad:</strong> Estás completando el ' + Math.round(ratio * 100) + '% de tus tareas.');
+            }
+            
+            const altaPrioridadPendiente = pendientes.filter(t => t.prioridad === 'Alta').length;
+            if (altaPrioridadPendiente > 3) {
+                insights.push('⚠️ <strong>Sobrecarga crítica:</strong> ' + altaPrioridadPendiente + ' tareas de alta prioridad pendientes. Enfócate solo en las 3 más importantes hoy.');
+            }
+            
+            const sinFecha = pendientes.filter(t => !t.fecha || t.fecha === '').length;
+            if (sinFecha > 5) {
+                insights.push('📅 <strong>Tareas sin fecha:</strong> ' + sinFecha + ' tareas sin fecha límite. Asigna deadlines para mejor seguimiento.');
+            }
+            
+            if (insights.length === 0) {
+                insights.push('✅ <strong>Sistema estable:</strong> Tu flujo de trabajo está balanceado. Mantén el ritmo.');
+            }
+            
+            document.getElementById('insightsList').innerHTML = insights.map(i => 
+                `<div class="insight-item">${i}</div>`
+            ).join('');
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>
