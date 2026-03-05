@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { --text: #37352f; }
+        @media (prefers-color-scheme: dark) { :root { --text: #EBEBEB; } }
+        body { font-family: sans-serif; background: transparent; color: var(--text); display: flex; flex-direction: column; align-items: center; }
+        .chart-box { width: 100%; max-width: 350px; height: 250px; }
+        .insight { background: rgba(54, 162, 235, 0.1); padding: 10px; border-radius: 8px; width: 90%; font-size: 13px; border-left: 4px solid #36a2eb; }
+    </style>
+</head>
+<body>
+    <h3>Fondo de Ahorros</h3>
+    <div class="chart-box"><canvas id="canvas"></canvas></div>
+    <div id="insight" class="insight"></div>
+
+    <script>
+        fetch('datos.json').then(r => r.json()).then(data => {
+            let fondos = {};
+            data.egresos.forEach(r => {
+                const m = r.properties.Monto.number || 0;
+                const ahorro = r.properties.Ahorro.select?.name;
+                if(ahorro) {
+                    fondos[ahorro] = (fondos[ahorro] || 0) + m;
+                }
+            });
+
+            const total = Object.values(fondos).reduce((a,b) => a+b, 0);
+            document.getElementById('insight').innerHTML = `💰 <b>Total Ahorrado:</b> $${total.toLocaleString()}<br>🏦 Tienes dinero en ${Object.keys(fondos).length} fondos diferentes.`;
+
+            new Chart(document.getElementById('canvas'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(fondos),
+                    datasets: [{ label: 'Monto', data: Object.values(fondos), backgroundColor: '#36a2eb' }]
+                },
+                options: { 
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: { x: { ticks: { color: '#888' } }, y: { ticks: { color: '#888' } } }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

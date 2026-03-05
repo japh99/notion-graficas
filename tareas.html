@@ -1,0 +1,64 @@
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            body { font-family: -apple-system, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
+            h3 { margin: 0 0 10px 0; font-size: 16px; text-align: center; font-weight: 600; }
+            .controls { display: flex; gap: 6px; margin-bottom: 10px; }
+            button { background: #444; color: white; border: none; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; }
+            button:hover { background: #2ea043; }
+            .chart-box { width: 100%; max-width: 350px; height: 220px; position: relative; }
+            .insight-box { background-color: #262626; border-left: 4px solid #2ea043; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+            .timestamp { font-size: 10px; color: #888; margin-top: 10px; }
+        </style>
+    </head>
+    <body>
+        <h3>Productividad</h3>
+        <div class="controls">
+            <button onclick="cambiarTipo('bar')">📊</button>
+            <button onclick="cambiarTipo('doughnut')">🍩</button>
+            <button onclick="cambiarTipo('line')">📈</button>
+        </div>
+        <div class="chart-box"><canvas id="miGrafica"></canvas></div>
+        <div class="insight-box">Tareas pendientes: 42</div>
+        <div class="timestamp">🔄 Sincronizado: 02/03 10:24 PM</div>
+        <script>
+            let myChart;
+            function renderChart(tipo) {
+                const ctx = document.getElementById('miGrafica').getContext('2d');
+                if (myChart) myChart.destroy();
+                myChart = new Chart(ctx, {
+                    type: tipo,
+                    data: {
+                        labels: ["Hecho", "Pendiente"],
+                        datasets: [{
+                            label: 'Monto/Cantidad',
+                            data: [58, 42],
+                            backgroundColor: ["#2ea043", "#f85149"],
+                            borderColor: ["#2ea043", "#f85149"][0],
+                            borderWidth: tipo === 'line' ? 2 : 0,
+                            tension: 0.4,
+                            fill: tipo === 'line'
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'x',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: tipo === 'doughnut', position: 'bottom', labels: { color: '#ccc' } } },
+                        scales: {
+                            y: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } },
+                            x: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } }
+                        }
+                    }
+                });
+            }
+            function cambiarTipo(t) { renderChart(t); }
+            renderChart('doughnut');
+        </script>
+    </body>
+    </html>
+    

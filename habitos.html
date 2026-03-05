@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: transparent; color: white; display: flex; flex-direction: column; align-items: center; margin: 0; }
+        .chart-box { width: 100%; max-width: 380px; height: 320px; }
+        .info { font-size: 12px; color: #888; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h3>Radar de Hábitos</h3>
+    <div class="chart-box"><canvas id="miGrafica"></canvas></div>
+    <div id="update" class="info"></div>
+
+    <script>
+        // Leemos los datos crudos del archivo que crea el robot de Python
+        fetch('datos.json')
+            .then(response => response.json())
+            .then(fullData => {
+                const data = fullData.habitos;
+                document.getElementById('update').innerText = "Actualizado: " + fullData.metadata.ultima_actualizacion;
+
+                if (data.length === 0) return;
+
+                // Detectamos automáticamente todas las columnas de Checkbox
+                const properties = data[0].properties;
+                const habitNames = Object.keys(properties).filter(k => properties[k].type === 'checkbox');
+
+                // Contamos cuántos Checks tiene cada uno
+                const stats = habitNames.map(name => {
+                    return data.filter(row => row.properties[name].checkbox === true).length;
+                });
+
+                new Chart(document.getElementById('miGrafica'), {
+                    type: 'radar', // <--- ¡Cambia a 'bar' o 'doughnut' si quieres probar!
+                    data: {
+                        labels: habitNames,
+                        datasets: [{
+                            label: 'Días Cumplidos',
+                            data: stats,
+                            backgroundColor: 'rgba(46, 160, 67, 0.2)',
+                            borderColor: '#2ea043',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            r: {
+                                angleLines: { color: '#444' },
+                                grid: { color: '#444' },
+                                pointLabels: { color: '#ccc', font: { size: 10 } },
+                                ticks: { display: false, backdropColor: 'transparent' }
+                            }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
