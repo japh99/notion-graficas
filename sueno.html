@@ -3,541 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPH 2026 - Análisis de Sueño</title>
+    <title>JAPH 2026 - Sueño</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
-            --text-primary: #2c2c2c;
-            --text-secondary: #6b6b6b;
-            --accent: #7c3aed;
-            --accent-light: #a78bfa;
-            --border: #e0e0e0;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --bg-primary: #ffffff; --bg-secondary: #f5f5f5;
+            --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
+            --accent: #8b5cf6; --accent-light: #a78bfa;
+            --border: #e0e0e0; --success: #10b981; --warning: #f59e0b;
             --card-bg: #ffffff;
         }
-        
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #191919;
-                --bg-secondary: #252525;
-                --text-primary: #ffffff;
-                --text-secondary: #a0a0a0;
-                --accent: #8b5cf6;
-                --accent-light: #a78bfa;
-                --border: #2f2f2f;
-                --success: #34d399;
-                --warning: #fbbf24;
-                --danger: #f87171;
+                --bg-primary: #191919; --bg-secondary: #252525;
+                --text-primary: #ffffff; --text-secondary: #a0a0a0;
+                --accent: #a78bfa; --accent-light: #c4b5fd;
+                --border: #2f2f2f; --success: #34d399; --warning: #fbbf24;
                 --card-bg: #202020;
             }
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-        }
-        
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .insight-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .insight-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--accent);
-        }
-        
-        .insight-card.warning::before { background: var(--warning); }
-        .insight-card.danger::before { background: var(--danger); }
-        .insight-card.success::before { background: var(--success); }
-        
-        .insight-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-        
-        .insight-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .insight-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-        
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .chart-container {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        
-        .chart-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-        
-        .chart-wrapper {
-            position: relative;
-            height: 300px;
-        }
-        
-        .recommendations {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        
-        .rec-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .rec-list {
-            list-style: none;
-        }
-        
-        .rec-item {
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent);
-            font-size: 0.9rem;
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-secondary);
-        }
-        
-        .error {
-            background: var(--danger);
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+        .sleep-score { background: linear-gradient(135deg, var(--accent), var(--accent-light)); border-radius: 16px; padding: 2rem; color: white; text-align: center; margin-bottom: 2rem; }
+        .score-value { font-size: 4rem; font-weight: 700; }
+        .score-label { font-size: 1rem; opacity: 0.9; margin-top: 0.5rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.85rem; color: var(--text-secondary); }
+        .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+        .chart-wrapper { position: relative; height: 300px; }
+        .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🌙 Análisis de Higiene del Sueño</h1>
+        <h1>🌙 Análisis de Sueño</h1>
         <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
         
-        <div id="insights" class="insights-grid">
-            <div class="loading">Cargando datos de sueño...</div>
+        <div class="sleep-score">
+            <div class="score-value" id="avgSleep">0h</div>
+            <div class="score-label">Promedio de Sueño (Últimos 7 días)</div>
         </div>
         
-        <div class="charts-grid">
-            <div class="chart-container">
-                <div class="chart-title">Eficiencia del Sueño (Últimos 14 días)</div>
-                <div class="chart-wrapper">
-                    <canvas id="sleepEfficiencyChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="chart-container">
-                <div class="chart-title">Distribución de Fases de Sueño</div>
-                <div class="chart-wrapper">
-                    <canvas id="sleepStagesChart"></canvas>
-                </div>
-            </div>
-        </div>
+        <div class="stats-grid" id="statsGrid"><div class="loading">Cargando...</div></div>
         
-        <div class="chart-container" style="margin-bottom: 1.5rem;">
-            <div class="chart-title">Horario de Sueño vs. Hora Óptima</div>
-            <div class="chart-wrapper" style="height: 250px;">
-                <canvas id="sleepScheduleChart"></canvas>
-            </div>
-        </div>
-        
-        <div class="recommendations">
-            <div class="rec-title">💡 Recomendaciones Inteligentes</div>
-            <ul id="recommendations" class="rec-list">
-                <li class="rec-item">Analizando patrones...</li>
-            </ul>
+        <div class="chart-container">
+            <div class="chart-title">Tendencia de Sueño (Minutos)</div>
+            <div class="chart-wrapper"><canvas id="sleepChart"></canvas></div>
         </div>
     </div>
 
     <script>
-        let sleepData = [];
-        
         async function loadData() {
             try {
                 const response = await fetch('datos.json');
                 const data = await response.json();
-                
                 document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
                 
-                sleepData = data.sueno || [];
-                if (sleepData.length === 0) {
-                    throw new Error('No hay datos de sueño disponibles');
-                }
-                
-                processSleepData();
+                // NOMBRES EXACTOS: Minutos totales (formula/number), Hora de despertar (date)
+                const suenos = data.datos?.sueno || data.sueno || [];
+                processSleep(suenos);
             } catch (error) {
-                document.getElementById('insights').innerHTML = 
-                    `<div class="error">Error cargando datos: ${error.message}</div>`;
+                document.getElementById('statsGrid').innerHTML = `<div style="color: var(--accent);">Error: ${error.message}</div>`;
             }
         }
-        
-        function processSleepData() {
-            // Extraer métricas relevantes de las propiedades de Notion
-            const processed = sleepData.map(entry => {
-                const props = entry.properties;
+
+        function processSleep(suenos) {
+            const processed = suenos.map(s => {
+                const props = s.properties || {};
+                
+                // Buscar columna de minutos (puede ser formula o number)
+                const minutos = props.Minutos_totales?.formula?.number || 
+                               props.Minutos_totales?.number || 
+                               props.Minutos?.number || 0;
+                
+                // Hora de despertar
+                const horaDespertar = props.Hora_de_despertar?.date?.start || 
+                                     props.Hora_despertar?.date?.start;
+                
                 return {
-                    date: new Date(entry.created_time),
-                    duration: extractNumber(props?.Duración || props?.Horas),
-                    quality: extractSelect(props?.Calidad),
-                    deepSleep: extractNumber(props?.Sueño_profundo || props?.Deep),
-                    rem: extractNumber(props?.REM),
-                    light: extractNumber(props?.Ligero || props?.Light),
-                    awake: extractNumber(props?.Despierto || props?.Awake),
-                    bedtime: extractTime(props?.Hora_dormir || props?.Bedtime),
-                    waketime: extractTime(props?.Hora_despertar || props?.Waketime),
-                    efficiency: extractNumber(props?.Eficiencia)
+                    minutos: minutos,
+                    horas: minutos / 60,
+                    horaDespertar: horaDespertar ? new Date(horaDespertar) : null,
+                    fecha: new Date(s.created_time)
                 };
-            }).sort((a, b) => a.date - b.date);
+            }).slice(-7); // Últimos 7 días
+
+            const promedioHoras = processed.reduce((s, r) => s + r.horas, 0) / processed.length || 0;
+            const totalMinutos = processed.reduce((s, r) => s + r.minutos, 0);
             
-            const recent = processed.slice(-14);
+            // Calcular calidad (8h = 100%)
+            const calidad = Math.min((promedioHoras / 8) * 100, 100);
+
+            document.getElementById('avgSleep').textContent = promedioHoras.toFixed(1) + 'h';
             
-            renderInsights(processed, recent);
-            renderCharts(recent, processed);
-            generateRecommendations(processed);
-        }
-        
-        function extractNumber(prop) {
-            if (!prop) return 0;
-            if (prop.number !== undefined) return prop.number;
-            if (prop.formula?.number !== undefined) return prop.formula.number;
-            return 0;
-        }
-        
-        function extractSelect(prop) {
-            if (!prop) return null;
-            if (prop.select?.name) return prop.select.name;
-            return null;
-        }
-        
-        function extractTime(prop) {
-            if (!prop) return null;
-            // Asume formato "22:30" o similar
-            const timeStr = prop.rich_text?.[0]?.plain_text || prop.title?.[0]?.plain_text;
-            if (!timeStr) return null;
-            const [h, m] = timeStr.split(':').map(Number);
-            return h + m/60;
-        }
-        
-        function renderInsights(allData, recent) {
-            const avgDuration = recent.reduce((sum, d) => sum + d.duration, 0) / recent.length;
-            const avgEfficiency = recent.reduce((sum, d) => sum + (d.efficiency || 0), 0) / recent.length;
-            const avgDeep = recent.reduce((sum, d) => sum + d.deepSleep, 0) / recent.length;
-            
-            // Detectar problemas
-            const shortSleeps = recent.filter(d => d.duration < 6).length;
-            const lateBedtimes = recent.filter(d => d.bedtime && d.bedtime > 1).length; // Después de 1am
-            
-            const insightsHTML = `
-                <div class="insight-card ${avgDuration < 7 ? 'warning' : 'success'}">
-                    <div class="insight-title">Promedio de Sueño</div>
-                    <div class="insight-value">${avgDuration.toFixed(1)}h</div>
-                    <div class="insight-desc">${avgDuration < 7 ? '⚠️ Por debajo del óptimo (7-9h)' : '✅ Rango saludable'}</div>
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${calidad.toFixed(0)}%</div>
+                    <div class="stat-label">Calidad de Sueño</div>
                 </div>
-                
-                <div class="insight-card ${avgEfficiency < 85 ? 'warning' : 'success'}">
-                    <div class="insight-title">Eficiencia del Sueño</div>
-                    <div class="insight-value">${avgEfficiency.toFixed(0)}%</div>
-                    <div class="insight-desc">Tiempo en cama vs. tiempo dormido</div>
+                <div class="stat-card">
+                    <div class="stat-value">${processed.length}</div>
+                    <div class="stat-label">Noches Registradas</div>
                 </div>
-                
-                <div class="insight-card ${avgDeep < 1.5 ? 'danger' : 'success'}">
-                    <div class="insight-title">Sueño Profundo</div>
-                    <div class="insight-value">${avgDeep.toFixed(1)}h</div>
-                    <div class="insight-desc">${avgDeep < 1.5 ? '⚠️ Insuficiente para recuperación' : '✅ Buena recuperación física'}</div>
-                </div>
-                
-                <div class="insight-card ${lateBedtimes > 3 ? 'warning' : 'success'}">
-                    <div class="insight-title">Consistencia Horaria</div>
-                    <div class="insight-value">${lateBedtimes}/14</div>
-                    <div class="insight-desc">Noches después de la 1am (últimos 14 días)</div>
+                <div class="stat-card">
+                    <div class="stat-value">${(totalMinutos / 60).toFixed(1)}h</div>
+                    <div class="stat-label">Total Semanal</div>
                 </div>
             `;
-            
-            document.getElementById('insights').innerHTML = insightsHTML;
+
+            renderChart(processed);
         }
-        
-        function renderCharts(recent, allData) {
+
+        function renderChart(suenos) {
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const textColor = isDark ? '#ffffff' : '#2c2c2c';
             const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
-            
-            // Gráfico de eficiencia
-            const ctx1 = document.getElementById('sleepEfficiencyChart').getContext('2d');
-            new Chart(ctx1, {
+
+            new Chart(document.getElementById('sleepChart'), {
                 type: 'line',
                 data: {
-                    labels: recent.map(d => d.date.toLocaleDateString('es', {weekday: 'short'})),
+                    labels: suenos.map(s => s.fecha.toLocaleDateString('es', { weekday: 'short' })),
                     datasets: [{
-                        label: 'Eficiencia %',
-                        data: recent.map(d => d.efficiency || (d.duration / 8 * 100)),
+                        label: 'Minutos de sueño',
+                        data: suenos.map(s => s.minutos),
                         borderColor: '#8b5cf6',
                         backgroundColor: 'rgba(139, 92, 246, 0.1)',
                         fill: true,
-                        tension: 0.4,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
+                        tension: 0.4
                     }, {
-                        label: 'Meta (85%)',
-                        data: Array(14).fill(85),
+                        label: 'Meta (480min = 8h)',
+                        data: suenos.map(() => 480),
                         borderColor: '#10b981',
                         borderDash: [5, 5],
-                        pointRadius: 0,
-                        borderWidth: 2
+                        pointRadius: 0
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: textColor } }
-                    },
+                    plugins: { legend: { labels: { color: textColor } } },
                     scales: {
-                        y: {
-                            min: 60,
-                            max: 100,
-                            grid: { color: gridColor },
-                            ticks: { color: textColor }
-                        },
-                        x: {
-                            grid: { color: gridColor },
-                            ticks: { color: textColor }
-                        }
-                    }
-                }
-            });
-            
-            // Gráfico de fases (promedio)
-            const avgDeep = recent.reduce((s, d) => s + d.deepSleep, 0) / recent.length;
-            const avgREM = recent.reduce((s, d) => s + d.rem, 0) / recent.length;
-            const avgLight = recent.reduce((s, d) => s + d.light, 0) / recent.length;
-            const avgAwake = recent.reduce((s, d) => s + d.awake, 0) / recent.length;
-            
-            const ctx2 = document.getElementById('sleepStagesChart').getContext('2d');
-            new Chart(ctx2, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Sueño Profundo', 'REM', 'Ligero', 'Despierto'],
-                    datasets: [{
-                        data: [avgDeep, avgREM, avgLight, avgAwake],
-                        backgroundColor: ['#7c3aed', '#ec4899', '#3b82f6', '#f59e0b'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { 
-                            position: 'bottom',
-                            labels: { color: textColor, padding: 20 }
-                        }
-                    }
-                }
-            });
-            
-            // Gráfico de horario (scatter de bedtime vs wake time)
-            const ctx3 = document.getElementById('sleepScheduleChart').getContext('2d');
-            new Chart(ctx3, {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Hora de dormir',
-                        data: recent.map((d, i) => ({x: i, y: d.bedtime || 23})),
-                        backgroundColor: '#8b5cf6',
-                        pointRadius: 6
-                    }, {
-                        label: 'Hora de despertar',
-                        data: recent.map((d, i) => ({x: i, y: d.waketime || 7})),
-                        backgroundColor: '#10b981',
-                        pointRadius: 6
-                    }, {
-                        label: 'Ventana óptima (22-23h)',
-                        data: [{x: -1, y: 22}, {x: 14, y: 22}],
-                        borderColor: '#f59e0b',
-                        borderDash: [5, 5],
-                        pointRadius: 0,
-                        type: 'line',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: textColor } }
-                    },
-                    scales: {
-                        y: {
-                            min: 20,
-                            max: 32, // Permite mostrar horas después de medianoche (24+)
-                            grid: { color: gridColor },
-                            ticks: { 
-                                color: textColor,
-                                callback: v => v >= 24 ? `${v-24}am` : `${v}h`
-                            }
-                        },
-                        x: {
-                            display: false
-                        }
+                        y: { grid: { color: gridColor }, ticks: { color: textColor } },
+                        x: { grid: { color: gridColor }, ticks: { color: textColor } }
                     }
                 }
             });
         }
-        
-        function generateRecommendations(data) {
-            const recs = [];
-            
-            // Análisis de patrones
-            const avgDuration = data.slice(-14).reduce((s, d) => s + d.duration, 0) / 14;
-            const lateNights = data.slice(-14).filter(d => d.bedtime > 1).length;
-            const lowDeepSleep = data.slice(-14).filter(d => d.deepSleep < 1.5).length;
-            const weekendVariance = calculateWeekendVariance(data);
-            
-            if (avgDuration < 7) {
-                recs.push('🚨 <strong>Déficit de sueño crónico:</strong> Estás durmiendo ${avgDuration.toFixed(1)}h de media. Prioriza 7-9h. Considera técnica del "sueño bífásico" (siesta 20min) si no puedes extender noches.');
-            }
-            
-            if (lateNights > 3) {
-                recs.push('🌙 <strong>Horario social irregular:</strong> ${lateNights} noches tarde en 2 semanas. El desfase social de fin de semana (social jetlag) afecta tu ritmo circadiano. Intenta mantener ±1h de consistencia.');
-            }
-            
-            if (lowDeepSleep > 5) {
-                recs.push('💤 <strong>Baja recuperación física:</strong> Sueño profundo insuficiente. Evita alcohol 3h antes de dormir (suprime REM y Deep), mantén habitación <19°C, y considera suplemento de magnesio.');
-            }
-            
-            if (weekendVariance > 2) {
-                recs.push('📊 <strong>Jetlag social detectado:</strong> Diferencia de ${weekendVariance.toFixed(1)}h entre días laborables y fin de semana. Esto equivale a cambiar de zona horaria semanalmente. Reduce la variabilidad para mejorar energía matutina.');
-            }
-            
-            // Análisis de correlación simple
-            const correlation = findSleepQualityFactors(data);
-            if (correlation.earlyBedtime) {
-                recs.push('✨ <strong>Patrón positivo detectado:</strong> Duermes mejor cuando acuestas antes de las 23h. Tu eficiencia mejora un ~${correlation.improvement}% con horarios tempranos.');
-            }
-            
-            if (recs.length === 0) {
-                recs.push('✅ <strong>¡Excelente higiene del sueño!</strong> Mantén tu consistencia. Considera optimizar factores secundarios como exposición a luz azul o dieta.');
-            }
-            
-            document.getElementById('recommendations').innerHTML = recs
-                .map(r => `<li class="rec-item">${r}</li>`)
-                .join('');
-        }
-        
-        function calculateWeekendVariance(data) {
-            const weekdays = data.filter(d => {
-                const day = d.date.getDay();
-                return day >= 1 && day <= 5;
-            }).slice(-10);
-            
-            const weekends = data.filter(d => {
-                const day = d.date.getDay();
-                return day === 0 || day === 6;
-            }).slice(-4);
-            
-            if (weekdays.length === 0 || weekends.length === 0) return 0;
-            
-            const avgWeekday = weekdays.reduce((s, d) => s + (d.bedtime || 23), 0) / weekdays.length;
-            const avgWeekend = weekends.reduce((s, d) => s + (d.bedtime || 23), 0) / weekends.length;
-            
-            return Math.abs(avgWeekend - avgWeekday);
-        }
-        
-        function findSleepQualityFactors(data) {
-            const early = data.filter(d => d.bedtime && d.bedtime < 23);
-            const late = data.filter(d => d.bedtime && d.bedtime >= 24);
-            
-            if (early.length < 3 || late.length < 3) return { earlyBedtime: false };
-            
-            const earlyEff = early.reduce((s, d) => s + (d.efficiency || 80), 0) / early.length;
-            const lateEff = late.reduce((s, d) => s + (d.efficiency || 80), 0) / late.length;
-            
-            return {
-                earlyBedtime: earlyEff > lateEff,
-                improvement: ((earlyEff - lateEff) / lateEff * 100).toFixed(0)
-            };
-        }
-        
+
         loadData();
     </script>
 </body>
