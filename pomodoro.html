@@ -1,64 +1,626 @@
-
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <style>
-            body { font-family: -apple-system, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
-            h3 { margin: 0 0 10px 0; font-size: 16px; text-align: center; font-weight: 600; }
-            .controls { display: flex; gap: 6px; margin-bottom: 10px; }
-            button { background: #444; color: white; border: none; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-            button:hover { background: #2ea043; }
-            .chart-box { width: 100%; max-width: 350px; height: 220px; position: relative; }
-            .insight-box { background-color: #262626; border-left: 4px solid #ff6384; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-            .timestamp { font-size: 10px; color: #888; margin-top: 10px; }
-        </style>
-    </head>
-    <body>
-        <h3>Distribución Pomodoro</h3>
-        <div class="controls">
-            <button onclick="cambiarTipo('bar')">📊</button>
-            <button onclick="cambiarTipo('doughnut')">🍩</button>
-            <button onclick="cambiarTipo('line')">📈</button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAPH 2026 - Análisis Pomodoro</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #2c2c2c;
+            --text-secondary: #6b6b6b;
+            --accent: #ef4444;
+            --accent-light: #f87171;
+            --border: #e0e0e0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --card-bg: #ffffff;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #191919;
+                --bg-secondary: #252525;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --accent: #f87171;
+                --accent-light: #fca5a5;
+                --border: #2f2f2f;
+                --success: #34d399;
+                --warning: #fbbf24;
+                --info: #60a5fa;
+                --card-bg: #202020;
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tomato {
+            font-size: 1.5rem;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-2px);
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 250px;
+        }
+        
+        .productivity-score {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .score-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .score-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .score-badge {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .score-bar {
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        .insights-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+        
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .insight-icon {
+            font-size: 1.2rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="tomato">🍅</span> Análisis de Foco Profundo</h1>
+        <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
+        
+        <div id="stats" class="stats-row">
+            <div class="loading">Cargando sesiones Pomodoro...</div>
         </div>
-        <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">Total: 0h</div>
-        <div class="timestamp">🔄 Sincronizado: 02/03 10:24 PM</div>
-        <script>
-            let myChart;
-            function renderChart(tipo) {
-                const ctx = document.getElementById('miGrafica').getContext('2d');
-                if (myChart) myChart.destroy();
-                myChart = new Chart(ctx, {
-                    type: tipo,
-                    data: {
-                        labels: [],
-                        datasets: [{
-                            label: 'Monto/Cantidad',
-                            data: [],
-                            backgroundColor: ["#ff6384", "#36a2eb"],
-                            borderColor: ["#ff6384", "#36a2eb"][0],
-                            borderWidth: tipo === 'line' ? 2 : 0,
-                            tension: 0.4,
-                            fill: tipo === 'line'
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'x',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: tipo === 'doughnut', position: 'bottom', labels: { color: '#ccc' } } },
-                        scales: {
-                            y: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } },
-                            x: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } }
-                        }
-                    }
+        
+        <div class="productivity-score">
+            <div class="score-header">
+                <div class="score-title">Índice de Productividad Sostenible</div>
+                <div id="scoreBadge" class="score-badge">--</div>
+            </div>
+            <div class="score-bar">
+                <div id="scoreFill" class="score-fill" style="width: 0%"></div>
+            </div>
+            <div id="insightsList" class="insights-list"></div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">Distribución Horaria de Foco</div>
+                <div class="chart-wrapper">
+                    <canvas id="hourlyChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Rendimiento por Día (Últimos 14 días)</div>
+                <div class="chart-wrapper">
+                    <canvas id="dailyChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container" style="margin-bottom: 1.5rem;">
+            <div class="chart-title">Categorías de Trabajo (Distribución de tiempo)</div>
+            <div class="chart-wrapper" style="height: 300px;">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pomodoroData = [];
+        
+        async function loadData() {
+            try {
+                const response = await fetch('datos.json');
+                const data = await response.json();
+                
+                document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
+                
+                pomodoroData = data.pomodoro || [];
+                if (pomodoroData.length === 0) {
+                    throw new Error('No hay datos de Pomodoro disponibles');
+                }
+                
+                processPomodoroData();
+            } catch (error) {
+                document.getElementById('stats').innerHTML = 
+                    `<div style="grid-column: 1/-1; text-align: center; color: var(--accent);">
+                        Error: ${error.message}
+                    </div>`;
+            }
+        }
+        
+        function processPomodoroData() {
+            const processed = pomodoroData.map(entry => {
+                const props = entry.properties;
+                const startTime = props?.Inicio?.date?.start || entry.created_time;
+                const duration = extractNumber(props?.Duración) || 25;
+                const completed = props?.Estado?.select?.name === 'Completado' || 
+                                 props?.Completado?.checkbox === true;
+                
+                return {
+                    date: new Date(startTime),
+                    duration: completed ? duration : 0,
+                    completed: completed,
+                    category: extractSelect(props?.Categoría) || extractSelect(props?.Proyecto) || 'General',
+                    interruptions: extractNumber(props?.Interrupciones) || 0,
+                    energyLevel: extractSelect(props?.Energía) || 'Media',
+                    quality: extractNumber(props?.Calidad) || (completed ? 3 : 0)
+                };
+            }).sort((a, b) => a.date - b.date);
+            
+            const recent = processed.slice(-30); // Últimas 30 sesiones
+            const last14Days = processed.filter(d => {
+                const daysAgo = (new Date() - d.date) / (1000 * 60 * 60 * 24);
+                return daysAgo <= 14;
+            });
+            
+            renderStats(processed, recent);
+            renderProductivityScore(processed, last14Days);
+            renderCharts(processed, last14Days);
+        }
+        
+        function extractNumber(prop) {
+            if (!prop) return 0;
+            if (prop.number !== undefined) return prop.number;
+            if (prop.formula?.number !== undefined) return prop.formula.number;
+            return 0;
+        }
+        
+        function extractSelect(prop) {
+            if (!prop) return null;
+            if (prop.select?.name) return prop.select.name;
+            if (prop.relation?.length > 0) return 'Vinculado';
+            return null;
+        }
+        
+        function renderStats(allData, recent) {
+            const totalSessions = allData.filter(d => d.completed).length;
+            const totalHours = allData.filter(d => d.completed).reduce((s, d) => s + d.duration, 0) / 60;
+            const currentStreak = calculateStreak(allData);
+            const avgQuality = recent.filter(d => d.completed).reduce((s, d) => s + d.quality, 0) / 
+                              recent.filter(d => d.completed).length || 0;
+            
+            const statsHTML = `
+                <div class="stat-box">
+                    <div class="stat-icon">🍅</div>
+                    <div class="stat-value">${totalSessions}</div>
+                    <div class="stat-label">Sesiones Completadas</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-value">${totalHours.toFixed(0)}h</div>
+                    <div class="stat-label">Horas de Foco Profundo</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-value">${currentStreak}</div>
+                    <div class="stat-label">Días Consecutivos (Racha)</div>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-value">${avgQuality.toFixed(1)}/5</div>
+                    <div class="stat-label">Calidad Promedio (Últimas 30)</div>
+                </div>
+            `;
+            
+            document.getElementById('stats').innerHTML = statsHTML;
+        }
+        
+        function calculateStreak(data) {
+            const dates = [...new Set(data.filter(d => d.completed).map(d => 
+                d.date.toDateString()
+            ))].sort();
+            
+            if (dates.length === 0) return 0;
+            
+            let streak = 0;
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            
+            // Verificar si hay actividad hoy o ayer para empezar conteo
+            const lastActive = dates[dates.length - 1];
+            if (lastActive !== today && lastActive !== yesterday) return 0;
+            
+            // Contar hacia atrás
+            for (let i = dates.length - 1; i >= 0; i--) {
+                const current = new Date(dates[i]);
+                const expected = new Date();
+                expected.setDate(expected.getDate() - streak);
+                
+                if (dates[i] === expected.toDateString()) {
+                    streak++;
+                } else if (i < dates.length - 1) {
+                    break;
+                }
+            }
+            
+            return streak;
+        }
+        
+        function renderProductivityScore(allData, recentData) {
+            // Calcular score basado en: consistencia, calidad, volumen, y baja interrupciones
+            const consistency = Math.min(recentData.length / 14 * 100, 100); // Sesiones por día
+            const completionRate = recentData.filter(d => d.completed).length / Math.max(recentData.length, 1) * 100;
+            const avgInterruptions = recentData.reduce((s, d) => s + d.interruptions, 0) / Math.max(recentData.length, 1);
+            const interruptionScore = Math.max(0, 100 - (avgInterruptions * 20));
+            
+            const score = Math.round((consistency * 0.3) + (completionRate * 0.4) + (interruptionScore * 0.3));
+            
+            document.getElementById('scoreBadge').textContent = score;
+            document.getElementById('scoreFill').style.width = `${score}%`;
+            
+            // Generar insights
+            const insights = [];
+            
+            if (consistency < 50) {
+                insights.push({
+                    icon: '📅',
+                    text: 'Baja consistencia: Intenta al menos 2 sesiones diarias para construir el hábito.'
                 });
             }
-            function cambiarTipo(t) { renderChart(t); }
-            renderChart('doughnut');
-        </script>
-    </body>
-    </html>
-    
+            
+            if (completionRate < 80) {
+                insights.push({
+                    icon: '⚠️',
+                    text: `${(100-completionRate).toFixed(0)}% de sesiones abandonadas. Identifica tus distractores principales.`
+                });
+            }
+            
+            if (avgInterruptions > 1) {
+                insights.push({
+                    icon: '🛑',
+                    text: `Promedio de ${avgInterruptions.toFixed(1)} interrupciones/sesión. Considera modo "No Molestar" o bloqueadores de apps.`
+                });
+            }
+            
+            // Encontrar hora dorada
+            const hourlyData = {};
+            recentData.forEach(d => {
+                const hour = d.date.getHours();
+                if (!hourlyData[hour]) hourlyData[hour] = { total: 0, count: 0 };
+                hourlyData[hour].total += d.quality;
+                hourlyData[hour].count++;
+            });
+            
+            let bestHour = null;
+            let bestAvg = 0;
+            Object.entries(hourlyData).forEach(([hour, data]) => {
+                const avg = data.total / data.count;
+                if (avg > bestAvg && data.count >= 3) {
+                    bestAvg = avg;
+                    bestHour = hour;
+                }
+            });
+            
+            if (bestHour !== null) {
+                insights.push({
+                    icon: '🌟',
+                    text: `Tu "Hora Dorada" es ~${bestHour}:00. Programa tareas de alta dificultad en este horario.`
+                });
+            }
+            
+            if (insights.length === 0) {
+                insights.push({
+                    icon: '🚀',
+                    text: '¡Excelente rendimiento! Mantén este ritmo. Considera aumentar duración de sesiones a 50min.'
+                });
+            }
+            
+            document.getElementById('insightsList').innerHTML = insights.map(i => 
+                `<div class="insight-item">
+                    <span class="insight-icon">${i.icon}</span>
+                    <span>${i.text}</span>
+                </div>`
+            ).join('');
+        }
+        
+        function renderCharts(allData, recentData) {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const textColor = isDark ? '#ffffff' : '#2c2c2c';
+            const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
+            
+            // Gráfico horario (heatmap style)
+            const hourlyDist = Array(24).fill(0);
+            recentData.forEach(d => {
+                if (d.completed) hourlyDist[d.date.getHours()] += d.duration;
+            });
+            
+            const ctx1 = document.getElementById('hourlyChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+                    datasets: [{
+                        label: 'Minutos de foco',
+                        data: hourlyDist,
+                        backgroundColor: hourlyDist.map((v, i) => {
+                            const intensity = v / Math.max(...hourlyDist);
+                            return `rgba(239, 68, 68, ${0.3 + intensity * 0.7})`;
+                        }),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { 
+                                color: textColor,
+                                maxTicksLimit: 12
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico diario (últimos 14 días)
+            const dailyData = {};
+            recentData.forEach(d => {
+                const dateKey = d.date.toLocaleDateString('es', {weekday: 'short'});
+                if (!dailyData[dateKey]) dailyData[dateKey] = 0;
+                if (d.completed) dailyData[dateKey] += d.duration;
+            });
+            
+            const ctx2 = document.getElementById('dailyChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(dailyData),
+                    datasets: [{
+                        label: 'Minutos de foco',
+                        data: Object.values(dailyData),
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }, {
+                        label: 'Meta (120min)',
+                        data: Array(Object.keys(dailyData).length).fill(120),
+                        borderColor: '#10b981',
+                        borderDash: [5, 5],
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: textColor } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        },
+                        x: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico de categorías (treemap style con doughnut)
+            const categories = {};
+            allData.filter(d => d.completed).forEach(d => {
+                categories[d.category] = (categories[d.category] || 0) + d.duration;
+            });
+            
+            const ctx3 = document.getElementById('categoryChart').getContext('2d');
+            new Chart(ctx3, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(categories),
+                    datasets: [{
+                        data: Object.values(categories),
+                        backgroundColor: [
+                            '#ef4444', '#f97316', '#f59e0b', '#84cc16', 
+                            '#10b981', '#06b6d4', '#3b82f6', '#8b5cf6'
+                        ],
+                        borderWidth: 2,
+                        borderColor: isDark ? '#202020' : '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { 
+                                color: textColor,
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    return data.labels.map((label, i) => ({
+                                        text: `${label}: ${Math.round(data.datasets[0].data[i]/60)}h`,
+                                        fillStyle: data.datasets[0].backgroundColor[i],
+                                        hidden: false,
+                                        index: i
+                                    }));
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const mins = context.raw;
+                                    const hours = (mins / 60).toFixed(1);
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const pct = ((mins / total) * 100).toFixed(1);
+                                    return `${context.label}: ${hours}h (${pct}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>
