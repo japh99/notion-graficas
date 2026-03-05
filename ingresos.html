@@ -1,64 +1,367 @@
-
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <style>
-            body { font-family: -apple-system, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
-            h3 { margin: 0 0 10px 0; font-size: 16px; text-align: center; font-weight: 600; }
-            .controls { display: flex; gap: 6px; margin-bottom: 10px; }
-            button { background: #444; color: white; border: none; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-            button:hover { background: #2ea043; }
-            .chart-box { width: 100%; max-width: 350px; height: 220px; position: relative; }
-            .insight-box { background-color: #262626; border-left: 4px solid #2ea043; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-            .timestamp { font-size: 10px; color: #888; margin-top: 10px; }
-        </style>
-    </head>
-    <body>
-        <h3>Balance General</h3>
-        <div class="controls">
-            <button onclick="cambiarTipo('bar')">📊</button>
-            <button onclick="cambiarTipo('doughnut')">🍩</button>
-            <button onclick="cambiarTipo('line')">📈</button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAPH 2026 - Análisis de Ingresos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #2c2c2c;
+            --text-secondary: #6b6b6b;
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --border: #e0e0e0;
+            --card-bg: #ffffff;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #191919;
+                --bg-secondary: #252525;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --accent: #34d399;
+                --accent-light: #6ee7b7;
+                --border: #2f2f2f;
+                --card-bg: #202020;
+            }
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .kpi-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+        }
+        
+        .kpi-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .kpi-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .kpi-change { font-size: 0.85rem; margin-top: 0.25rem; }
+        .positive { color: var(--accent); }
+        .negative { color: #ef4444; }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+        .chart-wrapper { position: relative; height: 300px; }
+        
+        .income-list {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .income-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .income-item:last-child { border-bottom: none; }
+        
+        .income-info { flex: 1; }
+        .income-source { font-weight: 600; margin-bottom: 0.25rem; }
+        .income-date { font-size: 0.8rem; color: var(--text-secondary); }
+        .income-amount { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+        
+        .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 Análisis de Ingresos</h1>
+        <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
+        
+        <div class="kpi-grid" id="kpiGrid">
+            <div class="loading">Cargando ingresos...</div>
         </div>
-        <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">Saldo Actual: $510,000</div>
-        <div class="timestamp">🔄 Sincronizado: 02/03 10:24 PM</div>
-        <script>
-            let myChart;
-            function renderChart(tipo) {
-                const ctx = document.getElementById('miGrafica').getContext('2d');
-                if (myChart) myChart.destroy();
-                myChart = new Chart(ctx, {
-                    type: tipo,
-                    data: {
-                        labels: ["Ingresos", "Egresos"],
-                        datasets: [{
-                            label: 'Monto/Cantidad',
-                            data: [510000, 0],
-                            backgroundColor: ["#2ea043", "#f85149"],
-                            borderColor: ["#2ea043", "#f85149"][0],
-                            borderWidth: tipo === 'line' ? 2 : 0,
-                            tension: 0.4,
-                            fill: tipo === 'line'
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'x',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: tipo === 'doughnut', position: 'bottom', labels: { color: '#ccc' } } },
-                        scales: {
-                            y: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } },
-                            x: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } }
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">Evolución Mensual</div>
+                <div class="chart-wrapper">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Distribución por Fuente</div>
+                <div class="chart-wrapper">
+                    <canvas id="sourceChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-container" style="margin-bottom: 1.5rem;">
+            <div class="chart-title">Tendencia Acumulada (YTD)</div>
+            <div class="chart-wrapper" style="height: 250px;">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="income-list">
+            <div class="chart-title">Últimos Ingresos Registrados</div>
+            <div id="recentIncomes"></div>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('datos.json');
+                const data = await response.json();
+                
+                document.getElementById('lastUpdate').textContent = 
+                    data.metadata?.ultima_actualizacion || 'Desconocida';
+                
+                const ingresos = data.datos?.ingresos || data.ingresos || [];
+                processIncomes(ingresos);
+            } catch (error) {
+                document.getElementById('kpiGrid').innerHTML = 
+                    `<div style="color: #ef4444;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        function processIncomes(ingresos) {
+            const processed = ingresos.map(i => {
+                const props = i.properties || {};
+                return {
+                    monto: props.Monto?.number || 0,
+                    fuente: props.Fuente?.select?.name || props.Categoría?.select?.name || 'Otro',
+                    fecha: new Date(props.Fecha?.date?.start || i.created_time),
+                    descripcion: props.Descripción?.title?.[0]?.plain_text || 'Sin descripción'
+                };
+            }).sort((a, b) => b.fecha - a.fecha);
+            
+            renderKPIs(processed);
+            renderCharts(processed);
+            renderRecent(processed);
+        }
+        
+        function renderKPIs(ingresos) {
+            const total = ingresos.reduce((s, i) => s + i.monto, 0);
+            const promedio = ingresos.length ? total / ingresos.length : 0;
+            
+            // Calcular mes anterior vs actual
+            const ahora = new Date();
+            const mesActual = ingresos.filter(i => 
+                i.fecha.getMonth() === ahora.getMonth() && 
+                i.fecha.getFullYear() === ahora.getFullYear()
+            ).reduce((s, i) => s + i.monto, 0);
+            
+            const mesAnterior = ingresos.filter(i => {
+                const fechaAnterior = new Date(ahora.getFullYear(), ahora.getMonth() - 1);
+                return i.fecha.getMonth() === fechaAnterior.getMonth() && 
+                       i.fecha.getFullYear() === fechaAnterior.getFullYear();
+            }).reduce((s, i) => s + i.monto, 0);
+            
+            const cambio = mesAnterior ? ((mesActual - mesAnterior) / mesAnterior * 100) : 0;
+            
+            document.getElementById('kpiGrid').innerHTML = `
+                <div class="kpi-card">
+                    <div class="kpi-label">Ingresos Totales (YTD)</div>
+                    <div class="kpi-value">$${(total / 1000000).toFixed(2)}M</div>
+                    <div class="kpi-change">${ingresos.length} transacciones</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Promedio por Ingreso</div>
+                    <div class="kpi-value">$${Math.round(promedio / 1000)}K</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Este Mes</div>
+                    <div class="kpi-value">$${(mesActual / 1000000).toFixed(2)}M</div>
+                    <div class="kpi-change ${cambio >= 0 ? 'positive' : 'negative'}">
+                        ${cambio >= 0 ? '↑' : '↓'} ${Math.abs(cambio).toFixed(1)}% vs mes ant.
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Fuentes Activas</div>
+                    <div class="kpi-value">${new Set(ingresos.map(i => i.fuente)).size}</div>
+                </div>
+            `;
+        }
+        
+        function renderCharts(ingresos) {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const textColor = isDark ? '#ffffff' : '#2c2c2c';
+            const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
+            
+            // Agrupar por mes
+            const porMes = {};
+            ingresos.forEach(i => {
+                const key = i.fecha.toLocaleDateString('es', { month: 'short', year: '2-digit' });
+                porMes[key] = (porMes[key] || 0) + i.monto;
+            });
+            
+            new Chart(document.getElementById('monthlyChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(porMes).slice(-6),
+                    datasets: [{
+                        label: 'Ingresos ($)',
+                        data: Object.values(porMes).slice(-6),
+                        backgroundColor: '#10b981',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            grid: { color: gridColor }, 
+                            ticks: { 
+                                color: textColor,
+                                callback: v => '$' + (v / 1000) + 'K'
+                            } 
+                        },
+                        x: { grid: { display: false }, ticks: { color: textColor } }
+                    }
+                }
+            });
+            
+            // Por fuente
+            const porFuente = {};
+            ingresos.forEach(i => {
+                porFuente[i.fuente] = (porFuente[i.fuente] || 0) + i.monto;
+            });
+            
+            new Chart(document.getElementById('sourceChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(porFuente),
+                    datasets: [{
+                        data: Object.values(porFuente),
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ef4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { color: textColor } }
+                    }
+                }
+            });
+            
+            // Tendencia acumulada
+            const ordenados = [...ingresos].sort((a, b) => a.fecha - b.fecha);
+            let acumulado = 0;
+            const tendencia = ordenados.map(i => {
+                acumulado += i.monto;
+                return { x: i.fecha, y: acumulado };
+            });
+            
+            new Chart(document.getElementById('trendChart'), {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Acumulado YTD',
+                        data: tendencia,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: textColor } } },
+                    scales: {
+                        y: { 
+                            grid: { color: gridColor }, 
+                            ticks: { 
+                                color: textColor,
+                                callback: v => '$' + (v / 1000000).toFixed(1) + 'M'
+                            } 
+                        },
+                        x: { 
+                            type: 'time',
+                            grid: { color: gridColor }, 
+                            ticks: { color: textColor } 
                         }
                     }
-                });
-            }
-            function cambiarTipo(t) { renderChart(t); }
-            renderChart('bar');
-        </script>
-    </body>
-    </html>
-    
+                }
+            });
+        }
+        
+        function renderRecent(ingresos) {
+            const recientes = ingresos.slice(0, 5);
+            
+            document.getElementById('recentIncomes').innerHTML = recientes.map(i => `
+                <div class="income-item">
+                    <div class="income-info">
+                        <div class="income-source">${i.fuente}</div>
+                        <div class="income-date">${i.fecha.toLocaleDateString('es')}</div>
+                    </div>
+                    <div class="income-amount">+$${i.monto.toLocaleString()}</div>
+                </div>
+            `).join('');
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>

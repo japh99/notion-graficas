@@ -1,64 +1,397 @@
-
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <style>
-            body { font-family: -apple-system, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
-            h3 { margin: 0 0 10px 0; font-size: 16px; text-align: center; font-weight: 600; }
-            .controls { display: flex; gap: 6px; margin-bottom: 10px; }
-            button { background: #444; color: white; border: none; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-            button:hover { background: #2ea043; }
-            .chart-box { width: 100%; max-width: 350px; height: 220px; position: relative; }
-            .insight-box { background-color: #262626; border-left: 4px solid #2ea043; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-            .timestamp { font-size: 10px; color: #888; margin-top: 10px; }
-        </style>
-    </head>
-    <body>
-        <h3>Presupuesto Wishlist</h3>
-        <div class="controls">
-            <button onclick="cambiarTipo('bar')">📊</button>
-            <button onclick="cambiarTipo('doughnut')">🍩</button>
-            <button onclick="cambiarTipo('line')">📈</button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAPH 2026 - Gestión de Ahorros</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #2c2c2c;
+            --text-secondary: #6b6b6b;
+            --accent: #8b5cf6;
+            --accent-light: #a78bfa;
+            --border: #e0e0e0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --card-bg: #ffffff;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #191919;
+                --bg-secondary: #252525;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --accent: #a78bfa;
+                --accent-light: #c4b5fd;
+                --border: #2f2f2f;
+                --success: #34d399;
+                --warning: #fbbf24;
+                --card-bg: #202020;
+            }
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+        
+        .summary-card {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 16px;
+            padding: 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .summary-label { font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem; }
+        .summary-value { font-size: 3rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .summary-sub { font-size: 0.9rem; opacity: 0.9; }
+        
+        .funds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .fund-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .fund-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .fund-name { font-weight: 600; font-size: 1.1rem; }
+        .fund-type {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            background: var(--bg-secondary);
+        }
+        
+        .fund-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .fund-goal { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .chart-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+        .chart-wrapper { position: relative; height: 300px; }
+        
+        .allocation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .allocation-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+        
+        .allocation-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        .allocation-info { flex: 1; }
+        .allocation-name { font-weight: 600; font-size: 0.9rem; }
+        .allocation-pct { font-size: 0.8rem; color: var(--text-secondary); }
+        .allocation-value { font-weight: 700; color: var(--accent); }
+        
+        .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 Centro de Ahorros</h1>
+        <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
+        
+        <div class="summary-card">
+            <div class="summary-label">Patrimonio Total Acumulado</div>
+            <div class="summary-value" id="totalSavings">$0</div>
+            <div class="summary-sub">Distribuido en <span id="fundCount">0</span> fondos</div>
         </div>
-        <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">Faltan $0 para 0 items.</div>
-        <div class="timestamp">🔄 Sincronizado: 02/03 10:24 PM</div>
-        <script>
-            let myChart;
-            function renderChart(tipo) {
-                const ctx = document.getElementById('miGrafica').getContext('2d');
-                if (myChart) myChart.destroy();
-                myChart = new Chart(ctx, {
-                    type: tipo,
-                    data: {
-                        labels: ["Comprado", "Pendiente"],
-                        datasets: [{
-                            label: 'Monto/Cantidad',
-                            data: [0, 0],
-                            backgroundColor: ["#2ea043", "#555555"],
-                            borderColor: ["#2ea043", "#555555"][0],
-                            borderWidth: tipo === 'line' ? 2 : 0,
-                            tension: 0.4,
-                            fill: tipo === 'line'
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'x',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: tipo === 'doughnut', position: 'bottom', labels: { color: '#ccc' } } },
-                        scales: {
-                            y: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } },
-                            x: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } }
+        
+        <div class="chart-container">
+            <div class="chart-title">Composición del Portafolio</div>
+            <div class="chart-wrapper">
+                <canvas id="allocationChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="funds-grid" id="fundsGrid">
+            <div class="loading">Cargando fondos...</div>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">Evolución de Ahorros (Últimos 6 meses)</div>
+            <div class="chart-wrapper" style="height: 250px;">
+                <canvas id="evolutionChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('datos.json');
+                const data = await response.json();
+                
+                document.getElementById('lastUpdate').textContent = 
+                    data.metadata?.ultima_actualizacion || 'Desconocida';
+                
+                // Intentar obtener de diferentes estructuras posibles
+                const ahorros = data.datos?.ahorros || data.ahorros || [];
+                const ingresos = data.datos?.ingresos || data.ingresos || [];
+                
+                // Si no hay ahorros específicos, simular desde ingresos con categoría "Ahorro"
+                if (ahorros.length === 0 && ingresos.length > 0) {
+                    const simulated = ingresos.filter(i => {
+                        const cat = i.properties?.Categoría?.select?.name || '';
+                        return cat.toLowerCase().includes('ahorro') || 
+                               cat.toLowerCase().includes('inversión') ||
+                               cat.toLowerCase().includes('fondo');
+                    });
+                    processSavings(simulated, true);
+                } else {
+                    processSavings(ahorros, false);
+                }
+            } catch (error) {
+                document.getElementById('fundsGrid').innerHTML = 
+                    `<div style="color: #ef4444;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        function processSavings(ahorros, isSimulated) {
+            const processed = ahorros.map(a => {
+                const props = a.properties || {};
+                return {
+                    nombre: props.Nombre?.title?.[0]?.plain_text || 
+                            props.Fuente?.select?.name || 'Fondo',
+                    monto: props.Monto?.number || props.Cantidad?.number || 0,
+                    meta: props.Meta?.number || props.Objetivo?.number || 0,
+                    tipo: props.Tipo?.select?.name || 'General',
+                    fecha: new Date(props.Fecha?.date?.start || a.created_time)
+                };
+            });
+            
+            // Agrupar por nombre si es necesario
+            const agrupados = {};
+            processed.forEach(p => {
+                if (!agrupados[p.nombre]) {
+                    agrupados[p.nombre] = { ...p, monto: 0 };
+                }
+                agrupados[p.nombre].monto += p.monto;
+            });
+            
+            const fondos = Object.values(agrupados);
+            renderSummary(fondos);
+            renderAllocation(fondos);
+            renderFunds(fondos);
+            renderEvolution(processed);
+        }
+        
+        function renderSummary(fondos) {
+            const total = fondos.reduce((s, f) => s + f.monto, 0);
+            document.getElementById('totalSavings').textContent = 
+                '$' + (total / 1000000).toFixed(2) + 'M';
+            document.getElementById('fundCount').textContent = fondos.length;
+        }
+        
+        function renderAllocation(fondos) {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const textColor = isDark ? '#ffffff' : '#2c2c2c';
+            
+            const labels = fondos.map(f => f.nombre);
+            const data = fondos.map(f => f.monto);
+            const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899'];
+            
+            new Chart(document.getElementById('allocationChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        borderColor: isDark ? '#202020' : '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: { 
+                            position: 'right',
+                            labels: { 
+                                color: textColor,
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    return data.labels.map((label, i) => ({
+                                        text: `${label}: ${((data.datasets[0].data[i] / total) * 100).toFixed(1)}%`,
+                                        fillStyle: data.datasets[0].backgroundColor[i],
+                                        hidden: false,
+                                        index: i
+                                    }));
+                                }
+                            }
                         }
                     }
-                });
-            }
-            function cambiarTipo(t) { renderChart(t); }
-            renderChart('doughnut');
-        </script>
-    </body>
-    </html>
-    
+                }
+            });
+        }
+        
+        function renderFunds(fondos) {
+            const colors = ['#8b5cf6', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899'];
+            
+            document.getElementById('fundsGrid').innerHTML = fondos.map((f, i) => {
+                const pct = f.meta ? Math.min((f.monto / f.meta) * 100, 100) : 0;
+                const color = colors[i % colors.length];
+                
+                return `
+                    <div class="fund-card">
+                        <div class="fund-header">
+                            <div class="fund-name">${f.nombre}</div>
+                            <div class="fund-type">${f.tipo}</div>
+                        </div>
+                        <div class="fund-amount">$${f.monto.toLocaleString()}</div>
+                        ${f.meta ? `
+                            <div class="fund-goal">Meta: $${f.meta.toLocaleString()}</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${pct}%; background: ${color};"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span>${pct.toFixed(1)}% completado</span>
+                                <span>Restante: $${(f.meta - f.monto).toLocaleString()}</span>
+                            </div>
+                        ` : '<div class="fund-goal">Sin meta definida</div>'}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function renderEvolution(ahorros) {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const textColor = isDark ? '#ffffff' : '#2c2c2c';
+            const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
+            
+            // Agrupar por mes
+            const porMes = {};
+            ahorros.sort((a, b) => a.fecha - b.fecha).forEach(a => {
+                const key = a.fecha.toLocaleDateString('es', { month: 'short', year: '2-digit' });
+                porMes[key] = (porMes[key] || 0) + a.monto;
+            });
+            
+            // Calcular acumulado
+            let acumulado = 0;
+            const acumuladoData = Object.values(porMes).map(v => {
+                acumulado += v;
+                return acumulado;
+            });
+            
+            new Chart(document.getElementById('evolutionChart'), {
+                type: 'line',
+                data: {
+                    labels: Object.keys(porMes),
+                    datasets: [{
+                        label: 'Ahorro Acumulado',
+                        data: acumuladoData,
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: textColor } } },
+                    scales: {
+                        y: { 
+                            grid: { color: gridColor }, 
+                            ticks: { 
+                                color: textColor,
+                                callback: v => '$' + (v / 1000) + 'K'
+                            } 
+                        },
+                        x: { grid: { color: gridColor }, ticks: { color: textColor } }
+                    }
+                }
+            });
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>

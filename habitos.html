@@ -1,63 +1,455 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAPH 2026 - Seguimiento de Hábitos</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: transparent; color: white; display: flex; flex-direction: column; align-items: center; margin: 0; }
-        .chart-box { width: 100%; max-width: 380px; height: 320px; }
-        .info { font-size: 12px; color: #888; margin-top: 10px; }
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #2c2c2c;
+            --text-secondary: #6b6b6b;
+            --accent: #06b6d4;
+            --accent-light: #22d3ee;
+            --border: #e0e0e0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-bg: #ffffff;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #191919;
+                --bg-secondary: #252525;
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --accent: #22d3ee;
+                --accent-light: #67e8f9;
+                --border: #2f2f2f;
+                --success: #34d399;
+                --warning: #fbbf24;
+                --danger: #f87171;
+                --card-bg: #202020;
+            }
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+        
+        .streak-banner {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 16px;
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .streak-number { font-size: 4rem; font-weight: 700; line-height: 1; }
+        .streak-label { font-size: 1rem; opacity: 0.9; margin-top: 0.5rem; }
+        .streak-sub { font-size: 0.85rem; opacity: 0.8; margin-top: 0.5rem; }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; }
+        
+        .radar-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .radar-title { 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            text-align: center; 
+            margin-bottom: 1.5rem;
+        }
+        
+        .radar-wrapper { position: relative; height: 400px; }
+        
+        .habits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .habit-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .habit-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .habit-info { flex: 1; }
+        .habit-name { font-weight: 600; margin-bottom: 0.25rem; }
+        .habit-streak { font-size: 0.8rem; color: var(--text-secondary); }
+        
+        .habit-score {
+            text-align: center;
+        }
+        
+        .score-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .score-bar {
+            width: 60px;
+            height: 4px;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+            margin-top: 0.25rem;
+            overflow: hidden;
+        }
+        
+        .score-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+        
+        .insights {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .insight-title { font-weight: 600; margin-bottom: 1rem; }
+        
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
 <body>
-    <h3>Radar de Hábitos</h3>
-    <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-    <div id="update" class="info"></div>
+    <div class="container">
+        <h1>🎯 Sistema de Hábitos</h1>
+        <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
+        
+        <div class="streak-banner">
+            <div class="streak-number" id="currentStreak">0</div>
+            <div class="streak-label">días de racha actual</div>
+            <div class="streak-sub" id="bestStreak">Mejor racha: 0 días</div>
+        </div>
+        
+        <div class="stats-row" id="statsRow">
+            <div class="loading">Analizando hábitos...</div>
+        </div>
+        
+        <div class="radar-container">
+            <div class="radar-title">🕸️ Análisis Multidimensional (Radar)</div>
+            <div class="radar-wrapper">
+                <canvas id="radarChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="habits-grid" id="habitsGrid"></div>
+        
+        <div class="insights">
+            <div class="insight-title">💡 Análisis de Patrones</div>
+            <div id="insightsList"></div>
+        </div>
+    </div>
 
     <script>
-        // Leemos los datos crudos del archivo que crea el robot de Python
-        fetch('datos.json')
-            .then(response => response.json())
-            .then(fullData => {
-                const data = fullData.habitos;
-                document.getElementById('update').innerText = "Actualizado: " + fullData.metadata.ultima_actualizacion;
-
-                if (data.length === 0) return;
-
-                // Detectamos automáticamente todas las columnas de Checkbox
-                const properties = data[0].properties;
-                const habitNames = Object.keys(properties).filter(k => properties[k].type === 'checkbox');
-
-                // Contamos cuántos Checks tiene cada uno
-                const stats = habitNames.map(name => {
-                    return data.filter(row => row.properties[name].checkbox === true).length;
-                });
-
-                new Chart(document.getElementById('miGrafica'), {
-                    type: 'radar', // <--- ¡Cambia a 'bar' o 'doughnut' si quieres probar!
-                    data: {
-                        labels: habitNames,
-                        datasets: [{
-                            label: 'Días Cumplidos',
-                            data: stats,
-                            backgroundColor: 'rgba(46, 160, 67, 0.2)',
-                            borderColor: '#2ea043',
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            r: {
-                                angleLines: { color: '#444' },
-                                grid: { color: '#444' },
-                                pointLabels: { color: '#ccc', font: { size: 10 } },
-                                ticks: { display: false, backdropColor: 'transparent' }
-                            }
-                        },
-                        plugins: { legend: { display: false } }
+        async function loadData() {
+            try {
+                const response = await fetch('datos.json');
+                const data = await response.json();
+                
+                document.getElementById('lastUpdate').textContent = 
+                    data.metadata?.ultima_actualizacion || 'Desconocida';
+                
+                const habitos = data.datos?.habitos || data.habitos || [];
+                processHabits(habitos);
+            } catch (error) {
+                document.getElementById('statsRow').innerHTML = 
+                    `<div style="color: var(--danger);">Error: ${error.message}</div>`;
+            }
+        }
+        
+        function processHabits(habitos) {
+            const processed = habitos.map(h => {
+                const props = h.properties || {};
+                
+                // Extraer checkboxes de los últimos 7 días si existen
+                const checks = [];
+                for (let i = 1; i <= 7; i++) {
+                    const dayKey = `D-${i}`;
+                    if (props[dayKey]?.checkbox !== undefined) {
+                        checks.push(props[dayKey].checkbox);
                     }
-                });
+                }
+                
+                return {
+                    nombre: props.Nombre?.title?.[0]?.plain_text || 'Hábito',
+                    icono: props.Icono?.rich_text?.[0]?.plain_text || '✨',
+                    categoria: props.Categoría?.select?.name || 'General',
+                    frecuencia: props.Frecuencia?.select?.name || 'Diario',
+                    objetivo: props.Objetivo?.number || 7,
+                    completados: checks.filter(c => c).length,
+                    checks: checks,
+                    racha: props.Racha?.number || 0,
+                    mejorRacha: props.Mejor_racha?.number || 0,
+                    hoy: props.Hoy?.checkbox || false
+                };
             });
+            
+            renderStreak(processed);
+            renderStats(processed);
+            renderRadar(processed);
+            renderHabits(processed);
+            generateInsights(processed);
+        }
+        
+        function renderStreak(habitos) {
+            // Calcular racha global (mínimo un hábito completado por día)
+            const maxRacha = Math.max(...habitos.map(h => h.racha));
+            const maxMejor = Math.max(...habitos.map(h => h.mejorRacha));
+            
+            document.getElementById('currentStreak').textContent = maxRacha;
+            document.getElementById('bestStreak').textContent = `Mejor racha histórica: ${maxMejor} días`;
+        }
+        
+        function renderStats(habitos) {
+            const total = habitos.length;
+            const completadosHoy = habitos.filter(h => h.hoy).length;
+            const promedio = habitos.reduce((s, h) => s + (h.completados / h.objetivo), 0) / total * 100;
+            const perfectos = habitos.filter(h => h.completados === h.objetivo).length;
+            
+            document.getElementById('statsRow').innerHTML = `
+                <div class="stat-box">
+                    <div class="stat-value">${total}</div>
+                    <div class="stat-label">Hábitos Trackeados</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color: var(--success);">${completadosHoy}</div>
+                    <div class="stat-label">Completados Hoy</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${Math.round(promedio)}%</div>
+                    <div class="stat-label">Cumplimiento Semanal</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color: var(--warning);">${perfectos}</div>
+                    <div class="stat-label">Racha Perfecta</div>
+                </div>
+            `;
+        }
+        
+        function renderRadar(habitos) {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const textColor = isDark ? '#ffffff' : '#2c2c2c';
+            const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+            
+            // Agrupar por categoría para el radar
+            const categorias = {};
+            habitos.forEach(h => {
+                if (!categorias[h.categoria]) {
+                    categorias[h.categoria] = { total: 0, count: 0 };
+                }
+                categorias[h.categoria].total += (h.completados / h.objetivo) * 100;
+                categorias[h.categoria].count++;
+            });
+            
+            const labels = Object.keys(categorias);
+            const dataActual = labels.map(cat => 
+                Math.round(categorias[cat].total / categorias[cat].count)
+            );
+            const dataObjetivo = labels.map(() => 100); // 100% objetivo
+            
+            new Chart(document.getElementById('radarChart'), {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Cumplimiento Actual',
+                        data: dataActual,
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                        borderColor: '#06b6d4',
+                        pointBackgroundColor: '#06b6d4',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#06b6d4',
+                        borderWidth: 2
+                    }, {
+                        label: 'Objetivo (100%)',
+                        data: dataObjetivo,
+                        backgroundColor: 'transparent',
+                        borderColor: 'rgba(148, 163, 184, 0.5)',
+                        borderDash: [5, 5],
+                        pointRadius: 0,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: textColor }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: gridColor },
+                            angleLines: { color: gridColor },
+                            pointLabels: {
+                                color: textColor,
+                                font: { size: 12, weight: '600' }
+                            },
+                            ticks: {
+                                color: textColor,
+                                backdropColor: 'transparent',
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderHabits(habitos) {
+            document.getElementById('habitsGrid').innerHTML = habitos.map(h => {
+                const pct = (h.completados / h.objetivo) * 100;
+                let color = 'var(--danger)';
+                if (pct >= 80) color = 'var(--success)';
+                else if (pct >= 50) color = 'var(--warning)';
+                
+                return `
+                    <div class="habit-card">
+                        <div class="habit-icon">${h.icono}</div>
+                        <div class="habit-info">
+                            <div class="habit-name">${h.nombre}</div>
+                            <div class="habit-streak">🔥 Racha: ${h.racha} días • ${h.completados}/${h.objetivo} esta semana</div>
+                        </div>
+                        <div class="habit-score">
+                            <div class="score-value" style="color: ${color};">${Math.round(pct)}%</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: ${pct}%; background: ${color};"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function generateInsights(habitos) {
+            const insights = [];
+            
+            // Hábito más consistente
+            const mejor = habitos.reduce((m, h) => (h.completados > m.completados) ? h : m, habitos[0]);
+            if (mejor && mejor.completados > 0) {
+                insights.push(`🏆 <strong>Hábito más consistente:</strong> ${mejor.nombre} con ${mejor.completados} de ${mejor.objetivo} días completados.`);
+            }
+            
+            // Hábito que necesita atención
+            const peor = habitos.reduce((m, h) => (h.completados < m.completados) ? h : m, habitos[0]);
+            if (peor && peor.completados < peor.objetivo / 2) {
+                insights.push(`⚠️ <strong>Requiere atención:</strong> ${peor.nombre} solo tiene ${peor.completados} completados. Considera reducir la frecuencia o vincularlo a un trigger existente.`);
+            }
+            
+            // Análisis de categoría débil
+            const categorias = {};
+            habitos.forEach(h => {
+                if (!categorias[h.categoria]) categorias[h.categoria] = [];
+                categorias[h.categoria].push(h.completados / h.objetivo);
+            });
+            
+            const catPromedios = Object.entries(categorias).map(([cat, vals]) => ({
+                cat,
+                avg: vals.reduce((a, b) => a + b, 0) / vals.length
+            }));
+            
+            const catDebil = catPromedios.sort((a, b) => a.avg - b.avg)[0];
+            if (catDebil && catDebil.avg < 0.5) {
+                insights.push(`📊 <strong>Área de oportunidad:</strong> La categoría "${catDebil.cat}" tiene un cumplimiento del ${(catDebil.avg * 100).toFixed(0)}%.`);
+            }
+            
+            // Racha en riesgo
+            const enRiesgo = habitos.filter(h => h.racha > 0 && !h.hoy);
+            if (enRiesgo.length > 0) {
+                insights.push(`🔥 <strong>Rachas en riesgo:</strong> ${enRiesgo.length} hábito(s) perderán su racha si no se completan hoy.`);
+            }
+            
+            if (insights.length === 0) {
+                insights.push('✅ <strong>¡Excelente semana!</strong> Todos tus hábitos están en buen camino. Considera añadir un nuevo desafío.');
+            }
+            
+            document.getElementById('insightsList').innerHTML = insights.map(i => 
+                `<div class="insight-item">${i}</div>`
+            ).join('');
+        }
+        
+        loadData();
     </script>
 </body>
 </html>

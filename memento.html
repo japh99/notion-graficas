@@ -1,64 +1,493 @@
-
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <style>
-            body { font-family: -apple-system, sans-serif; background-color: transparent; color: #EBEBEB; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; }
-            h3 { margin: 0 0 10px 0; font-size: 16px; text-align: center; font-weight: 600; }
-            .controls { display: flex; gap: 6px; margin-bottom: 10px; }
-            button { background: #444; color: white; border: none; padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 11px; transition: 0.3s; }
-            button:hover { background: #2ea043; }
-            .chart-box { width: 100%; max-width: 350px; height: 220px; position: relative; }
-            .insight-box { background-color: #262626; border-left: 4px solid #333; padding: 12px; border-radius: 6px; margin-top: 15px; font-size: 13px; line-height: 1.4; width: 90%; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-            .timestamp { font-size: 10px; color: #888; margin-top: 10px; }
-        </style>
-    </head>
-    <body>
-        <h3>Progreso de Vida (Años)</h3>
-        <div class="controls">
-            <button onclick="cambiarTipo('bar')">📊</button>
-            <button onclick="cambiarTipo('doughnut')">🍩</button>
-            <button onclick="cambiarTipo('line')">📈</button>
-        </div>
-        <div class="chart-box"><canvas id="miGrafica"></canvas></div>
-        <div class="insight-box">Te quedan 2808 semanas.</div>
-        <div class="timestamp">🔄 Sincronizado: 02/03 10:24 PM</div>
-        <script>
-            let myChart;
-            function renderChart(tipo) {
-                const ctx = document.getElementById('miGrafica').getContext('2d');
-                if (myChart) myChart.destroy();
-                myChart = new Chart(ctx, {
-                    type: tipo,
-                    data: {
-                        labels: ["Vivido", "Restante"],
-                        datasets: [{
-                            label: 'Monto/Cantidad',
-                            data: [26, 54],
-                            backgroundColor: ["#333", "#eee"],
-                            borderColor: ["#333", "#eee"][0],
-                            borderWidth: tipo === 'line' ? 2 : 0,
-                            tension: 0.4,
-                            fill: tipo === 'line'
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: tipo === 'doughnut', position: 'bottom', labels: { color: '#ccc' } } },
-                        scales: {
-                            y: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } },
-                            x: { display: tipo !== 'doughnut', ticks: { color: '#ccc' } }
-                        }
-                    }
-                });
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAPH 2026 - Memento Mori</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --text-primary: #e5e5e5;
+            --text-secondary: #737373;
+            --accent: #dc2626;
+            --accent-light: #ef4444;
+            --border: #262626;
+            --success: #16a34a;
+            --warning: #ca8a04;
+            --info: #2563eb;
+            --card-bg: #171717;
+        }
+        
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-primary: #fafafa;
+                --bg-secondary: #f0f0f0;
+                --text-primary: #171717;
+                --text-secondary: #525252;
+                --accent: #dc2626;
+                --accent-light: #ef4444;
+                --border: #e5e5e5;
+                --success: #16a34a;
+                --warning: #ca8a04;
+                --info: #2563eb;
+                --card-bg: #ffffff;
             }
-            function cambiarTipo(t) { renderChart(t); }
-            renderChart('bar');
-        </script>
-    </body>
-    </html>
-    
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--card-bg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '☠️';
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.03;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        .life-visualization {
+            display: grid;
+            grid-template-columns: repeat(52, 1fr);
+            gap: 2px;
+            margin-bottom: 3rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+        
+        .week {
+            aspect-ratio: 1;
+            border-radius: 1px;
+            transition: transform 0.2s;
+        }
+        
+        .week:hover {
+            transform: scale(1.5);
+            z-index: 10;
+        }
+        
+        .week.past { background: var(--text-secondary); opacity: 0.5; }
+        .week.current { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        .week.future { background: var(--border); }
+        .week.milestone { 
+            background: var(--warning);
+            position: relative;
+        }
+        
+        .week.milestone::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border: 1px solid var(--warning);
+            border-radius: 2px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+        }
+        
+        .stat-icon {
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 200;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+        
+        .stat-sub {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        
+        .urgency-meter {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .urgency-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .urgency-bar {
+            height: 12px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .urgency-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 2s ease;
+            background: linear-gradient(90deg, 
+                var(--success) 0%, 
+                var(--warning) 50%, 
+                var(--accent) 100%
+            );
+        }
+        
+        .urgency-marks {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .priorities-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .priorities-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .priority-list {
+            list-style: none;
+        }
+        
+        .priority-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+            transition: all 0.3s;
+        }
+        
+        .priority-item:hover {
+            transform: translateX(5px);
+            background: var(--border);
+        }
+        
+        .priority-rank {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 2rem;
+        }
+        
+        .priority-content {
+            flex: 1;
+        }
+        
+        .priority-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .priority-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .priority-urgency {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .legend-box {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        
+        .quote {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Memento Mori</h1>
+            <p class="subtitle">"No te actas añorum, sed horarum. No cuentes los años, sino las horas."</p>
+        </div>
+        
+        <div class="life-visualization" id="lifeGrid">
+            <!-- Generado por JS -->
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background: var(--text-secondary); opacity: 0.5;"></div>
+                <span>Pasado</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: var(--accent);"></div>
+                <span>Semana Actual</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: var(--warning);"></div>
+                <span>Hito Detectado</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: var(--border);"></div>
+                <span>Futuro</span>
+            </div>
+        </div>
+        
+        <div class="stats-grid" id="statsGrid">
+            <div class="loading">Calculando temporality...</div>
+        </div>
+        
+        <div class="urgency-meter">
+            <div class="urgency-title">⏳ Índice de Urgencia Existencial</div>
+            <div class="urgency-bar">
+                <div id="urgencyFill" class="urgency-fill" style="width: 0%"></div>
+            </div>
+            <div class="urgency-marks">
+                <span>Juventud</span>
+                <span>Plenitud</span>
+                <span>Urgencia</span>
+                <span>Limited Time</span>
+            </div>
+        </div>
+        
+        <div class="priorities-section">
+            <div class="priorities-title">🎯 Prioridades Detectadas (Basado en tus datos)</div>
+            <ul id="prioritiesList" class="priority-list">
+                <li class="priority-item">
+                    <span class="priority-rank">1</span>
+                    <div class="priority-content">
+                        <div class="priority-name">Analizando patrones de vida...</div>
+                        <div class="priority-meta">Esperando datos de Notion</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="quote" id="quote">
+            "El problema no es que la vida sea corta, sino que la desperdiciamos."
+        </div>
+    </div>
+
+    <script>
+        const BIRTH_DATE = new Date('1995-01-01'); // Ajusta esto o hazlo dinámico
+        const LIFE_EXPECTANCY = 80; // Años esperados
+        const WEEKS_IN_YEAR = 52;
+        const TOTAL_WEEKS = LIFE_EXPECTANCY * WEEKS_IN_YEAR;
+        
+        async function loadData() {
+            try {
+                const response = await fetch('datos.json');
+                const data = await response.json();
+                
+                const mementoData = data.memento || [];
+                const tasksData = data.tareas || [];
+                const habitsData = data.habitos || [];
+                
+                renderLifeGrid();
+                renderStats(mementoData);
+                generatePriorities(mementoData, tasksData, habitsData);
+                selectQuote(mementoData);
+            } catch (error) {
+                console.error('Error:', error);
+                renderLifeGrid(); // Renderizar de todos modos con datos default
+            }
+        }
+        
+        function renderLifeGrid() {
+            const now = new Date();
+            const weeksLived = Math.floor((now - BIRTH_DATE) / (1000 * 60 * 60 * 24 * 7));
+            const currentWeek = weeksLived;
+            
+            const grid = document.getElementById('lifeGrid');
+            grid.innerHTML = '';
+            
+            // Generar 52 semanas x 80 años (grid vertical por años)
+            for (let year = 0; year < LIFE_EXPECTANCY; year++) {
+                for (let week = 0; week < WEEKS_IN_YEAR; week++) {
+                    const weekNum = year * WEEKS_IN_YEAR + week;
+                    const div = document.createElement('div');
+                    div.className = 'week';
+                    div.title = `Año ${year + 1}, Semana ${week + 1} (${Math.floor(weekNum / 52) + 1995})`;
+                    
+                    if (weekNum < weeksLived) {
+                        div.classList.add('past');
+                    } else if (weekNum === weeksLived) {
+                        div.classList.add('current');
+                        div.classList.add('pulse');
+                    } else {
+                        div.classList.add('future');
+                    }
+                    
+                    // Hitos cada 10 años
+                    if (year % 10 === 0 && week === 0) {
+                        div.classList.add('milestone');
+                        div.title += ' - DECADA';
+                    }
+                    
+                    grid.appendChild(div);
+                }
+            }
+        }
+        
+        function renderStats(mementoData) {
+            const now = new Date();
+            const weeksLived = Math.floor((now - BIRTH_DATE) / (1000 * 60 * 60 * 24 * 7));
+            const weeksLeft = TOTAL_WEEKS - weeksLived;
+            const yearsLeft = (weeksLeft / 52).toFixed(1);
+            const percentLived = ((weeksLived / TOTAL_WEEKS) * 100).toFixed(1);
+            
+            // Calcular días productivos restantes (asumiendo 45 años productivos restantes, 250 días laborables/año)
+            const productiveYearsLeft = Math.max(0, 65 - (weeksLived / 52));
+            const productiveDaysLeft = Math.floor(productiveYearsLeft * 250);
+            
+            // Procesar datos de Memento si existen
+            const goals = mementoData.filter(d => 
+                d.properties?.Tipo?.select?.name === 'Meta' ||
+                d.properties?.Estado?.select?.name === 'Activo'
+            ).length;
+            
+            const statsHTML = `
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-label">Semanas Vividas</span>
+                        <span class="stat-icon">📅</span>
