@@ -3,227 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPH 2026 - Gestión de Tareas</title>
+    <title>JAPH 2026 - Tareas</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
-            --text-primary: #2c2c2c;
-            --text-secondary: #6b6b6b;
-            --accent: #3b82f6;
-            --accent-light: #60a5fa;
-            --border: #e0e0e0;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --bg-primary: #ffffff; --bg-secondary: #f5f5f5;
+            --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
+            --accent: #3b82f6; --accent-light: #60a5fa;
+            --border: #e0e0e0; --success: #10b981; --danger: #ef4444;
             --card-bg: #ffffff;
         }
-        
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #191919;
-                --bg-secondary: #252525;
-                --text-primary: #ffffff;
-                --text-secondary: #a0a0a0;
-                --accent: #60a5fa;
-                --accent-light: #93c5fd;
-                --border: #2f2f2f;
-                --success: #34d399;
-                --warning: #fbbf24;
-                --danger: #f87171;
+                --bg-primary: #191919; --bg-secondary: #252525;
+                --text-primary: #ffffff; --text-secondary: #a0a0a0;
+                --accent: #60a5fa; --accent-light: #93c5fd;
+                --border: #2f2f2f; --success: #34d399; --danger: #f87171;
                 --card-bg: #202020;
             }
         }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            padding: 20px;
-        }
-        
-        .container { max-width: 1200px; margin: 0 auto; }
-        
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
         .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        
-        .stat-card:hover { transform: translateY(-2px); }
-        
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 0.25rem;
-        }
-        
-        .stat-label { font-size: 0.85rem; color: var(--text-secondary); }
-        
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .chart-container {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        
-        .chart-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .chart-wrapper { position: relative; height: 300px; }
-        
-        .priority-matrix {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .matrix-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .quadrant {
-            padding: 1rem;
-            border-radius: 8px;
-            min-height: 150px;
-        }
-        
-        .q1 { background: rgba(239, 68, 68, 0.1); border: 2px solid var(--danger); }
-        .q2 { background: rgba(245, 158, 11, 0.1); border: 2px solid var(--warning); }
-        .q3 { background: rgba(59, 130, 246, 0.1); border: 2px solid var(--accent); }
-        .q4 { background: rgba(16, 185, 129, 0.1); border: 2px solid var(--success); }
-        
-        .quadrant h4 { font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
-        .q1 h4 { color: var(--danger); }
-        .q2 h4 { color: var(--warning); }
-        .q3 h4 { color: var(--accent); }
-        .q4 h4 { color: var(--success); }
-        
-        .task-list { list-style: none; font-size: 0.85rem; }
-        .task-list li { padding: 0.25rem 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
-        
-        .insights {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        
-        .insight-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent);
-        }
-        
+        .progress-ring { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; text-align: center; margin-bottom: 2rem; }
+        .ring-container { position: relative; width: 200px; height: 200px; margin: 0 auto; }
+        .ring-value { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; font-weight: 700; color: var(--accent); }
+        .ring-label { margin-top: 1rem; font-size: 1rem; color: var(--text-secondary); }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; text-align: center; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; }
+        .stat-value.pending { color: var(--danger); }
+        .stat-value.done { color: var(--success); }
+        .stat-label { font-size: 0.75rem; color: var(--text-secondary); }
+        .task-list { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .list-title { font-weight: 600; margin-bottom: 1rem; }
+        .task-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        .task-item:last-child { border-bottom: none; }
+        .task-checkbox { width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .task-checkbox.done { background: var(--success); color: white; }
+        .task-checkbox.pending { border: 2px solid var(--danger); }
+        .task-name { flex: 1; }
+        .task-name.done { text-decoration: line-through; color: var(--text-secondary); }
         .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>✅ Sistema de Gestión de Tareas</h1>
+        <h1>✅ Tareas</h1>
         <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
         
-        <div class="stats-grid" id="statsGrid">
-            <div class="loading">Cargando tareas...</div>
+        <div class="progress-ring">
+            <div class="ring-container">
+                <canvas id="progressChart" width="200" height="200"></canvas>
+                <div class="ring-value" id="progressValue">0%</div>
+            </div>
+            <div class="ring-label">Completado</div>
         </div>
         
-        <div class="charts-grid">
-            <div class="chart-container">
-                <div class="chart-title">Estado de Tareas</div>
-                <div class="chart-wrapper">
-                    <canvas id="statusChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="chart-container">
-                <div class="chart-title">Distribución por Prioridad</div>
-                <div class="chart-wrapper">
-                    <canvas id="priorityChart"></canvas>
-                </div>
-            </div>
-        </div>
+        <div class="stats-grid" id="statsGrid"><div class="loading">...</div></div>
         
-        <div class="chart-container" style="margin-bottom: 1.5rem;">
-            <div class="chart-title">Tareas Completadas por Día (Últimos 14 días)</div>
-            <div class="chart-wrapper" style="height: 250px;">
-                <canvas id="completionChart"></canvas>
-            </div>
-        </div>
-        
-        <div class="priority-matrix">
-            <div class="chart-title">📊 Matriz de Eisenhower (Urgencia vs Importancia)</div>
-            <div class="matrix-grid" id="matrixGrid">
-                <div class="quadrant q1">
-                    <h4>🔥 Hacer (Urgente + Importante)</h4>
-                    <ul class="task-list" id="q1List"><li>Cargando...</li></ul>
-                </div>
-                <div class="quadrant q2">
-                    <h4>📅 Programar (Importante)</h4>
-                    <ul class="task-list" id="q2List"><li>Cargando...</li></ul>
-                </div>
-                <div class="quadrant q3">
-                    <h4>⚡ Delegar (Urgente)</h4>
-                    <ul class="task-list" id="q3List"><li>Cargando...</li></ul>
-                </div>
-                <div class="quadrant q4">
-                    <h4>🗑️ Eliminar (Ninguna)</h4>
-                    <ul class="task-list" id="q4List"><li>Cargando...</li></ul>
-                </div>
-            </div>
-        </div>
-        
-        <div class="insights">
-            <div class="chart-title">💡 Análisis de Productividad</div>
-            <div id="insightsList"></div>
+        <div class="task-list">
+            <div class="list-title">Lista de Tareas</div>
+            <div id="taskList"></div>
         </div>
     </div>
 
@@ -232,225 +75,84 @@
             try {
                 const response = await fetch('datos.json');
                 const data = await response.json();
+                document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
                 
-                document.getElementById('lastUpdate').textContent = 
-                    data.metadata?.ultima_actualizacion || 'Desconocida';
-                
+                // NOMBRES EXACTOS: Tarea (title), Hecho (checkbox)
                 const tareas = data.datos?.tareas || data.tareas || [];
                 processTasks(tareas);
             } catch (error) {
-                document.getElementById('statsGrid').innerHTML = 
-                    `<div style="color: var(--danger);">Error: ${error.message}</div>`;
+                document.getElementById('statsGrid').innerHTML = `<div style="color: var(--danger);">Error: ${error.message}</div>`;
             }
         }
-        
+
         function processTasks(tareas) {
             const processed = tareas.map(t => {
                 const props = t.properties || {};
                 return {
-                    nombre: props.Nombre?.title?.[0]?.plain_text || 'Sin nombre',
-                    estado: props.Estado?.select?.name || props.Estado?.status?.name || 'Sin estado',
-                    prioridad: props.Prioridad?.select?.name || 'Media',
-                    urgencia: props.Urgencia?.select?.name || 'Media',
-                    fecha: props.Fecha?.date?.start || t.created_time,
-                    completada: ['Completado', 'Done', 'Finalizado'].includes(
-                        props.Estado?.select?.name || props.Estado?.status?.name
-                    )
+                    // NOMBRES EXACTOS:
+                    nombre: props.Tarea?.title?.[0]?.plain_text || 'Sin nombre',
+                    hecho: props.Hecho?.checkbox === true
                 };
             });
-            
-            renderStats(processed);
-            renderCharts(processed);
-            renderMatrix(processed);
-            generateInsights(processed);
-        }
-        
-        function renderStats(tareas) {
-            const pendientes = tareas.filter(t => !t.completada).length;
-            const completadas = tareas.filter(t => t.completadas).length;
-            const altaPrioridad = tareas.filter(t => 
-                !t.completada && t.prioridad === 'Alta'
-            ).length;
-            const vencidas = tareas.filter(t => {
-                if (t.completada) return false;
-                const fecha = new Date(t.fecha);
-                return fecha < new Date() && fecha < new Date(Date.now() - 86400000);
-            }).length;
+
+            const total = processed.length;
+            const hechas = processed.filter(t => t.hecho).length;
+            const pendientes = total - hechas;
+            const progreso = total > 0 ? (hechas / total) * 100 : 0;
+
+            document.getElementById('progressValue').textContent = progreso.toFixed(0) + '%';
             
             document.getElementById('statsGrid').innerHTML = `
                 <div class="stat-card">
-                    <div class="stat-value">${pendientes}</div>
+                    <div class="stat-value">${total}</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value pending">${pendientes}</div>
                     <div class="stat-label">Pendientes</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" style="color: var(--success);">${completadas}</div>
+                    <div class="stat-value done">${hechas}</div>
                     <div class="stat-label">Completadas</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="color: var(--danger);">${altaPrioridad}</div>
-                    <div class="stat-label">Alta Prioridad</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="color: var(--warning);">${vencidas}</div>
-                    <div class="stat-label">Vencidas</div>
-                </div>
             `;
+
+            renderRing(progreso);
+            renderList(processed);
         }
-        
-        function renderCharts(tareas) {
+
+        function renderRing(progreso) {
+            const ctx = document.getElementById('progressChart').getContext('2d');
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const textColor = isDark ? '#ffffff' : '#2c2c2c';
-            const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
             
-            // Gráfico de estados
-            const estados = {};
-            tareas.forEach(t => {
-                estados[t.estado] = (estados[t.estado] || 0) + 1;
-            });
-            
-            new Chart(document.getElementById('statusChart'), {
+            new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: Object.keys(estados),
+                    labels: ['Completado', 'Pendiente'],
                     datasets: [{
-                        data: Object.values(estados),
-                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
+                        data: [progreso, 100 - progreso],
+                        backgroundColor: ['#3b82f6', isDark ? '#2f2f2f' : '#e0e0e0'],
+                        borderWidth: 0,
+                        cutout: '85%'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: textColor } }
-                    }
-                }
-            });
-            
-            // Gráfico de prioridades
-            const prioridades = { Alta: 0, Media: 0, Baja: 0 };
-            tareas.filter(t => !t.completada).forEach(t => {
-                if (prioridades[t.prioridad] !== undefined) {
-                    prioridades[t.prioridad]++;
-                }
-            });
-            
-            new Chart(document.getElementById('priorityChart'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(prioridades),
-                    datasets: [{
-                        label: 'Tareas pendientes',
-                        data: Object.values(prioridades),
-                        backgroundColor: ['#ef4444', '#f59e0b', '#10b981']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { color: gridColor }, ticks: { color: textColor } },
-                        x: { grid: { display: false }, ticks: { color: textColor } }
-                    }
-                }
-            });
-            
-            // Gráfico de completadas por día
-            const ultimos14 = {};
-            for (let i = 13; i >= 0; i--) {
-                const fecha = new Date(Date.now() - i * 86400000);
-                const key = fecha.toLocaleDateString('es', { weekday: 'short' });
-                ultimos14[key] = 0;
-            }
-            
-            tareas.filter(t => t.completada).forEach(t => {
-                const fecha = new Date(t.fecha);
-                const key = fecha.toLocaleDateString('es', { weekday: 'short' });
-                if (ultimos14.hasOwnProperty(key)) {
-                    ultimos14[key]++;
-                }
-            });
-            
-            new Chart(document.getElementById('completionChart'), {
-                type: 'line',
-                data: {
-                    labels: Object.keys(ultimos14),
-                    datasets: [{
-                        label: 'Completadas',
-                        data: Object.values(ultimos14),
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: textColor } } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor } },
-                        x: { grid: { color: gridColor }, ticks: { color: textColor } }
-                    }
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } }
                 }
             });
         }
-        
-        function renderMatrix(tareas) {
-            const q1 = tareas.filter(t => !t.completada && t.urgencia === 'Alta' && t.prioridad === 'Alta');
-            const q2 = tareas.filter(t => !t.completada && t.urgencia !== 'Alta' && t.prioridad === 'Alta');
-            const q3 = tareas.filter(t => !t.completada && t.urgencia === 'Alta' && t.prioridad !== 'Alta');
-            const q4 = tareas.filter(t => !t.completada && t.urgencia !== 'Alta' && t.prioridad !== 'Alta');
-            
-            const renderList = (tasks, elementId) => {
-                const list = document.getElementById(elementId);
-                if (tasks.length === 0) {
-                    list.innerHTML = '<li style="color: var(--text-secondary); font-style: italic;">Sin tareas</li>';
-                    return;
-                }
-                list.innerHTML = tasks.slice(0, 5).map(t => 
-                    `<li>${t.nombre.substring(0, 30)}${t.nombre.length > 30 ? '...' : ''}</li>`
-                ).join('') + (tasks.length > 5 ? `<li style="color: var(--text-secondary);">... y ${tasks.length - 5} más</li>` : '');
-            };
-            
-            renderList(q1, 'q1List');
-            renderList(q2, 'q2List');
-            renderList(q3, 'q3List');
-            renderList(q4, 'q4List');
+
+        function renderList(tareas) {
+            document.getElementById('taskList').innerHTML = tareas.map(t => `
+                <div class="task-item">
+                    <div class="task-checkbox ${t.hecho ? 'done' : 'pending'}">${t.hecho ? '✓' : ''}</div>
+                    <div class="task-name ${t.hecho ? 'done' : ''}">${t.nombre}</div>
+                </div>
+            `).join('');
         }
-        
-        function generateInsights(tareas) {
-            const pendientes = tareas.filter(t => !t.completada);
-            const completadas = tareas.filter(t => t.completada);
-            const ratio = completadas.length / (tareas.length || 1);
-            
-            const insights = [];
-            
-            if (ratio < 0.3) {
-                insights.push('📉 <strong>Baja tasa de finalización:</strong> Tienes muchas tareas acumuladas. Considera revisar prioridades o delegar.');
-            } else if (ratio > 0.8) {
-                insights.push('🌟 <strong>Excelente productividad:</strong> Estás completando el ' + Math.round(ratio * 100) + '% de tus tareas.');
-            }
-            
-            const altaPrioridadPendiente = pendientes.filter(t => t.prioridad === 'Alta').length;
-            if (altaPrioridadPendiente > 3) {
-                insights.push('⚠️ <strong>Sobrecarga crítica:</strong> ' + altaPrioridadPendiente + ' tareas de alta prioridad pendientes. Enfócate solo en las 3 más importantes hoy.');
-            }
-            
-            const sinFecha = pendientes.filter(t => !t.fecha || t.fecha === '').length;
-            if (sinFecha > 5) {
-                insights.push('📅 <strong>Tareas sin fecha:</strong> ' + sinFecha + ' tareas sin fecha límite. Asigna deadlines para mejor seguimiento.');
-            }
-            
-            if (insights.length === 0) {
-                insights.push('✅ <strong>Sistema estable:</strong> Tu flujo de trabajo está balanceado. Mantén el ritmo.');
-            }
-            
-            document.getElementById('insightsList').innerHTML = insights.map(i => 
-                `<div class="insight-item">${i}</div>`
-            ).join('');
-        }
-        
+
         loadData();
     </script>
 </body>
