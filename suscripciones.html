@@ -25,7 +25,7 @@
         .container { max-width: 1200px; margin: 0 auto; }
         h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
         .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
-        .burn-rate { background: linear-gradient(135deg, var(--accent), var(--accent-light)); border-radius: 16px; padding: 2rem; color: white; text-align: center; margin-bottom: 2rem; }
+        .burn-card { background: linear-gradient(135deg, var(--accent), var(--accent-light)); border-radius: 16px; padding: 2rem; color: white; text-align: center; margin-bottom: 2rem; }
         .burn-label { font-size: 0.9rem; opacity: 0.9; }
         .burn-value { font-size: 3rem; font-weight: 700; margin: 0.5rem 0; }
         .burn-sub { font-size: 0.85rem; opacity: 0.8; }
@@ -36,10 +36,15 @@
         .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
         .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
         .chart-wrapper { position: relative; height: 300px; }
-        .sub-list { margin-top: 2rem; }
-        .sub-item { display: flex; justify-content: space-between; padding: 1rem; border-bottom: 1px solid var(--border); }
+        .sub-list { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .list-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+        .sub-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        .sub-item:last-child { border-bottom: none; }
+        .sub-info { flex: 1; }
         .sub-name { font-weight: 600; }
-        .sub-price { font-weight: 700; color: var(--accent); }
+        .sub-meta { font-size: 0.75rem; color: var(--text-secondary); }
+        .sub-price { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
+        .sub-status { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 10px; background: rgba(16, 185, 129, 0.2); color: #10b981; margin-left: 0.5rem; }
         .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
@@ -48,21 +53,21 @@
         <h1>🔄 Suscripciones</h1>
         <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
         
-        <div class="burn-rate">
-            <div class="burn-label">Burn Rate Mensual (Gastos Fijos)</div>
+        <div class="burn-card">
+            <div class="burn-label">Burn Rate Mensual</div>
             <div class="burn-value" id="burnRate">$0</div>
-            <div class="burn-sub">Dinero comprometido mensualmente</div>
+            <div class="burn-sub">Dinero comprometido en suscripciones</div>
         </div>
         
         <div class="stats-grid" id="statsGrid"><div class="loading">Calculando...</div></div>
         
         <div class="chart-container">
-            <div class="chart-title">Distribución de Suscripciones</div>
-            <div class="chart-wrapper"><canvas id="subChart"></canvas></div>
+            <div class="chart-title">Costo por Servicio</div>
+            <div class="chart-wrapper"><canvas id="costChart"></canvas></div>
         </div>
         
-        <div class="chart-container sub-list">
-            <div class="chart-title">Listado de Servicios</div>
+        <div class="sub-list">
+            <div class="list-title">Tus Suscripciones (12 activas)</div>
             <div id="subList"></div>
         </div>
     </div>
@@ -74,28 +79,48 @@
                 const data = await response.json();
                 document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
                 
-                // NOMBRES EXACTOS: Servicio (title), Precio (number)
-                const subs = data.datos?.suscripciones || data.suscripciones || [];
-                processSubscriptions(subs);
+                const subs = data.datos?.suscripciones || [];
+                processSubs(subs);
             } catch (error) {
                 document.getElementById('statsGrid').innerHTML = `<div style="color: var(--accent);">Error: ${error.message}</div>`;
             }
         }
 
-        function processSubscriptions(subs) {
+        function processSubs(subs) {
+            // ESTRUCTURA REAL:
+            // • Notas (rich_text)
+            // • Precio (number) → 40000
+            // • Etiqueta Costo Mensual (rich_text)
+            // • Etiqueta Fecha Renocación (rich_text)
+            // • Prox Renovación (formula)
+            // • Días restantes (formula) → "0 days left"
+            // • Costo Anual (formula) → 480000
+            // • Costo Mensual (formula) → 40000
+            // • Categoría (relation)
+            // • Este Mes? (formula)
+            // • Status (select) → "Activo"
+            // • Cuenta (select) → "Mensual"
+            // • Fecha Renovación (date) → null
+            // • Servicio (title) → "Barbería"
+            
             const processed = subs.map(s => {
-                const props = s.properties || {};
+                const p = s.properties || {};
                 return {
-                    // NOMBRES EXACTOS:
-                    servicio: props.Servicio?.title?.[0]?.plain_text || 'Sin nombre',
-                    precio: props.Precio?.number || 0
+                    servicio: p.Servicio?.title?.[0]?.plain_text || 'Sin nombre',
+                    precio: p.Precio?.number || 0,
+                    costoMensual: p['Costo Mensual']?.formula?.number || p.Precio?.number || 0,
+                    costoAnual: p['Costo Anual']?.formula?.number || 0,
+                    status: p.Status?.select?.name || 'Desconocido',
+                    cuenta: p.Cuenta?.select?.name || 'Mensual',
+                    diasRestantes: p['Días restantes']?.formula?.string || '',
+                    proxRenovacion: p['Prox Renovación']?.formula?.date?.start || null
                 };
-            });
+            }).filter(s => s.status === 'Activo');
 
-            const totalMensual = processed.reduce((s, sub) => s + sub.precio, 0);
-            const totalAnual = totalMensual * 12;
+            const mensualTotal = processed.reduce((s, sub) => s + sub.costoMensual, 0);
+            const anualTotal = processed.reduce((s, sub) => s + sub.costoAnual, 0);
 
-            document.getElementById('burnRate').textContent = '$' + (totalMensual / 1000).toFixed(0) + 'K';
+            document.getElementById('burnRate').textContent = '$' + (mensualTotal / 1000).toFixed(0) + 'K';
             
             document.getElementById('statsGrid').innerHTML = `
                 <div class="stat-card">
@@ -103,12 +128,12 @@
                     <div class="stat-label">Servicios Activos</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">$${(totalAnual / 1000000).toFixed(2)}M</div>
+                    <div class="stat-value">$${(anualTotal / 1000000).toFixed(2)}M</div>
                     <div class="stat-label">Costo Anual</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">$${Math.round(totalMensual / processed.length / 1000)}K</div>
-                    <div class="stat-label">Promedio/Servicio</div>
+                    <div class="stat-value">$${Math.round(mensualTotal / processed.length / 1000)}K</div>
+                    <div class="stat-label">Promedio/Mes</div>
                 </div>
             `;
 
@@ -120,13 +145,13 @@
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const textColor = isDark ? '#ffffff' : '#2c2c2c';
 
-            new Chart(document.getElementById('subChart'), {
+            new Chart(document.getElementById('costChart'), {
                 type: 'bar',
                 data: {
                     labels: subs.map(s => s.servicio),
                     datasets: [{
-                        label: 'Precio mensual ($)',
-                        data: subs.map(s => s.precio),
+                        label: 'Costo mensual ($)',
+                        data: subs.map(s => s.costoMensual),
                         backgroundColor: '#ec4899',
                         borderRadius: 6
                     }]
@@ -136,8 +161,14 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: isDark ? '#2f2f2f' : '#e0e0e0' }, ticks: { color: textColor, callback: v => '$' + v } },
-                        x: { grid: { display: false }, ticks: { color: textColor } }
+                        y: { 
+                            grid: { color: isDark ? '#2f2f2f' : '#e0e0e0' }, 
+                            ticks: { color: textColor, callback: v => '$' + (v / 1000) + 'K' } 
+                        },
+                        x: { 
+                            grid: { display: false }, 
+                            ticks: { color: textColor, font: { size: 10 } } 
+                        }
                     }
                 }
             });
@@ -146,8 +177,14 @@
         function renderList(subs) {
             document.getElementById('subList').innerHTML = subs.sort((a, b) => b.precio - a.precio).map(s => `
                 <div class="sub-item">
-                    <div class="sub-name">${s.servicio}</div>
-                    <div class="sub-price">$${s.precio.toLocaleString()}/mes</div>
+                    <div class="sub-info">
+                        <div class="sub-name">
+                            ${s.servicio}
+                            <span class="sub-status">${s.status}</span>
+                        </div>
+                        <div class="sub-meta">${s.cuenta} • ${s.diasRestantes}</div>
+                    </div>
+                    <div class="sub-price">$${s.costoMensual.toLocaleString()}</div>
                 </div>
             `).join('');
         }
