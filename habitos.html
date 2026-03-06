@@ -3,187 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPH 2026 - Hábitos</title>
+    <title>JAPH 2026 - Hábitos Inteligentes</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-primary: #ffffff; --bg-secondary: #f5f5f5;
-            --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
-            --accent: #06b6d4; --accent-light: #22d3ee;
-            --border: #e0e0e0; --success: #10b981;
-            --card-bg: #ffffff';
+            --bg-primary: #ffffff; --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
+            --accent: #06b6d4; --accent-soft: rgba(6, 182, 212, 0.15);
+            --border: #e0e0e0; --card-bg: #ffffff; --success: #10b981;
         }
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #191919; --bg-secondary: '#252525';
-                --text-primary: #ffffff; --text-secondary: #a0a0a0;
-                --accent: #22d3ee; --accent-light: #67e8f9;
-                --border: #2f2f2f; --success: #34d399;
-                --card-bg: #202020;
+                --bg-primary: #191919; --text-primary: #ffffff; --text-secondary: #a0a0a0;
+                --accent: #22d3ee; --accent-soft: rgba(34, 211, 238, 0.15);
+                --border: #2f2f2f; --card-bg: #202020;
             }
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
-        .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
-        .score-card { background: linear-gradient(135deg, var(--accent), var(--accent-light)); border-radius: 16px; padding: 2rem; color: white; text-align: center; margin-bottom: 2rem; }
-        .score-value { font-size: 4rem; font-weight: 700; }
-        .score-label { font-size: 1rem; opacity: 0.9; margin-top: 0.5rem; }
-        .radar-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-        .radar-title { text-align: center; font-weight: 600; margin-bottom: 1.5rem; }
-        .radar-wrapper { position: relative; height: 400px; }
-        .habits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .habit-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 0.75rem; }
-        .habit-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
-        .habit-info { flex: 1; }
-        .habit-name { font-weight: 600; font-size: 0.85rem; }
-        .habit-status { font-size: 0.75rem; color: var(--text-secondary); }
-        .habit-status.done { color: var(--success); }
-        .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        h1 { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
+        
+        .period-selector { display: flex; background: var(--border); padding: 3px; border-radius: 10px; gap: 2px; }
+        .period-btn { 
+            border: none; background: transparent; color: var(--text-secondary); 
+            padding: 6px 14px; border-radius: 8px; cursor: pointer; 
+            font-weight: 600; font-size: 0.8rem; transition: all 0.3s; 
+        }
+        .period-btn.active { background: var(--card-bg); color: var(--accent); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        /* Dashboard Grid */
+        .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; }
+        
+        /* Stats */
+        .score-box { text-align: center; margin-bottom: 1.5rem; }
+        .score-value { font-size: 3.5rem; font-weight: 900; color: var(--accent); line-height: 1; }
+        .score-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; }
+
+        /* Radar Chart Wrapper */
+        .radar-wrapper { position: relative; height: 320px; width: 100%; }
+
+        /* Insights */
+        .insight-item { 
+            display: flex; gap: 10px; padding: 12px; border-radius: 12px; 
+            background: var(--accent-soft); margin-bottom: 10px; font-size: 0.85rem;
+            border-left: 4px solid var(--accent);
+        }
+        .insight-icon { font-size: 1.2rem; }
+
+        /* Habit Mini Grid */
+        .habit-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 1rem; }
+        .mini-tag { 
+            font-size: 0.7rem; padding: 5px; border-radius: 6px; 
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            display: flex; align-items: center; gap: 5px;
+        }
+        .mini-tag.check { border-color: var(--success); color: var(--success); }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>🎯 Hábitos Diarios</h1>
-        <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
-        
-        <div class="score-card">
-            <div class="score-value" id="completionRate">0%</div>
-            <div class="score-label">Cumplimiento Hoy</div>
+        <div class="header">
+            <h1>🎯 Habit Intelligence</h1>
+            <div class="period-selector">
+                <button class="period-btn active" onclick="changePeriod('day')">Hoy</button>
+                <button class="period-btn" onclick="changePeriod('week')">Semana</button>
+                <button class="period-btn" onclick="changePeriod('month')">Mes</button>
+            </div>
         </div>
-        
-        <div class="radar-container">
-            <div class="radar-title">🕸️ RADAR - Hábitos del Día</div>
-            <div class="radar-wrapper"><canvas id="radarChart"></canvas></div>
+
+        <div class="grid">
+            <!-- Columna Izquierda: Radar -->
+            <div class="card">
+                <div class="score-box">
+                    <div class="score-value" id="mainScore">0%</div>
+                    <div class="score-label" id="scoreLabel">Cumplimiento Hoy</div>
+                </div>
+                <div class="radar-wrapper">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Insights & Lista -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div class="card">
+                    <h3 style="font-size: 0.9rem; margin-bottom: 1rem;">💡 Sugerencias IA</h3>
+                    <div id="aiInsights"></div>
+                </div>
+
+                <div class="card">
+                    <h3 style="font-size: 0.9rem; margin-bottom: 1rem;">📋 Desglose</h3>
+                    <div id="habitList" class="habit-mini-grid"></div>
+                </div>
+            </div>
         </div>
-        
-        <div class="habits-grid" id="habitsGrid"><div class="loading">Cargando...</div></div>
     </div>
 
     <script>
-        async function loadData() {
+        let habitData = [];
+        let chartInstance = null;
+        let currentPeriod = 'day';
+
+        const habitMeta = {
+            'Meditacion': '🧘', 'Leer': '📚', 'No Azúcar': '🍬', 
+            'Dormí 7-8h': '😴', 'Ejercicio': '💪', 'Agradecer': '🙏', 
+            'Agua 2LT': '💧', 'Ducha Fría ': '🚿'
+        };
+
+        async function init() {
             try {
-                const response = await fetch('datos.json');
-                const data = await response.json();
-                document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
-                
-                const habitos = data.datos?.habitos || [];
-                processHabitos(habitos);
-            } catch (error) {
-                document.getElementById('habitsGrid').innerHTML = `<div style="color: var(--accent);">Error: ${error.message}</div>`;
-            }
+                const res = await fetch('datos.json');
+                const json = await res.json();
+                habitData = json.habitos || [];
+                changePeriod('day');
+            } catch (e) { console.error("Error cargando datos", e); }
         }
 
-        function processHabitos(habitos) {
-            // ESTRUCTURA REAL (checkboxes):
-            // • Meditacion (checkbox) → true
-            // • Leer (checkbox) → true
-            // • No Azúcar (checkbox) → true
-            // • Fecha (date) → "2026-03-03"
-            // • Dormí 7-8h (checkbox) → true
-            // • Ejercicio (checkbox) → true
-            // • Agradecer (checkbox) → true
-            // • Agua 2LT (checkbox) → true
-            // • Ducha Fría (checkbox) → false
-            // • Diario (title) → "Prueba"
-            
-            if (habitos.length === 0) {
-                document.getElementById('habitsGrid').innerHTML = '<div class="loading">No hay datos de hábitos</div>';
-                return;
-            }
-
-            // Tomar el registro más reciente
-            const ultimo = habitos[habitos.length - 1];
-            const p = ultimo.properties || {};
-
-            // Mapeo de hábitos con iconos
-            const habitosMap = [
-                { key: 'Meditacion', nombre: 'Meditación', icono: '🧘' },
-                { key: 'Leer', nombre: 'Leer', icono: '📚' },
-                { key: 'No Azúcar', nombre: 'No Azúcar', icono: '🚫🍬' },
-                { key: 'Dormí 7-8h', nombre: 'Dormí 7-8h', icono: '😴' },
-                { key: 'Ejercicio', nombre: 'Ejercicio', icono: '💪' },
-                { key: 'Agradecer', nombre: 'Agradecer', icono: '🙏' },
-                { key: 'Agua 2LT', nombre: 'Agua 2LT', icono: '💧' },
-                { key: 'Ducha Fría', nombre: 'Ducha Fría', icono: '🚿' }
-            ];
-
-            const datosHabitos = habitosMap.map(h => ({
-                ...h,
-                hecho: p[h.key]?.checkbox === true
-            }));
-
-            const completados = datosHabitos.filter(h => h.hecho).length;
-            const tasa = (completados / datosHabitos.length) * 100;
-
-            document.getElementById('completionRate').textContent = tasa.toFixed(0) + '%';
-
-            renderRadar(datosHabitos);
-            renderHabits(datosHabitos);
+        function changePeriod(p) {
+            currentPeriod = p;
+            document.querySelectorAll('.period-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('onclick').includes(p));
+            });
+            processAndRender();
         }
 
-        function renderRadar(habitos) {
+        function processAndRender() {
+            const keys = Object.keys(habitMeta);
+            let filtered = [];
+            const now = new Date();
+
+            if (currentPeriod === 'day') {
+                filtered = [habitData[habitData.length - 1]];
+                document.getElementById('scoreLabel').innerText = "Cumplimiento Hoy";
+            } else if (currentPeriod === 'week') {
+                const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                filtered = habitData.filter(h => new Date(h.properties.Fecha?.date?.start) >= weekAgo);
+                document.getElementById('scoreLabel').innerText = "Promedio Semanal";
+            } else {
+                const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                filtered = habitData.filter(h => new Date(h.properties.Fecha?.date?.start) >= monthAgo);
+                document.getElementById('scoreLabel').innerText = "Promedio Mensual";
+            }
+
+            // Calcular porcentajes por cada hábito
+            const stats = keys.map(k => {
+                const done = filtered.filter(row => row.properties[k]?.checkbox).length;
+                return (done / filtered.length) * 100;
+            });
+
+            const avgScore = stats.reduce((a, b) => a + b, 0) / stats.length;
+            document.getElementById('mainScore').innerText = `${Math.round(avgScore)}%`;
+
+            renderRadar(keys, stats);
+            renderHabitList(keys, filtered[filtered.length - 1]);
+            generateInsights(keys, stats);
+        }
+
+        function renderRadar(labels, values) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const textColor = isDark ? '#ffffff' : '#2c2c2c';
-            const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+            
+            if (chartInstance) chartInstance.destroy();
 
-            // Para el radar, usamos 100% si está hecho, 0% si no
-            const dataValues = habitos.map(h => h.hecho ? 100 : 0);
-
-            new Chart(document.getElementById('radarChart'), {
+            chartInstance = new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: habitos.map(h => h.nombre),
+                    labels: labels,
                     datasets: [{
-                        label: 'Hoy',
-                        data: dataValues,
-                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
-                        borderColor: '#06b6d4',
-                        pointBackgroundColor: '#06b6d4',
-                        pointBorderColor: '#fff',
-                        borderWidth: 2
+                        label: 'Rendimiento',
+                        data: values,
+                        backgroundColor: 'rgba(34, 211, 238, 0.2)',
+                        borderColor: '#22d3ee',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#22d3ee',
+                        pointRadius: 4,
                     }, {
-                        label: 'Objetivo',
-                        data: habitos.map(() => 100),
-                        backgroundColor: 'transparent',
-                        borderColor: 'rgba(148, 163, 184, 0.5)',
+                        label: 'Target',
+                        data: labels.map(() => 100),
+                        borderColor: 'rgba(125, 125, 125, 0.2)',
                         borderDash: [5, 5],
-                        pointRadius: 0,
-                        borderWidth: 1
+                        borderWidth: 1,
+                        pointRadius: 0
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeOutElastic' // Animación de caída elástica (Drop)
+                    },
                     scales: {
                         r: {
-                            beginAtZero: true,
-                            max: 100,
-                            grid: { color: gridColor },
-                            angleLines: { color: gridColor },
-                            pointLabels: { color: textColor, font: { size: 11 } },
+                            min: 0, max: 100,
+                            grid: { color: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' },
+                            angleLines: { color: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' },
+                            pointLabels: { color: isDark ? '#a0a0a0' : '#6b6b6b', font: { size: 10, weight: '600' } },
                             ticks: { display: false }
                         }
-                    }
+                    },
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
-        function renderHabits(habitos) {
-            document.getElementById('habitsGrid').innerHTML = habitos.map(h => `
-                <div class="habit-card">
-                    <div class="habit-icon">${h.icono}</div>
-                    <div class="habit-info">
-                        <div class="habit-name">${h.nombre}</div>
-                        <div class="habit-status ${h.hecho ? 'done' : ''}">${h.hecho ? '✅ Completado' : '⬜ Pendiente'}</div>
+        function renderHabitList(keys, lastEntry) {
+            const grid = document.getElementById('habitList');
+            grid.innerHTML = keys.map(k => {
+                const isDone = lastEntry.properties[k]?.checkbox;
+                return `
+                    <div class="mini-tag ${isDone ? 'check' : ''}">
+                        <span>${habitMeta[k]}</span>
+                        <span>${k}</span>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        loadData();
+        function generateInsights(keys, stats) {
+            const container = document.getElementById('aiInsights');
+            const lowHabits = keys.filter((k, i) => stats[i] < 50);
+            const highHabits = keys.filter((k, i) => stats[i] >= 80);
+
+            let html = "";
+
+            if (lowHabits.length > 0) {
+                html += `
+                    <div class="insight-item">
+                        <span class="insight-icon">⚠️</span>
+                        <span>Foco en <b>${lowHabits[0]}</b>. Tu rendimiento es bajo (${Math.round(stats[keys.indexOf(lowHabits[0])])}%). Intenta hacerlo mañana a primera hora.</span>
+                    </div>
+                `;
+            }
+
+            if (highHabits.length > 0) {
+                html += `
+                    <div class="insight-item" style="border-left-color: var(--success); background: rgba(16, 185, 129, 0.1);">
+                        <span class="insight-icon">🔥</span>
+                        <span>Dominando <b>${highHabits[0]}</b>. Tienes una racha excelente. ¡No bajes la guardia!</span>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html || "<p style='font-size:0.8rem; color:var(--text-secondary)'>Sigue registrando para recibir consejos.</p>";
+        }
+
+        init();
     </script>
 </body>
 </html>
