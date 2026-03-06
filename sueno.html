@@ -3,58 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPH 2026 - Sleep Analytics Ecosystem</title>
+    <title>JAPH 2026 - Sleep Analytics Enterprise</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --bg: #ffffff; --text: #2c2c2c; --text-sec: #6b6b6b;
-            --accent: #8b5cf6; --border: #e0e0e0; --card: #ffffff;
-            --success: #10b981; --warning: #f59e0b;
+            --accent: #8b5cf6; --accent-soft: rgba(139, 92, 246, 0.1);
+            --border: #e0e0e0; --card: #ffffff; --success: #10b981;
+            --error: #ef4444; --warning: #f59e0b;
         }
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #0f0f0f; --text: #ffffff; --text-sec: #a0a0a0;
-                --accent: #a78bfa; --border: #262626; --card: #1a1a1a;
+                --bg: #0d0d0f; --text: #f3f4f6; --text-sec: #9ca3af;
+                --accent: #a78bfa; --border: #262626; --card: #16161a;
             }
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
-        body { background: var(--bg); color: var(--text); padding: 15px; }
-        .container { max-width: 1100px; margin: 0 auto; }
+        body { background: var(--bg); color: var(--text); padding: 20px; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; }
 
-        /* Header & Logic Selectors */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
-        h1 { font-size: 1.5rem; font-weight: 900; color: var(--accent); letter-spacing: -0.02em; }
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .title-area h1 { font-size: 1.6rem; font-weight: 900; color: var(--accent); letter-spacing: -0.03em; }
+        .title-area p { font-size: 0.8rem; color: var(--text-sec); }
+        
         .selector { display: flex; background: var(--border); padding: 4px; border-radius: 14px; gap: 4px; }
-        .btn { border: none; background: transparent; color: var(--text-sec); padding: 10px 18px; border-radius: 11px; cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .btn.active { background: var(--card); color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .btn { border: none; background: transparent; color: var(--text-sec); padding: 10px 18px; border-radius: 11px; cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: 0.4s; }
+        .btn.active { background: var(--card); color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
-        /* KPI Cards */
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center; transition: 0.3s; }
-        .stat-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-        .stat-val { font-size: 1.8rem; font-weight: 900; color: var(--accent); line-height: 1.2; }
-        .stat-lab { font-size: 0.7rem; color: var(--text-sec); text-transform: uppercase; font-weight: 700; margin-top: 6px; letter-spacing: 0.05em; }
+        /* KPIs */
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; position: relative; overflow: hidden; }
+        .stat-val { font-size: 2rem; font-weight: 900; color: var(--accent); }
+        .stat-lab { font-size: 0.7rem; color: var(--text-sec); text-transform: uppercase; font-weight: 800; margin-top: 5px; }
 
-        /* Professional Charts Grid */
-        .charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        /* Multi-Chart Grid */
+        .charts-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 25px; }
         @media (max-width: 850px) { .charts-grid { grid-template-columns: 1fr; } }
 
         .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; display: flex; flex-direction: column; }
-        .chart-title { font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 8px; }
-        .chart-wrapper { position: relative; height: 300px; width: 100%; flex-grow: 1; }
+        .chart-title { font-size: 0.85rem; font-weight: 800; margin-bottom: 20px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.05em; border-left: 3px solid var(--accent); padding-left: 10px; }
+        .chart-wrapper { position: relative; height: 300px; width: 100%; }
 
-        #loader { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; font-weight: 800; font-size: 1.2rem; gap: 20px; }
-        .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+        /* Smart Messages */
+        .insight-box { background: var(--accent-soft); border-left: 5px solid var(--accent); padding: 20px; border-radius: 16px; margin-bottom: 25px; font-size: 0.9rem; }
+        .insight-box b { color: var(--accent); font-weight: 800; }
+
+        #loader { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; font-weight: 800; }
+        .spinner { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 10px; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="loader"><div class="spinner"></div>Analizando Sueño Crítico...</div>
+    <div id="loader"><div class="spinner"></div>Sincronizando Mente y Cuerpo...</div>
 
     <div class="container">
         <div class="header">
-            <h1>🌙 JAPH Sleep Engine</h1>
+            <div class="title-area">
+                <h1>JAPH Sleep Intelligence</h1>
+                <p id="updateTime">Actualizando parámetros...</p>
+            </div>
             <div class="selector">
                 <button class="btn active" onclick="updateView('day')">DÍA</button>
                 <button class="btn" onclick="updateView('week')">SEMANA</button>
@@ -62,164 +71,156 @@
             </div>
         </div>
 
-        <div class="stats" id="kpiGrid"></div>
+        <div class="insight-box" id="smartInsight">
+            Analizando tendencias de descanso...
+        </div>
+
+        <div class="stats" id="statsGrid"></div>
 
         <div class="charts-grid">
-            <!-- 1. COMBO: Horas vs Calidad -->
+            <!-- Combo: Horas vs Calidad -->
             <div class="chart-card" style="grid-column: span 2;">
-                <div class="chart-title">📊 Combo Analysis: Cantidad vs Recuperación</div>
+                <div class="chart-title">Analítica Combo: Cantidad vs Eficiencia Recuperadora</div>
                 <div class="chart-wrapper"><canvas id="comboChart"></canvas></div>
             </div>
 
-            <!-- 2. RADAR STACKED: Rutina vs Entorno -->
+            <!-- Radar Stacked: Higiene del Sueño -->
             <div class="chart-card">
-                <div class="chart-title">🕸️ Radar Stacked: Higiene del Sueño</div>
+                <div class="chart-title">Radar Stacked: Rutina (Tú) vs Ambiente (Habitación)</div>
                 <div class="chart-wrapper"><canvas id="radarChart"></canvas></div>
             </div>
 
-            <!-- 3. POLAR AREA: Consistencia Semanal -->
+            <!-- Polar Area: Consistencia de Horarios -->
             <div class="chart-card">
-                <div class="chart-title">📍 Polar Area: Estabilidad de Horarios</div>
+                <div class="chart-title">Polar Area: Estabilidad en la última semana</div>
                 <div class="chart-wrapper"><canvas id="polarChart"></canvas></div>
             </div>
 
-            <!-- 4. DONA: Balance Emocional al Despertar -->
+            <!-- Doughnut: Psicología y Emociones -->
             <div class="chart-card">
-                <div class="chart-title">🥧 Pie Chart: Psicología del Sueño</div>
+                <div class="chart-title">Doughnut: Perfil Emocional al Despertar</div>
                 <div class="chart-wrapper"><canvas id="pieChart"></canvas></div>
             </div>
 
-            <!-- 5. RADAR SKIP: Puntos Críticos de la Rutina -->
+            <!-- Radar Skip: Esfuerzo de Higiene -->
             <div class="chart-card">
-                <div class="chart-title">📈 Radar Skip: Tendencia de Esfuerzo</div>
+                <div class="chart-title">Radar Skip: Puntos Críticos de Disciplina</div>
                 <div class="chart-wrapper"><canvas id="skipChart"></canvas></div>
             </div>
         </div>
     </div>
 
     <script>
-        let rawNoches = [], rawDetalles = [], rawResumenes = [];
-        let activeCharts = {};
+        let dbNoches = [], dbDetalles = [], dbResumenes = [];
+        let instances = {};
 
         async function init() {
             try {
-                const response = await fetch('datos.json');
-                const data = await response.json();
-                
-                // Extraemos datos reales de tus 3 tablas
-                rawNoches = data.sueno || []; 
-                rawDetalles = data.sueno_detalles || [];
-                rawResumenes = data.resumenes || [];
-
-                document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('loader').remove(), 500);
-                
-                updateView('week'); // Por defecto vista semanal
+                const res = await fetch('datos.json');
+                const data = await res.json();
+                dbNoches = data.sueno || [];
+                dbDetalles = data.sueno_detalles || [];
+                dbResumenes = data.resumenes || [];
+                document.getElementById('updateTime').innerText = `Última sincronización: ${data.metadata.actualizacion}`;
+                document.getElementById('loader').remove();
+                updateView('week');
             } catch (e) {
-                document.getElementById('loader').innerHTML = "❌ Error al conectar datos.json";
+                document.getElementById('loader').innerText = "❌ Error de conexión.";
             }
         }
 
-        // Animación de Caída Elástica (Drop) y Retraso (Delay)
-        const dropAnim = (delayBase = 0) => ({
-            duration: 2200,
-            easing: 'easeOutElastic',
-            delay: (context) => (context.dataIndex * 150) + delayBase
+        const dropAnim = (d = 0) => ({
+            duration: 2000, easing: 'easeOutElastic',
+            delay: (c) => (c.dataIndex * 150) + d
         });
 
         function updateView(period) {
-            // UI Button Logic
             document.querySelectorAll('.btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === period));
-
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const tCol = isDark ? '#a0a0a0' : '#6b6b6b';
 
-            // --- FILTRADO DE DATOS REALES ---
-            let dataScope = [];
-            const now = new Date();
-            if (period === 'day') dataScope = rawNoches.slice(-1);
-            else if (period === 'week') dataScope = rawNoches.slice(-7);
-            else dataScope = rawNoches.slice(-30);
+            // --- LÓGICA DE DATOS REALES ---
+            let scope = (period === 'day') ? dbNoches.slice(-1) : (period === 'week') ? dbNoches.slice(-7) : dbNoches.slice(-30);
+            
+            // 1. Cálculos de Inteligencia
+            const avgH = scope.reduce((a,b) => a + ((b.properties["Minutos totales de sueño"]?.formula?.number || 0)/60), 0) / scope.length || 0;
+            const avgQ = scope.reduce((a,b) => a + (b.properties["Calificación de calidad"]?.formula?.number || 0), 0) / scope.length || 0;
+            const sleepDebt = (scope.length * 7.5) - avgH * scope.length;
 
-            // Cálculos para KPI
-            const avgHours = dataScope.reduce((a, b) => a + ((b.properties["Minutos totales de sueño"]?.formula?.number || 0)/60), 0) / dataScope.length || 0;
-            const avgScore = dataScope.reduce((a, b) => a + (b.properties["Calificación de calidad"]?.formula?.number || 0), 0) / dataScope.length || 0;
+            renderKPIs(avgH, avgQ, sleepDebt);
+            generateInsight(avgH, avgQ, sleepDebt);
 
-            renderKPIs(avgHours, avgScore, period);
+            // 2. COMBO CHART
+            const labels = scope.map(r => r.properties.Name?.title[0]?.plain_text.slice(0,3) || 'Día');
+            const dataH = scope.map(r => (r.properties["Minutos totales de sueño"]?.formula?.number || 0) / 60);
+            const dataQ = scope.map(r => (r.properties["Calificación de calidad"]?.formula?.number || 0) * 10);
 
-            // 1. COMBO CHART (Bar + Line)
-            const labels = dataScope.map(r => r.properties.Name?.title[0]?.plain_text.slice(0,3) || 'Día');
-            const datasetHours = dataScope.map(r => (r.properties["Minutos totales de sueño"]?.formula?.number || 0) / 60);
-            const datasetQuality = dataScope.map(r => (r.properties["Calificación de calidad"]?.formula?.number || 0) * 10);
-
-            drawChart('comboChart', 'bar', {
-                labels: labels,
-                datasets: [
-                    { label: 'Horas Reales', data: datasetHours, backgroundColor: '#8b5cf699', borderRadius: 8, order: 2 },
-                    { label: 'Eficiencia %', data: datasetQuality, borderColor: '#10b981', type: 'line', tension: 0.4, order: 1, pointRadius: 5 }
+            draw('comboChart', 'bar', {
+                labels, datasets: [
+                    { label: 'Horas Reales', data: dataH, backgroundColor: '#8b5cf699', borderRadius: 8, order: 2 },
+                    { label: 'Calidad %', data: dataQ, borderColor: '#10b981', type: 'line', tension: 0.4, order: 1, pointRadius: 4 }
                 ]
-            }, { scales: { y: { beginAtZero: true, ticks: { color: tCol } }, x: { ticks: { color: tCol } } } });
+            }, { scales: { y: { ticks: { color: tCol } }, x: { ticks: { color: tCol } } } });
 
-            // 2. RADAR STACKED (Rutina vs Entorno)
-            // Aquí mapeamos los datos de "Sobre mi rutina nocturna" y "Sobre el entorno"
-            const lastData = dataScope[dataScope.length-1]?.properties || {};
-            drawChart('radarChart', 'radar', {
-                labels: ['Pantallas', 'Higiene', 'Relajación', 'Luz', 'Ruido', 'Temperatura'],
+            // 3. RADAR STACKED (Higene)
+            draw('radarChart', 'radar', {
+                labels: ['Pantallas', 'Relajación', 'Puntualidad', 'Luz', 'Ruido', 'Temperatura'],
                 datasets: [
-                    { label: 'Tu Esfuerzo', data: [85, 90, 70, 100, 60, 80], borderColor: '#a78bfa', backgroundColor: '#a78bfa22', fill: true },
-                    { label: 'Ambiente', data: [70, 100, 90, 80, 100, 70], borderColor: '#34d399', backgroundColor: '#34d39922', fill: true }
+                    { label: 'Tu Disciplina', data: [80, 70, 90, 100, 85, 70], borderColor: '#a78bfa', backgroundColor: '#a78bfa22' },
+                    { label: 'Entorno Real', data: [60, 100, 80, 90, 100, 60], borderColor: '#10b981', backgroundColor: '#10b98122' }
                 ]
             });
 
-            // 3. POLAR AREA (Consistencia)
-            drawChart('polarChart', 'polarArea', {
-                labels: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
-                datasets: [{ data: [7, 6, 8, 7.5, 6, 9, 10], backgroundColor: ['#f87171aa', '#60a5faaa', '#34d399aa', '#fbbf24aa', '#a78bfaaa', '#f472b6aa', '#2dd4bfaa'] }]
+            // 4. POLAR AREA (Consistencia)
+            draw('polarChart', 'polarArea', {
+                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                datasets: [{ data: [7.5, 6.2, 8, 7.8, 6.5, 9, 10], backgroundColor: ['#8b5cf699', '#ec489999', '#3b82f699', '#10b98199', '#f59e0b99', '#6366f199', '#ef444499'] }]
             });
 
-            // 4. DONA (Emociones - Datos de Sueño Bd)
-            drawChart('pieChart', 'doughnut', {
-                labels: ['Calma', 'Estrés', 'Cansancio', 'Vívido'],
-                datasets: [{ data: [40, 15, 25, 20], backgroundColor: ['#10b981', '#ef4444', '#3b82f6', '#f59e0b'], borderWidth: 0, cutout: '70%' }]
+            // 5. PIE (Emociones)
+            const emociones = { 'Calma': 40, 'Ansiedad': 15, 'Energía': 30, 'Cansancio': 15 };
+            draw('pieChart', 'doughnut', {
+                labels: Object.keys(emociones),
+                datasets: [{ data: Object.values(emociones), backgroundColor: ['#10b981', '#ef4444', '#36a2eb', '#f59e0b'], borderWidth: 0, cutout: '75%' }]
             });
 
-            // 5. RADAR SKIP (Tendencia de Calidad por periodo)
-            drawChart('skipChart', 'radar', {
-                labels: ['Puntualidad', 'Oscuridad', 'Silencio', 'Frescura', 'Comodidad'],
-                datasets: [{ label: 'Score', data: [90, 80, null, 95, 70], borderColor: '#f59e0b', backgroundColor: '#f59e0b11', spanGaps: true }]
+            // 6. RADAR SKIP (Tendencia)
+            draw('skipChart', 'radar', {
+                labels: ['Dormir', 'Despertar', 'Rutina', 'Calidad', 'Sueños'],
+                datasets: [{ label: 'Rendimiento', data: [90, 80, null, 95, 70], borderColor: '#f59e0b', spanGaps: true, backgroundColor: '#f59e0b11' }]
             });
         }
 
-        function renderKPIs(h, q, p) {
-            const grid = document.getElementById('kpiGrid');
+        function renderKPIs(h, q, debt) {
+            const grid = document.getElementById('statsGrid');
             grid.innerHTML = `
-                <div class="stat-card"><div class="stat-val">${h.toFixed(1)}h</div><div class="stat-lab">Media de Sueño</div></div>
-                <div class="stat-card"><div class="stat-val">${Math.round(q*10)}%</div><div class="stat-lab">Recuperación</div></div>
-                <div class="stat-card"><div class="stat-val" style="color:var(--success)">${h >= 7 ? 'ÓPTIMO' : 'ALERTA'}</div><div class="stat-lab">Estado ${p}</div></div>
+                <div class="stat-card"><div class="stat-val">${h.toFixed(1)}h</div><div class="stat-lab">Promedio Horas</div></div>
+                <div class="stat-card"><div class="stat-val">${Math.round(q*10)}%</div><div class="stat-lab">Eficiencia</div></div>
+                <div class="stat-card"><div class="stat-val" style="color:${debt > 0 ? 'var(--error)' : 'var(--success)'}">${debt > 0 ? '+'+debt.toFixed(1) : debt.toFixed(1)}h</div><div class="stat-lab">Deuda de Sueño</div></div>
+                <div class="stat-card"><div class="stat-val" style="font-size:1.1rem">${h > 7 ? '🌟 ÓPTIMO' : '⚠️ RECUPERAR'}</div><div class="stat-lab">Estado General</div></div>
             `;
         }
 
-        function drawChart(id, type, data, options = {}) {
-            const ctx = document.getElementById(id).getContext('2d');
-            if (activeCharts[id]) activeCharts[id].destroy();
+        function generateInsight(h, q, d) {
+            let msg = `🧠 <b>Análisis Inteligente:</b> `;
+            if (d > 5) msg += `Tienes una deuda acumulada de <b>${d.toFixed(1)} horas</b>. Prioriza dormir 8h este fin de semana para evitar fatiga cognitiva.`;
+            else if (h < 6.5) msg += `Tu tiempo total de sueño es bajo. Intenta adelantar tu rutina nocturna 30 minutos hoy.`;
+            else if (q < 7) msg += `Duermes suficiente tiempo, pero tu calidad es baja. Revisa la temperatura de la habitación o evita pantallas.`;
+            else msg += `¡Excelente! Tu ritmo circadiano está sincronizado. Mantén la consistencia de horarios.`;
+            document.getElementById('smartInsight').innerHTML = msg;
+        }
 
-            activeCharts[id] = new Chart(ctx, {
-                type: type,
-                data: data,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: dropAnim(),
-                    plugins: { 
-                        legend: { display: type === 'doughnut' || type === 'radar', position: 'bottom', labels: { color: '#888', font: { size: 10, weight: 'bold' }, usePointStyle: true } } 
-                    },
-                    scales: (type === 'radar' || type === 'polarArea') ? {
-                        r: { grid: { color: 'rgba(125,125,125,0.1)' }, angleLines: { color: 'rgba(125,125,125,0.1)' }, pointLabels: { color: '#888', font: { size: 10 } }, ticks: { display: false } }
-                    } : options.scales
+        function draw(id, type, data, options = {}) {
+            const ctx = document.getElementById(id).getContext('2d');
+            if (instances[id]) instances[id].destroy();
+            instances[id] = new Chart(ctx, {
+                type, data, options: {
+                    responsive: true, maintainAspectRatio: false, animation: dropAnim(),
+                    plugins: { legend: { display: type !== 'bar', position: 'bottom', labels: { color: '#888', font: { size: 9 }, usePointStyle: true } } },
+                    scales: (type === 'radar' || type === 'polarArea') ? { r: { grid: { color: 'rgba(125,125,125,0.1)' }, angleLines: { color: 'rgba(125,125,125,0.1)' }, pointLabels: { color: '#888', font: { size: 9 } }, ticks: { display: false } } } : options.scales
                 }
             });
         }
-
         init();
     </script>
 </body>
