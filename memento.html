@@ -23,41 +23,63 @@
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 20px; min-height: 100vh; }
         .container { max-width: 1000px; margin: 0 auto; }
         .header { text-align: center; margin-bottom: 3rem; padding: 2rem; border: 1px solid var(--border); border-radius: 16px; }
-        h1 { font-size: 2rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+        h1 { font-size: 2.5rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
         .subtitle { color: var(--text-secondary); font-style: italic; margin-top: 0.5rem; }
+        .life-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin-bottom: 2rem; padding: 1rem; border: 1px solid var(--border); border-radius: 12px; }
+        .year-box { aspect-ratio: 1; border-radius: 2px; }
+        .year-past { background: var(--text-secondary); opacity: 0.5; }
+        .year-current { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        .year-future { background: var(--border); }
         .progress-container { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
-        .progress-bar { height: 20px; background: var(--border); border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light)); border-radius: 10px; transition: width 2s ease; }
-        .progress-text { display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary); }
+        .progress-bar { height: 24px; background: var(--border); border-radius: 12px; overflow: hidden; position: relative; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light)); border-radius: 12px; transition: width 2s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-size: 0.8rem; font-weight: 700; color: white; }
+        .progress-labels { display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary); }
         .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
         .stat { text-align: center; padding: 1.5rem; border: 1px solid var(--border); border-radius: 12px; }
         .stat-value { font-size: 2.5rem; font-weight: 200; color: var(--accent); }
         .stat-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem; }
-        .quote { text-align: center; margin-top: 3rem; padding: 2rem; font-style: italic; color: var(--text-secondary); border-top: 1px solid var(--border); }
+        .months-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; margin-bottom: 2rem; }
+        .month-box { aspect-ratio: 2; border-radius: 2px; background: var(--border); }
+        .month-lived { background: var(--accent); opacity: 0.6; }
+        .month-current { background: var(--accent); box-shadow: 0 0 5px var(--accent); }
+        .quote { text-align: center; margin-top: 3rem; padding: 2rem; font-style: italic; color: var(--text-secondary); border-top: 1px solid var(--border); font-size: 1.1rem; }
         .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Memento Mori</h1>
-            <p class="subtitle">"No cuentes los años, sino las horas."</p>
+            <h1>☠️ Memento Mori</h1>
+            <p class="subtitle">"Recuerda que vas a morir. Recuerda que eres mortal."</p>
         </div>
         
         <div class="progress-container">
             <div class="progress-bar">
-                <div class="progress-fill" id="lifeProgress" style="width: 0%"></div>
+                <div class="progress-fill" id="lifeProgress" style="width: 0%">0%</div>
             </div>
-            <div class="progress-text">
+            <div class="progress-labels">
                 <span>Nacimiento</span>
-                <span id="progressPercent">0%</span>
-                <span>80 años</span>
+                <span>Esperanza de vida: 80 años</span>
+                <span>Final</span>
             </div>
         </div>
         
         <div class="stats" id="stats">
-            <div class="loading">Calculando...</div>
+            <div class="stat">
+                <div class="stat-value" id="edadActual">--</div>
+                <div class="stat-label">Edad Actual</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="añosRestantes">--</div>
+                <div class="stat-label">Años Restantes</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="cuentaRegresiva">--</div>
+                <div class="stat-label">Cuenta Regresiva</div>
+            </div>
         </div>
+        
+        <div class="months-grid" id="monthsGrid"></div>
         
         <div class="quote" id="quote"></div>
     </div>
@@ -68,88 +90,101 @@
                 const response = await fetch('datos.json');
                 const data = await response.json();
                 
-                // NOMBRES EXACTOS: Año (number), Edad Actual (rollup/number)
-                const memento = data.datos?.memento || data.memento || [];
+                const memento = data.datos?.memento || [];
                 processMemento(memento);
             } catch (error) {
-                document.getElementById('stats').innerHTML = `<div style="color: var(--accent);">Error: ${error.message}</div>`;
+                document.getElementById('stats').innerHTML = `<div style="color: var(--accent); grid-column: 1/-1;">Error: ${error.message}</div>`;
             }
         }
 
         function processMemento(memento) {
+            // ESTRUCTURA REAL:
+            // • Nov (checkbox) → false
+            // • Sep (checkbox) → false
+            // • Año (number) → 80
+            // • Mar (checkbox) → false
+            // • % Avance Vida (formula) → 0.8
+            // • Feb (checkbox) → false
+            // • Progreso (formula)
+            // • Total años (relation)
+            // • Cuenta Regresiva (formula) → 20
+            // • Abr (checkbox) → false
+            // • Jul (checkbox) → false
+            // • Oct (checkbox) → false
+            // • Ene (checkbox) → false
+            // • Dic (checkbox) → false
+            // • May (checkbox) → false
+            // • Ago (checkbox) → false
+            // • Edad Actual (rollup) → 32
+            // • Jun (checkbox) → false
+            // • Años (title) → "80"
+
             if (memento.length === 0) {
-                // Usar valores por defecto si no hay datos
                 renderDefault();
                 return;
             }
 
-            const props = memento[0].properties || {};
-            
-            // NOMBRES EXACTOS:
-            const edadActual = props.Edad_Actual?.rollup?.number || 
-                              props.Edad_Actual?.number || 
-                              props.Edad?.number || 30;
-            
-            const anioActual = props.Año?.number || new Date().getFullYear();
-            
-            const esperanzaVida = 80;
-            const porcentaje = (edadActual / esperanzaVida) * 100;
-            const añosRestantes = esperanzaVida - edadActual;
-            const semanasRestantes = añosRestantes * 52;
+            // Buscar el registro del año actual (donde Año = 80 o el que corresponda)
+            const registro = memento.find(m => {
+                const props = m.properties || {};
+                return props['Edad Actual']?.rollup?.number !== undefined;
+            }) || memento[0];
 
+            const p = registro.properties || {};
+            
+            const edadActual = p['Edad Actual']?.rollup?.number || 32;
+            const añoEsperanza = p.Año?.number || 80;
+            const cuentaRegresiva = p['Cuenta Regresiva']?.formula?.number || (añoEsperanza - edadActual);
+            const porcentajeAvance = p['% Avance Vida']?.formula?.number || (edadActual / añoEsperanza);
+            
+            const añosRestantes = añoEsperanza - edadActual;
+            const porcentaje = porcentajeAvance * 100;
+
+            // Actualizar UI
             document.getElementById('lifeProgress').style.width = porcentaje + '%';
-            document.getElementById('progressPercent').textContent = porcentaje.toFixed(1) + '%';
+            document.getElementById('lifeProgress').textContent = porcentaje.toFixed(1) + '%';
+            
+            document.getElementById('edadActual').textContent = edadActual;
+            document.getElementById('añosRestantes').textContent = añosRestantes;
+            document.getElementById('cuentaRegresiva').textContent = cuentaRegresiva;
 
-            document.getElementById('stats').innerHTML = `
-                <div class="stat">
-                    <div class="stat-value">${edadActual}</div>
-                    <div class="stat-label">Edad Actual</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">${añosRestantes}</div>
-                    <div class="stat-label">Años Restantes</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">${semanasRestantes}</div>
-                    <div class="stat-label">Semanas Restantes</div>
-                </div>
-            `;
-
+            // Renderizar meses vividos (checkboxes de meses)
+            renderMonths(p);
+            
+            // Quote aleatorio
             const frases = [
                 "El problema no es que la vida sea corta, sino que la desperdiciamos.",
-                "No te actas añorum, sed horarum. No cuentes los años, sino las horas.",
+                "No cuentes los años, sino las horas.",
                 "Vive como si fueras a morir mañana. Aprende como si fueras a vivir para siempre.",
                 "El tiempo es el único capital que los humanos tienen, y solo pueden perderlo.",
-                "Memento mori: Recuerda que vas a morir. Recuerda que eres mortal."
+                "Memento mori: Recuerda que vas a morir."
             ];
-
             document.getElementById('quote').textContent = frases[Math.floor(Math.random() * frases.length)];
         }
 
+        function renderMonths(props) {
+            const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            const hoy = new Date();
+            const mesActual = hoy.getMonth(); // 0-11
+            
+            const html = meses.map((mes, idx) => {
+                const checkbox = props[mes]?.checkbox;
+                let clase = 'month-box';
+                if (checkbox) clase += ' month-lived';
+                if (idx === mesActual) clase += ' month-current';
+                return `<div class="${clase}" title="${mes}"></div>`;
+            }).join('');
+            
+            document.getElementById('monthsGrid').innerHTML = html;
+        }
+
         function renderDefault() {
-            const edad = 30;
-            const esperanza = 80;
-            const pct = (edad / esperanza) * 100;
-            
-            document.getElementById('lifeProgress').style.width = pct + '%';
-            document.getElementById('progressPercent').textContent = pct.toFixed(1) + '%';
-            
-            document.getElementById('stats').innerHTML = `
-                <div class="stat">
-                    <div class="stat-value">--</div>
-                    <div class="stat-label">Edad Actual</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">--</div>
-                    <div class="stat-label">Años Restantes</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">--</div>
-                    <div class="stat-label">Semanas Restantes</div>
-                </div>
-            `;
-            
-            document.getElementById('quote').textContent = "Configura tu base de datos Memento Mori con Año y Edad Actual.";
+            document.getElementById('lifeProgress').style.width = '40%';
+            document.getElementById('lifeProgress').textContent = '40%';
+            document.getElementById('edadActual').textContent = '32';
+            document.getElementById('añosRestantes').textContent = '48';
+            document.getElementById('cuentaRegresiva').textContent = '20';
+            document.getElementById('quote').textContent = 'Configura tu base de datos Memento Mori para datos precisos.';
         }
 
         loadData();
