@@ -28,7 +28,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests pytz
 
-      - name: 🚜 Ejecutar Script de Extracción
+      - name: Ejecutar Extractor
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           DB_INGRESOS: ${{ secrets.DB_INGRESOS }}
@@ -39,6 +39,8 @@ jobs:
           DB_MEMENTO: ${{ secrets.DB_MEMENTO }}
           DB_SUBS: ${{ secrets.DB_SUBS }}
           DB_SUENO: ${{ secrets.DB_SUENO }}
+          DB_SUENO_DETALLES: ${{ secrets.DB_SUENO_DETALLES }}
+          DB_SUENO_RESUMEN: ${{ secrets.DB_SUENO_RESUMEN }}
           DB_COMPRAS: ${{ secrets.DB_COMPRAS }}
         run: python main.py
 
