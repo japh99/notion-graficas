@@ -11,11 +11,11 @@
             --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
             --accent: #f59e0b; --accent-light: #fbbf24;
             --border: #e0e0e0; --success: #10b981;
-            --card-bg: #ffffff;
+            --card-bg: #ffffff';
         }
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #191919; --bg-secondary: #252525;
+                --bg-primary: #191919; --bg-secondary: '#252525';
                 --text-primary: #ffffff; --text-secondary: #a0a0a0;
                 --accent: #fbbf24; --accent-light: #fcd34d;
                 --border: #2f2f2f; --success: #34d399;
@@ -27,62 +27,19 @@
         .container { max-width: 1200px; margin: 0 auto; }
         h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
         .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
-        .thermometer { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
-        .thermo-header { display: flex; justify-content: space-between; margin-bottom: 1rem; }
-        .thermo-label { font-size: 0.9rem; color: var(--text-secondary); }
-        .thermo-value { font-size: 1.5rem; font-weight: 700; }
-        .thermo-bar { height: 20px; background: var(--bg-secondary); border-radius: 10px; overflow: hidden; position: relative; }
-        .thermo-fill { height: 100%; background: linear-gradient(90deg, var(--success) 0%, var(--accent) 50%, #ef4444 100%); border-radius: 10px; transition: width 1s ease; }
-        .thermo-marker { position: absolute; top: -5px; width: 2px; height: 30px; background: white; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
-        .stat-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
-        .stat-label { font-size: 0.85rem; color: var(--text-secondary); }
-        .lists-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        @media (max-width: 768px) { .lists-grid { grid-template-columns: 1fr; } }
-        .list-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
-        .list-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
-        .item { display: flex; justify-content: space-between; padding: 0.75rem; border-bottom: 1px solid var(--border); }
-        .item:last-child { border-bottom: none; }
-        .item-name { font-weight: 500; }
-        .item-price { font-weight: 700; }
-        .item-comprado { color: var(--success); }
-        .item-pendiente { color: var(--accent); }
+        .empty-state { background: var(--card-bg); border: 2px dashed var(--border); border-radius: 16px; padding: 3rem; text-align: center; color: var(--text-secondary); }
+        .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .empty-title { font-size: 1.2rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
         .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🛒 Control de Compras</h1>
+        <h1>🛒 Compras / Wishlist</h1>
         <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
         
-        <div class="thermometer">
-            <div class="thermo-header">
-                <div>
-                    <div class="thermo-label">Progreso Wishlist</div>
-                    <div class="thermo-value" id="progressText">0%</div>
-                </div>
-                <div style="text-align: right;">
-                    <div class="thermo-label">Faltante</div>
-                    <div class="thermo-value" id="remainingText">$0</div>
-                </div>
-            </div>
-            <div class="thermo-bar">
-                <div class="thermo-fill" id="thermoFill" style="width: 0%"></div>
-            </div>
-        </div>
-        
-        <div class="stats-grid" id="statsGrid"><div class="loading">Cargando...</div></div>
-        
-        <div class="lists-grid">
-            <div class="list-container">
-                <div class="list-title">✅ Comprados</div>
-                <div id="compradosList"></div>
-            </div>
-            <div class="list-container">
-                <div class="list-title">📋 Pendientes</div>
-                <div id="pendientesList"></div>
-            </div>
+        <div id="content">
+            <div class="loading">Verificando datos...</div>
         </div>
     </div>
 
@@ -93,78 +50,64 @@
                 const data = await response.json();
                 document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
                 
-                // NOMBRES EXACTOS: Monto/Precio (number), Comprado/Hecho (checkbox)
-                const compras = data.datos?.compras || data.compras || [];
-                processPurchases(compras);
+                const compras = data.datos?.compras || [];
+                
+                if (compras.length === 0) {
+                    document.getElementById('content').innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">🛒</div>
+                            <div class="empty-title">No hay datos de compras</div>
+                            <p>Tu base de datos "Compras" está vacía.</p>
+                            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                                Agrega items con columnas:<br>
+                                • <strong>Nombre</strong> (title)<br>
+                                • <strong>Precio</strong> (number)<br>
+                                • <strong>Comprado</strong> (checkbox)
+                            </p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Si hay datos, procesarlos (estructura esperada)
+                processCompras(compras);
             } catch (error) {
-                document.getElementById('statsGrid').innerHTML = `<div style="color: var(--accent);">Error: ${error.message}</div>`;
+                document.getElementById('content').innerHTML = `<div style="color: #ef4444;">Error: ${error.message}</div>`;
             }
         }
 
-        function processPurchases(compras) {
+        function processCompras(compras) {
+            // Estructura esperada cuando tengas datos:
+            // • Nombre (title)
+            // • Precio (number)
+            // • Comprado (checkbox)
+            
             const processed = compras.map(c => {
-                const props = c.properties || {};
-                
-                // Detectar nombre de columna (Precio o Monto)
-                const monto = props.Precio?.number || props.Monto?.number || 0;
-                // Detectar checkbox (Comprado o Hecho)
-                const comprado = props.Comprado?.checkbox === true || props.Hecho?.checkbox === true;
-                
+                const p = c.properties || {};
                 return {
-                    nombre: props.Nombre?.title?.[0]?.plain_text || props.Items?.title?.[0]?.plain_text || 'Sin nombre',
-                    monto: monto,
-                    comprado: comprado
+                    nombre: p.Nombre?.title?.[0]?.plain_text || 'Sin nombre',
+                    precio: p.Precio?.number || 0,
+                    comprado: p.Comprado?.checkbox === true
                 };
             });
 
-            const total = processed.reduce((s, c) => s + c.monto, 0);
+            const total = processed.reduce((s, c) => s + c.precio, 0);
             const comprados = processed.filter(c => c.comprado);
             const pendientes = processed.filter(c => !c.comprado);
-            const totalComprado = comprados.reduce((s, c) => s + c.monto, 0);
-            const totalPendiente = pendientes.reduce((s, c) => s + c.monto, 0);
-            const progreso = total > 0 ? (totalComprado / total) * 100 : 0;
-
-            // Actualizar termómetro
-            document.getElementById('thermoFill').style.width = progreso + '%';
-            document.getElementById('progressText').textContent = progreso.toFixed(1) + '%';
-            document.getElementById('remainingText').textContent = '$' + (totalPendiente / 1000).toFixed(0) + 'K';
-
-            document.getElementById('statsGrid').innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-value">${processed.length}</div>
-                    <div class="stat-label">Items Totales</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="color: var(--success);">${comprados.length}</div>
-                    <div class="stat-label">Comprados</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" style="color: var(--accent);">${pendientes.length}</div>
-                    <div class="stat-label">Pendientes</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">$${(total / 1000000).toFixed(2)}M</div>
-                    <div class="stat-label">Valor Total</div>
+            const totalComprado = comprados.reduce((s, c) => s + c.precio, 0);
+            
+            // Aquí iría el HTML completo cuando tengas datos
+            document.getElementById('content').innerHTML = `
+                <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
+                    <h3>✅ Datos encontrados: ${processed.length} items</h3>
+                    <p>Total valor: $${total.toLocaleString()}</p>
+                    <p>Comprados: ${comprados.length} ($${totalComprado.toLocaleString()})</p>
+                    <p>Pendientes: ${pendientes.length}</p>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">
+                        (Dashboard completo disponible cuando confirmes la estructura de datos)
+                    </p>
                 </div>
             `;
-
-            renderLists(comprados, pendientes);
-        }
-
-        function renderLists(comprados, pendientes) {
-            document.getElementById('compradosList').innerHTML = comprados.length ? comprados.map(c => `
-                <div class="item">
-                    <span class="item-name">${c.nombre}</span>
-                    <span class="item-price item-comprado">$${c.monto.toLocaleString()}</span>
-                </div>
-            `).join('') : '<div style="color: var(--text-secondary); text-align: center;">Ninguno comprado aún</div>';
-
-            document.getElementById('pendientesList').innerHTML = pendientes.length ? pendientes.map(c => `
-                <div class="item">
-                    <span class="item-name">${c.nombre}</span>
-                    <span class="item-price item-pendiente">$${c.monto.toLocaleString()}</span>
-                </div>
-            `).join('') : '<div style="color: var(--text-secondary); text-align: center;">¡Todo comprado!</div>';
         }
 
         loadData();
