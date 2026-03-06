@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPH 2026 - Pomodoro</title>
+    <title>JAPH 2026 · Pomodoro</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -12,6 +12,11 @@
             --accent: #ef4444; --accent-light: #f87171;
             --border: #e0e0e0; --success: #10b981;
             --card-bg: #ffffff;
+            --heatmap-empty: #ebedf0;
+            --heatmap-low: #9be9a8;
+            --heatmap-medium: #40c463;
+            --heatmap-high: #30a14e;
+            --heatmap-max: #216e39;
         }
         @media (prefers-color-scheme: dark) {
             :root {
@@ -20,24 +25,88 @@
                 --accent: #f87171; --accent-light: #fca5a5;
                 --border: #2f2f2f; --success: #34d399;
                 --card-bg: #202020;
+                --heatmap-empty: #2d2d2d;
+                --heatmap-low: #0e4429;
+                --heatmap-medium: #006d32;
+                --heatmap-high: #26a641;
+                --heatmap-max: #39d353;
             }
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 20px; }
         .container { max-width: 1200px; margin: 0 auto; }
         h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
-        .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+        .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+        .view-selector {
+            display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;
+        }
+        .view-btn {
+            background: var(--card-bg); border: 1px solid var(--border); color: var(--text-secondary);
+            padding: 0.6rem 1.2rem; border-radius: 30px; font-size: 0.9rem; font-weight: 500;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .view-btn.active {
+            background: var(--accent); color: white; border-color: var(--accent);
+        }
+
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center;
+        }
         .stat-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
         .stat-label { font-size: 0.85rem; color: var(--text-secondary); }
-        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
-        .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .stat-trend { font-size: 0.8rem; color: var(--success); }
+
+        .charts-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;
+        }
+        .chart-container {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;
+        }
         .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
         .chart-wrapper { position: relative; height: 300px; }
-        .session-list { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+
+        /* Vista calendario */
+        .calendar-view {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem;
+        }
+        .calendar-header {
+            display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: 500;
+        }
+        .calendar-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+        }
+        .calendar-day-label {
+            text-align: center; font-size: 0.75rem; color: var(--text-secondary); padding: 4px;
+        }
+        .calendar-cell {
+            aspect-ratio: 1; border-radius: 4px; background: var(--heatmap-empty);
+            transition: transform 0.1s; cursor: default;
+        }
+        .calendar-cell:hover {
+            transform: scale(1.1); box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .calendar-cell[data-level="1"] { background: var(--heatmap-low); }
+        .calendar-cell[data-level="2"] { background: var(--heatmap-medium); }
+        .calendar-cell[data-level="3"] { background: var(--heatmap-high); }
+        .calendar-cell[data-level="4"] { background: var(--heatmap-max); }
+
+        .calendar-legend {
+            display: flex; justify-content: flex-end; align-items: center; gap: 1rem; margin-top: 1rem; font-size: 0.8rem;
+        }
+        .legend-item { display: flex; align-items: center; gap: 4px; }
+        .legend-color { width: 16px; height: 16px; border-radius: 4px; }
+
+        .session-list {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-top: 2rem;
+        }
         .list-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
-        .session-item { display: flex; justify-content: space-between; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        .session-item {
+            display: flex; justify-content: space-between; padding: 0.75rem; border-bottom: 1px solid var(--border);
+        }
         .session-item:last-child { border-bottom: none; }
         .session-info { flex: 1; }
         .session-name { font-weight: 600; font-size: 0.9rem; }
@@ -48,186 +117,346 @@
 </head>
 <body>
     <div class="container">
-        <h1>🍅 Pomodoro Tracker</h1>
+        <h1>🍅 Pomodoro · Rendimiento</h1>
         <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
-        
-        <div class="stats-grid" id="statsGrid"><div class="loading">Cargando...</div></div>
-        
-        <div class="charts-grid">
-            <div class="chart-container">
-                <div class="chart-title">Distribución: Enfoque vs Descanso</div>
-                <div class="chart-wrapper"><canvas id="typeChart"></canvas></div>
-            </div>
-            <div class="chart-container">
-                <div class="chart-title">Tiempo por Sesión</div>
-                <div class="chart-wrapper"><canvas id="timeChart"></canvas></div>
-            </div>
+
+        <div class="view-selector" id="viewSelector">
+            <button class="view-btn active" data-view="day">Día</button>
+            <button class="view-btn" data-view="week">Semana</button>
+            <button class="view-btn" data-view="month">Mes</button>
+            <button class="view-btn" data-view="calendar">Calendario</button>
         </div>
-        
+
+        <div class="stats-grid" id="statsGrid">
+            <!-- Se llena dinámicamente -->
+        </div>
+
+        <div id="dynamicContent">
+            <!-- Aquí se inyectan gráficos o calendario -->
+        </div>
+
         <div class="session-list">
-            <div class="list-title">Últimas Sesiones</div>
+            <div class="list-title">Sesiones del período</div>
             <div id="sessionList"></div>
         </div>
     </div>
 
     <script>
-        // Variables globales para los gráficos
-        let typeChartInstance = null;
-        let timeChartInstance = null;
+        // Variables globales
+        let allPomodoros = [];
+        let chartInstances = { bar: null, pie: null };
+        let currentView = 'day'; // día por defecto
 
-        async function loadData() {
-            try {
-                const response = await fetch('datos.json');
-                const data = await response.json();
-                document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
-                
-                const pomodoros = data.datos?.pomodoro || [];
-                processPomodoros(pomodoros);
-            } catch (error) {
-                document.getElementById('statsGrid').innerHTML = `<div style="color: var(--accent);">Error: ${error.message}</div>`;
+        const viewSelector = document.getElementById('viewSelector');
+        const statsGrid = document.getElementById('statsGrid');
+        const dynamicContent = document.getElementById('dynamicContent');
+        const sessionListDiv = document.getElementById('sessionList');
+        const lastUpdateSpan = document.getElementById('lastUpdate');
+
+        // Cargar datos al inicio
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('datos.json')
+                .then(res => res.json())
+                .then(data => {
+                    lastUpdateSpan.textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
+                    const raw = data.datos?.POMODORO || [];
+                    allPomodoros = raw.map(p => {
+                        const props = p.properties || {};
+                        return {
+                            nombre: props.Name?.title?.[0]?.plain_text || 'Sesión',
+                            inicio: props['Inicio 🍅']?.date?.start,
+                            tipo: props.Tipo?.select?.name || 'Enfoque',
+                            tiempo: props.Tiempo?.number || 25
+                        };
+                    }).filter(p => p.inicio); // Solo los que tienen fecha
+                    // Ordenar por fecha ascendente
+                    allPomodoros.sort((a, b) => new Date(a.inicio) - new Date(b.inicio));
+                    setActiveView('day');
+                })
+                .catch(err => {
+                    statsGrid.innerHTML = `<div style="color: var(--accent);">Error: ${err.message}</div>`;
+                });
+        });
+
+        // Cambiar vista
+        viewSelector.addEventListener('click', (e) => {
+            const btn = e.target.closest('.view-btn');
+            if (!btn) return;
+            const view = btn.dataset.view;
+            setActiveView(view);
+        });
+
+        function setActiveView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+
+            if (allPomodoros.length === 0) {
+                statsGrid.innerHTML = '<div class="loading">No hay datos</div>';
+                return;
+            }
+
+            if (view === 'calendar') {
+                renderCalendar();
+            } else {
+                renderTimeView(view);
             }
         }
 
-        function processPomodoros(pomodoros) {
-            // ESTRUCTURA REAL DE POMODORO:
-            // • Inicio 🍅 (date)
-            // • 🔥 PROYECTOS (relation)
-            // • Tipo (select) → "Enfoque" o "Descanso"
-            // • Tiempo (number) → minutos
-            // • Enfoque 🍅 (formula)
-            // • Fórmula Descanso (formula)
-            // • Fórmula Enfoque (formula)
-            // • Descansos ☕️ (formula)
-            // • Name (title)
-            
-            const processed = pomodoros.map(p => {
-                const props = p.properties || {};
-                return {
-                    nombre: props.Name?.title?.[0]?.plain_text || 'Sesión',
-                    inicio: props['Inicio 🍅']?.date?.start,
-                    tipo: props.Tipo?.select?.name || 'Enfoque',
-                    tiempo: props.Tiempo?.number || 25,
-                    enfoqueFormula: props['Enfoque 🍅']?.formula?.number || 0,
-                    descansos: props['Descansos ☕️']?.formula?.number || 0
-                };
+        // Obtener pomodoros filtrados por vista
+        function getFilteredPomodoros(view) {
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const lastDate = new Date(allPomodoros[allPomodoros.length-1].inicio + 'T00:00:00');
+
+            let startDate;
+            if (view === 'day') {
+                // último día con datos
+                startDate = new Date(lastDate);
+            } else if (view === 'week') {
+                startDate = new Date(lastDate);
+                startDate.setDate(startDate.getDate() - 6);
+            } else { // month
+                startDate = new Date(lastDate);
+                startDate.setDate(startDate.getDate() - 29);
+            }
+
+            return allPomodoros.filter(p => {
+                const d = new Date(p.inicio + 'T00:00:00');
+                return d >= startDate && d <= lastDate;
             });
+        }
 
-            const totalSesiones = processed.length;
-            const tiempoTotal = processed.reduce((s, p) => s + p.tiempo, 0);
-            const enfoque = processed.filter(p => p.tipo === 'Enfoque' || p.tipo.includes('Enfoque'));
-            const descanso = processed.filter(p => p.tipo === 'Descanso' || p.tipo.includes('Descanso'));
-            const tiempoEnfoque = enfoque.reduce((s, p) => s + p.tiempo, 0);
-            const tiempoDescanso = descanso.reduce((s, p) => s + p.tiempo, 0);
+        // Calcular estadísticas para un conjunto de pomodoros
+        function computeStats(pomodoros) {
+            const totalSesiones = pomodoros.length;
+            const tiempoTotal = pomodoros.reduce((s, p) => s + p.tiempo, 0);
+            const enfoque = pomodoros.filter(p => p.tipo.includes('Enfoque'));
+            const descanso = pomodoros.filter(p => p.tipo.includes('Descanso'));
+            return {
+                totalSesiones,
+                tiempoTotal,
+                enfoqueCount: enfoque.length,
+                descansoCount: descanso.length,
+                tiempoEnfoque: enfoque.reduce((s, p) => s + p.tiempo, 0),
+                tiempoDescanso: descanso.reduce((s, p) => s + p.tiempo, 0)
+            };
+        }
 
-            document.getElementById('statsGrid').innerHTML = `
+        // Actualizar tarjetas de estadísticas
+        function updateStatsCards(stats) {
+            statsGrid.innerHTML = `
                 <div class="stat-card">
-                    <div class="stat-value">${totalSesiones}</div>
+                    <div class="stat-value">${stats.totalSesiones}</div>
                     <div class="stat-label">Sesiones</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${(tiempoTotal / 60).toFixed(1)}h</div>
+                    <div class="stat-value">${(stats.tiempoTotal / 60).toFixed(1)}h</div>
                     <div class="stat-label">Tiempo Total</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" style="color: var(--accent);">${enfoque.length}</div>
+                    <div class="stat-value" style="color: var(--accent);">${stats.enfoqueCount}</div>
                     <div class="stat-label">Enfoque</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" style="color: var(--success);">${descanso.length}</div>
+                    <div class="stat-value" style="color: var(--success);">${stats.descansoCount}</div>
                     <div class="stat-label">Descanso</div>
                 </div>
             `;
-
-            renderCharts(processed, tiempoEnfoque, tiempoDescanso);
-            renderList(processed);
         }
 
-        function renderCharts(pomodoros, tiempoEnfoque, tiempoDescanso) {
+        // Renderizar vistas de tiempo (día, semana, mes)
+        function renderTimeView(view) {
+            const filtered = getFilteredPomodoros(view);
+            const stats = computeStats(filtered);
+            updateStatsCards(stats);
+
+            // Preparar datos para gráficos
+            // Agrupar por día para las barras
+            const dayMap = new Map();
+            filtered.forEach(p => {
+                const date = p.inicio.split('T')[0]; // YYYY-MM-DD
+                if (!dayMap.has(date)) {
+                    dayMap.set(date, { enfoque: 0, descanso: 0 });
+                }
+                const entry = dayMap.get(date);
+                if (p.tipo.includes('Enfoque')) {
+                    entry.enfoque += p.tiempo;
+                } else {
+                    entry.descanso += p.tiempo;
+                }
+            });
+
+            // Ordenar fechas
+            const sortedDates = Array.from(dayMap.keys()).sort();
+            const labels = sortedDates.map(d => d.slice(5)); // MM-DD
+            const enfoqueData = sortedDates.map(d => dayMap.get(d).enfoque);
+            const descansoData = sortedDates.map(d => dayMap.get(d).descanso);
+
+            // Destruir gráficos anteriores
+            if (chartInstances.bar) chartInstances.bar.destroy();
+            if (chartInstances.pie) chartInstances.pie.destroy();
+
+            // Inyectar HTML de gráficos
+            dynamicContent.innerHTML = `
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-title">Tiempo diario: enfoque vs descanso</div>
+                        <div class="chart-wrapper"><canvas id="barChart"></canvas></div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-title">Proporción en el período</div>
+                        <div class="chart-wrapper"><canvas id="pieChart"></canvas></div>
+                    </div>
+                </div>
+            `;
+
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            const ctxPie = document.getElementById('pieChart').getContext('2d');
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const textColor = isDark ? '#ffffff' : '#2c2c2c';
+            const textColor = isDark ? '#fff' : '#2c2c2c';
 
-            // Destruir gráficos existentes antes de crear nuevos
-            if (typeChartInstance) {
-                typeChartInstance.destroy();
-            }
-            if (timeChartInstance) {
-                timeChartInstance.destroy();
-            }
+            // Gráfico de barras apiladas
+            chartInstances.bar = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Enfoque', data: enfoqueData, backgroundColor: '#ef4444', stack: 'total' },
+                        { label: 'Descanso', data: descansoData, backgroundColor: '#10b981', stack: 'total' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: textColor } },
+                        tooltip: { callbacks: { label: (ctx) => `${ctx.raw} minutos` } }
+                    },
+                    scales: {
+                        x: { stacked: true, ticks: { color: textColor }, grid: { display: false } },
+                        y: { stacked: true, beginAtZero: true, ticks: { color: textColor }, grid: { color: isDark ? '#2f2f2f' : '#e0e0e0' } }
+                    }
+                }
+            });
 
-            // Gráfico de tipos (Pie)
-            const ctxType = document.getElementById('typeChart').getContext('2d');
-            typeChartInstance = new Chart(ctxType, {
+            // Gráfico de pastel
+            chartInstances.pie = new Chart(ctxPie, {
                 type: 'pie',
                 data: {
                     labels: ['Enfoque', 'Descanso'],
                     datasets: [{
-                        data: [tiempoEnfoque, tiempoDescanso],
+                        data: [stats.tiempoEnfoque, stats.tiempoDescanso],
                         backgroundColor: ['#ef4444', '#10b981'],
                         borderWidth: 2,
-                        borderColor: isDark ? '#202020' : '#ffffff'
+                        borderColor: isDark ? '#202020' : '#fff'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { 
-                            position: 'bottom', 
-                            labels: { color: textColor, padding: 20 } 
-                        } 
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: textColor } }
                     }
                 }
             });
 
-            // Gráfico de tiempo por sesión (Bar)
-            const ctxTime = document.getElementById('timeChart').getContext('2d');
-            const ultimas10 = pomodoros.slice(-10);
-            
-            timeChartInstance = new Chart(ctxTime, {
-                type: 'bar',
-                data: {
-                    labels: ultimas10.map((p, i) => `#${i + 1}`),
-                    datasets: [{
-                        label: 'Minutos',
-                        data: ultimas10.map(p => p.tiempo),
-                        backgroundColor: ultimas10.map(p => 
-                            p.tipo.includes('Enfoque') ? '#ef4444' : '#10b981'
-                        ),
-                        borderRadius: 4,
-                        borderSkipped: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => `${context.raw} minutos`
-                            }
-                        }
-                    },
-                    scales: {
-                        y: { 
-                            grid: { color: isDark ? '#2f2f2f' : '#e0e0e0' }, 
-                            ticks: { color: textColor },
-                            beginAtZero: true
-                        },
-                        x: { 
-                            grid: { display: false }, 
-                            ticks: { color: textColor } 
-                        }
-                    }
-                }
-            });
+            // Actualizar lista de sesiones (mostrar las últimas 5 del período)
+            renderSessionList(filtered.slice(-5).reverse());
         }
 
-        function renderList(pomodoros) {
-            const recientes = pomodoros.slice(-5).reverse();
-            document.getElementById('sessionList').innerHTML = recientes.map(p => {
+        // Renderizar vista calendario (heatmap)
+        function renderCalendar() {
+            // En vista calendario, las stats pueden ser globales o del mes mostrado.
+            // Mostraremos estadísticas globales para no dejar vacío, pero podríamos cambiarlas.
+            const globalStats = computeStats(allPomodoros);
+            updateStatsCards(globalStats);
+
+            // Destruir gráficos si existen
+            if (chartInstances.bar) chartInstances.bar.destroy();
+            if (chartInstances.pie) chartInstances.pie.destroy();
+
+            // Determinar el mes a mostrar (último mes con datos)
+            const lastDate = new Date(allPomodoros[allPomodoros.length-1].inicio + 'T00:00:00');
+            const year = lastDate.getFullYear();
+            const month = lastDate.getMonth(); // 0-11
+
+            // Construir mapa de tiempo por día para ese mes
+            const timePerDay = new Map();
+            allPomodoros.forEach(p => {
+                const d = new Date(p.inicio + 'T00:00:00');
+                if (d.getFullYear() === year && d.getMonth() === month) {
+                    const dateStr = p.inicio.split('T')[0];
+                    timePerDay.set(dateStr, (timePerDay.get(dateStr) || 0) + p.tiempo);
+                }
+            });
+
+            // Generar grid del mes
+            const firstDay = new Date(year, month, 1);
+            const lastDayOfMonth = new Date(year, month + 1, 0);
+            const daysInMonth = lastDayOfMonth.getDate();
+
+            let calendarHtml = `
+                <div class="calendar-view">
+                    <div class="calendar-header">
+                        <span>${lastDate.toLocaleDateString('es', { month: 'long', year: 'numeric' })}</span>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-day-label">L</div><div class="calendar-day-label">M</div><div class="calendar-day-label">M</div>
+                        <div class="calendar-day-label">J</div><div class="calendar-day-label">V</div><div class="calendar-day-label">S</div>
+                        <div class="calendar-day-label">D</div>
+            `;
+
+            // Ajustar primer día de la semana a lunes (0 = lunes)
+            let startOffset = (firstDay.getDay() + 6) % 7;
+            for (let i = 0; i < startOffset; i++) {
+                calendarHtml += `<div class="calendar-cell" style="background: transparent; border: none;"></div>`;
+            }
+
+            // Calcular máximo para escala de colores
+            const times = Array.from(timePerDay.values());
+            const maxTime = times.length ? Math.max(...times) : 1;
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                const minutes = timePerDay.get(dateStr) || 0;
+                let level = 0;
+                if (minutes > 0) {
+                    if (minutes <= maxTime * 0.25) level = 1;
+                    else if (minutes <= maxTime * 0.5) level = 2;
+                    else if (minutes <= maxTime * 0.75) level = 3;
+                    else level = 4;
+                }
+                calendarHtml += `<div class="calendar-cell" data-level="${level}" title="${dateStr}: ${minutes} minutos"></div>`;
+            }
+
+            calendarHtml += `
+                    </div>
+                    <div class="calendar-legend">
+                        <div class="legend-item"><span class="legend-color" style="background: var(--heatmap-empty);"></span> Sin datos</div>
+                        <div class="legend-item"><span class="legend-color" style="background: var(--heatmap-low);"></span> Bajo</div>
+                        <div class="legend-item"><span class="legend-color" style="background: var(--heatmap-medium);"></span> Medio</div>
+                        <div class="legend-item"><span class="legend-color" style="background: var(--heatmap-high);"></span> Alto</div>
+                        <div class="legend-item"><span class="legend-color" style="background: var(--heatmap-max);"></span> Máximo</div>
+                    </div>
+                </div>
+            `;
+
+            dynamicContent.innerHTML = calendarHtml;
+
+            // Lista de sesiones: mostrar las últimas 5 globales (o las del mes, pero por simplicidad global)
+            renderSessionList(allPomodoros.slice(-5).reverse());
+        }
+
+        function renderSessionList(sessions) {
+            if (!sessions.length) {
+                sessionListDiv.innerHTML = '<div style="color: var(--text-secondary); text-align: center;">No hay sesiones en este período</div>';
+                return;
+            }
+            sessionListDiv.innerHTML = sessions.map(p => {
                 const fecha = p.inicio ? new Date(p.inicio).toLocaleDateString('es') : 'Sin fecha';
-                const hora = p.inicio ? new Date(p.inicio).toLocaleTimeString('es', {hour: '2-digit', minute: '2-digit'}) : '';
+                const hora = p.inicio ? new Date(p.inicio).toLocaleTimeString('es', {hour: '2-digit', minute:'2-digit'}) : '';
                 return `
                     <div class="session-item">
                         <div class="session-info">
@@ -237,15 +466,17 @@
                         <div class="session-time">${p.tiempo} min</div>
                     </div>
                 `;
-            }).join('') || '<div style="color: var(--text-secondary); text-align: center;">No hay sesiones registradas</div>';
+            }).join('');
         }
 
-        // Ejecutar solo una vez cuando el DOM esté listo
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadData);
-        } else {
-            loadData();
-        }
+        // Escuchar cambios de tema oscuro/claro para redibujar (opcional, mejora UX)
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (currentView !== 'calendar') {
+                renderTimeView(currentView);
+            } else {
+                renderCalendar(); // el calendario se basa en CSS, no necesita redibujar
+            }
+        });
     </script>
 </body>
 </html>
