@@ -11,11 +11,11 @@
             --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
             --accent: #ef4444; --accent-light: #f87171;
             --border: #e0e0e0; --warning: #f59e0b;
-            --card-bg: #ffffff;
+            --card-bg: #ffffff';
         }
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #191919; --bg-secondary: #252525;
+                --bg-primary: #191919; --bg-secondary: '#252525';
                 --text-primary: #ffffff; --text-secondary: #a0a0a0;
                 --accent: #f87171; --accent-light: #fca5a5;
                 --border: #2f2f2f; --warning: #fbbf24;
@@ -36,37 +36,38 @@
         .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
         .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; text-align: center; }
         .chart-wrapper { position: relative; height: 350px; }
-        .ant-spending { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
-        .ant-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        .ant-total { font-size: 1.25rem; font-weight: 700; color: var(--warning); }
-        .ant-item { display: flex; justify-content: space-between; padding: 0.5rem; background: var(--bg-secondary); border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .expense-list { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; }
+        .list-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+        .expense-item { display: flex; justify-content: space-between; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        .expense-item:last-child { border-bottom: none; }
+        .expense-info { flex: 1; }
+        .expense-name { font-weight: 600; font-size: 0.9rem; }
+        .expense-meta { font-size: 0.75rem; color: var(--text-secondary); }
+        .expense-amount { font-weight: 700; color: var(--accent); }
         .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>💸 Análisis de Egresos</h1>
+        <h1>💸 Egresos</h1>
         <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
         
-        <div class="stats-grid" id="statsGrid"><div class="loading">Procesando...</div></div>
+        <div class="stats-grid" id="statsGrid"><div class="loading">Cargando...</div></div>
         
         <div class="charts-grid">
             <div class="chart-container">
-                <div class="chart-title">🎯 Distribución Polar por Tipo</div>
+                <div class="chart-title">🎯 POLAR AREA - Por Tipo de Gasto</div>
                 <div class="chart-wrapper"><canvas id="polarChart"></canvas></div>
             </div>
             <div class="chart-container">
-                <div class="chart-title">📊 Por Mes</div>
-                <div class="chart-wrapper"><canvas id="monthChart"></canvas></div>
+                <div class="chart-title">Por Mes</div>
+                <div class="chart-wrapper"><canvas id="mesChart"></canvas></div>
             </div>
         </div>
         
-        <div class="ant-spending">
-            <div class="ant-header">
-                <div class="chart-title">🐜 Gastos Hormiga (pequeños montos)</div>
-                <div class="ant-total" id="antTotal">$0</div>
-            </div>
-            <div id="antList"></div>
+        <div class="expense-list">
+            <div class="list-title">Últimos Egresos</div>
+            <div id="expenseList"></div>
         </div>
     </div>
 
@@ -77,63 +78,67 @@
                 const data = await response.json();
                 document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
                 
-                // NOMBRES EXACTOS: Monto, Tipo (multi_select), Mes, Ahorro, Items
-                const egresos = data.datos?.egresos || data.egresos || [];
-                processExpenses(egresos);
+                const egresos = data.datos?.egresos || [];
+                processEgresos(egresos);
             } catch (error) {
                 document.getElementById('statsGrid').innerHTML = `<div style="color: var(--accent);">Error: ${error.message}</div>`;
             }
         }
 
-        function processExpenses(egresos) {
+        function processEgresos(egresos) {
+            // ESTRUCTURA REAL:
+            // • Balance (relation)
+            // • Tipo (multi_select) → ["Vivienda"]
+            // • Fecha (date) → "2026-03-03"
+            // • Monto (number) → 500000
+            // • Forty Box (select) → "Nequi"
+            // • Mes (select) → "Marzo"
+            // • Items (title) → "Arriendo Mes de Febrero"
+            
             const processed = egresos.map(e => {
-                const props = e.properties || {};
-                
-                // NOMBRES EXACTOS DE TUS COLUMNAS:
-                const tipos = props.Tipo?.multi_select?.map(t => t.name) || ['Sin tipo'];
-                
+                const p = e.properties || {};
                 return {
-                    monto: props.Monto?.number || 0,
-                    tipos: tipos, // Array porque es multi_select
-                    tipoPrincipal: tipos[0],
-                    mes: props.Mes?.select?.name || 'Sin mes',
-                    ahorro: props.Ahorro?.select?.name || 'No',
-                    item: props.Items?.title?.[0]?.plain_text || 'Sin item'
+                    tipos: p.Tipo?.multi_select?.map(t => t.name) || ['Sin tipo'],
+                    fecha: p.Fecha?.date?.start,
+                    monto: p.Monto?.number || 0,
+                    fortyBox: p['Forty Box']?.select?.name || 'Sin cuenta',
+                    mes: p.Mes?.select?.name || 'Sin mes',
+                    items: p.Items?.title?.[0]?.plain_text || 'Sin descripción'
                 };
             });
 
             const total = processed.reduce((s, e) => s + e.monto, 0);
-            const esAhorro = processed.filter(e => e.ahorro === 'Sí' || e.ahorro === 'Si').reduce((s, e) => s + e.monto, 0);
-            
+            const promedio = processed.length ? total / processed.length : 0;
+
             document.getElementById('statsGrid').innerHTML = `
                 <div class="stat-card">
                     <div class="stat-value">$${(total / 1000000).toFixed(2)}M</div>
                     <div class="stat-label">Total Egresos</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" style="color: var(--warning);">$${(esAhorro / 1000000).toFixed(2)}M</div>
-                    <div class="stat-label">Destinado a Ahorro</div>
+                    <div class="stat-value">$${Math.round(promedio / 1000)}K</div>
+                    <div class="stat-label">Promedio</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">${processed.length}</div>
                     <div class="stat-label">Transacciones</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${new Set(processed.map(e => e.tipoPrincipal)).size}</div>
+                    <div class="stat-value">${new Set(processed.flatMap(e => e.tipos)).size}</div>
                     <div class="stat-label">Categorías</div>
                 </div>
             `;
 
             renderPolarChart(processed);
-            renderMonthChart(processed);
-            renderAntSpending(processed);
+            renderMesChart(processed);
+            renderList(processed);
         }
 
         function renderPolarChart(egresos) {
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const textColor = isDark ? '#ffffff' : '#2c2c2c';
 
-            // Agrupar por Tipo (usando multi_select)
+            // Agrupar por tipo (multi_select puede tener varios)
             const porTipo = {};
             egresos.forEach(e => {
                 e.tipos.forEach(tipo => {
@@ -141,7 +146,7 @@
                 });
             });
 
-            const sorted = Object.entries(porTipo).sort((a, b) => b[1] - a[1]).slice(0, 8);
+            const sorted = Object.entries(porTipo).sort((a, b) => b[1] - a[1]);
             const colors = [
                 'rgba(239, 68, 68, 0.7)', 'rgba(245, 158, 11, 0.7)',
                 'rgba(16, 185, 129, 0.7)', 'rgba(59, 130, 246, 0.7)',
@@ -155,7 +160,7 @@
                     labels: sorted.map(s => s[0]),
                     datasets: [{
                         data: sorted.map(s => s[1]),
-                        backgroundColor: colors,
+                        backgroundColor: colors.slice(0, sorted.length),
                         borderColor: isDark ? '#202020' : '#ffffff',
                         borderWidth: 2
                     }]
@@ -166,19 +171,7 @@
                     plugins: {
                         legend: {
                             position: 'right',
-                            labels: {
-                                color: textColor,
-                                generateLabels: chart => {
-                                    const data = chart.data;
-                                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                    return data.labels.map((label, i) => ({
-                                        text: `${label}: ${((data.datasets[0].data[i] / total) * 100).toFixed(1)}%`,
-                                        fillStyle: data.datasets[0].backgroundColor[i],
-                                        hidden: false,
-                                        index: i
-                                    }));
-                                }
-                            }
+                            labels: { color: textColor }
                         }
                     },
                     scales: {
@@ -192,7 +185,7 @@
             });
         }
 
-        function renderMonthChart(egresos) {
+        function renderMesChart(egresos) {
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const textColor = isDark ? '#ffffff' : '#2c2c2c';
             const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
@@ -202,7 +195,7 @@
                 porMes[e.mes] = (porMes[e.mes] || 0) + e.monto;
             });
 
-            new Chart(document.getElementById('monthChart'), {
+            new Chart(document.getElementById('mesChart'), {
                 type: 'line',
                 data: {
                     labels: Object.keys(porMes),
@@ -227,27 +220,17 @@
             });
         }
 
-        function renderAntSpending(egresos) {
-            // Gastos hormiga: montos menores a $20,000
-            const hormiga = egresos.filter(e => e.monto < 20000);
-            const totalHormiga = hormiga.reduce((s, e) => s + e.monto, 0);
-
-            document.getElementById('antTotal').textContent = '$' + (totalHormiga / 1000).toFixed(0) + 'K';
-
-            // Agrupar por tipo
-            const porTipo = {};
-            hormiga.forEach(h => {
-                porTipo[h.tipoPrincipal] = (porTipo[h.tipoPrincipal] || 0) + h.monto;
-            });
-
-            const sorted = Object.entries(porTipo).sort((a, b) => b[1] - a[1]).slice(0, 5);
-
-            document.getElementById('antList').innerHTML = sorted.length ? sorted.map(([tipo, monto]) => `
-                <div class="ant-item">
-                    <span>${tipo}</span>
-                    <strong>$${(monto / 1000).toFixed(0)}K</strong>
+        function renderList(egresos) {
+            const recientes = egresos.slice(-5).reverse();
+            document.getElementById('expenseList').innerHTML = recientes.map(e => `
+                <div class="expense-item">
+                    <div class="expense-info">
+                        <div class="expense-name">${e.items}</div>
+                        <div class="expense-meta">${e.tipos.join(', ')} • ${e.fortyBox} • ${e.mes}</div>
+                    </div>
+                    <div class="expense-amount">-$${e.monto.toLocaleString()}</div>
                 </div>
-            `).join('') : '<div style="text-align: center; color: var(--text-secondary);">No se detectaron gastos hormiga</div>';
+            `).join('');
         }
 
         loadData();
