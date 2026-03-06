@@ -52,14 +52,13 @@ def extraer_datos_notion(db_id, nombre_db):
             results = data.get("results", [])
             resultados.extend(results)
             
-            # 🔍 ANÁLISIS DE PRIMER REGISTRO (solo la primera vez)
             if results and len(resultados) <= len(results):
-                print(f"✅ Conectado. Total registros: {data.get('total', len(results))}")
+                print(f"✅ Conectado. Total en Notion: {data.get('total', len(results))}")
                 print(f"\n🔍 ESTRUCTURA DE PROPIEDADES:")
                 props = results[0].get('properties', {})
                 for prop_name, prop_val in props.items():
                     tipo = prop_val.get('type', 'unknown')
-                    print(f"   • {prop_name:<20} ({tipo})")
+                    print(f"   • {prop_name:<25} ({tipo})")
             
             next_cursor = data.get("next_cursor")
             if not next_cursor:
@@ -72,24 +71,29 @@ def extraer_datos_notion(db_id, nombre_db):
     print(f"📊 Registros extraídos: {len(resultados)}")
     return resultados
 
-# Ejecución
 print(f"\n🚀 INICIANDO EXTRACCIÓN JAPH 2026 - {hora_actual}\n")
 
 datos_finales = {
     "metadata": {
         "ultima_actualizacion": hora_actual,
-        "estado": "OK"
+        "estado": "OK",
+        "total_registros": 0  # Se calculará después
     },
     "datos": {}
 }
 
+total_registros = 0
 for nombre, id_notion in dbs_config.items():
-    datos_finales["datos"][nombre] = extraer_datos_notion(id_notion, nombre)
+    datos = extraer_datos_notion(id_notion, nombre)
+    datos_finales["datos"][nombre] = datos
+    total_registros += len(datos)
 
-# Guardar
+# Calcular total_registros correctamente
+datos_finales["metadata"]["total_registros"] = total_registros
+
 with open("datos.json", "w", encoding="utf-8") as f:
     json.dump(datos_finales, f, ensure_ascii=False, indent=2)
 
 print(f"\n{'='*50}")
-print(f"✅ COMPLETADO: {sum(len(v) for v in datos_finales['datos'].values())} registros totales")
+print(f"✅ COMPLETADO: {total_registros} registros totales")
 print(f"{'='*50}")
