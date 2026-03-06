@@ -33,25 +33,38 @@
         .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
         .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
         .chart-wrapper { position: relative; height: 300px; }
+        .recent-list { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .list-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+        .income-item { display: flex; justify-content: space-between; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        .income-item:last-child { border-bottom: none; }
+        .income-info { flex: 1; }
+        .income-name { font-weight: 600; font-size: 0.9rem; }
+        .income-meta { font-size: 0.75rem; color: var(--text-secondary); }
+        .income-amount { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
         .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>💰 Análisis de Ingresos</h1>
+        <h1>💰 Ingresos</h1>
         <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
         
         <div class="kpi-grid" id="kpiGrid"><div class="loading">Cargando...</div></div>
         
         <div class="charts-grid">
             <div class="chart-container">
-                <div class="chart-title">Ingresos por Mes</div>
-                <div class="chart-wrapper"><canvas id="monthlyChart"></canvas></div>
+                <div class="chart-title">Por Mes</div>
+                <div class="chart-wrapper"><canvas id="mesChart"></canvas></div>
             </div>
             <div class="chart-container">
-                <div class="chart-title">Por Item/Fuente</div>
-                <div class="chart-wrapper"><canvas id="itemChart"></canvas></div>
+                <div class="chart-title">Por Tipo (Nequi, etc.)</div>
+                <div class="chart-wrapper"><canvas id="tipoChart"></canvas></div>
             </div>
+        </div>
+        
+        <div class="recent-list">
+            <div class="list-title">Últimos Ingresos</div>
+            <div id="recentList"></div>
         </div>
     </div>
 
@@ -62,29 +75,38 @@
                 const data = await response.json();
                 document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
                 
-                // NOMBRES EXACTOS DE COLUMNAS: Monto, Mes, Items, Fecha
-                const ingresos = data.datos?.ingresos || data.ingresos || [];
-                processIncomes(ingresos);
+                const ingresos = data.datos?.ingresos || [];
+                processIngresos(ingresos);
             } catch (error) {
                 document.getElementById('kpiGrid').innerHTML = `<div style="color: #ef4444;">Error: ${error.message}</div>`;
             }
         }
 
-        function processIncomes(ingresos) {
+        function processIngresos(ingresos) {
+            // ESTRUCTURA REAL:
+            // • Fecha (date) → "2026-03-02"
+            // • Motivo (select) → "Sueldo"
+            // • Tipo (select) → "Nequi"
+            // • Monto (number) → 510000
+            // • Balance (relation)
+            // • Mes (select) → "Febrero"
+            // • Items (title) → "Nomina Hotel - Segunda Quin Feb"
+            
             const processed = ingresos.map(i => {
-                const props = i.properties || {};
+                const p = i.properties || {};
                 return {
-                    // NOMBRES EXACTOS DE TUS COLUMNAS:
-                    monto: props.Monto?.number || 0,
-                    mes: props.Mes?.select?.name || 'Sin mes',
-                    item: props.Items?.title?.[0]?.plain_text || 'Sin item',
-                    fecha: props.Fecha?.date?.start ? new Date(props.Fecha.date.start) : new Date(i.created_time)
+                    fecha: p.Fecha?.date?.start,
+                    motivo: p.Motivo?.select?.name || 'Sin motivo',
+                    tipo: p.Tipo?.select?.name || 'Sin tipo',
+                    monto: p.Monto?.number || 0,
+                    mes: p.Mes?.select?.name || 'Sin mes',
+                    items: p.Items?.title?.[0]?.plain_text || 'Sin descripción'
                 };
             });
 
             const total = processed.reduce((s, i) => s + i.monto, 0);
             const promedio = processed.length ? total / processed.length : 0;
-            const mesesUnicos = new Set(processed.map(i => i.mes)).size;
+            const mesesUnicos = [...new Set(processed.map(i => i.mes))].length;
 
             document.getElementById('kpiGrid').innerHTML = `
                 <div class="kpi-card">
@@ -93,7 +115,7 @@
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-value">$${Math.round(promedio / 1000)}K</div>
-                    <div class="kpi-label">Promedio por ingreso</div>
+                    <div class="kpi-label">Promedio</div>
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-value">${processed.length}</div>
@@ -101,11 +123,12 @@
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-value">${mesesUnicos}</div>
-                    <div class="kpi-label">Meses con ingresos</div>
+                    <div class="kpi-label">Meses</div>
                 </div>
             `;
 
             renderCharts(processed);
+            renderList(processed);
         }
 
         function renderCharts(ingresos) {
@@ -113,13 +136,13 @@
             const textColor = isDark ? '#ffffff' : '#2c2c2c';
             const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
 
-            // Por Mes (usando columna "Mes")
+            // Por Mes
             const porMes = {};
             ingresos.forEach(i => {
                 porMes[i.mes] = (porMes[i.mes] || 0) + i.monto;
             });
 
-            new Chart(document.getElementById('monthlyChart'), {
+            new Chart(document.getElementById('mesChart'), {
                 type: 'bar',
                 data: {
                     labels: Object.keys(porMes),
@@ -141,19 +164,19 @@
                 }
             });
 
-            // Por Item (usando columna "Items")
-            const porItem = {};
+            // Por Tipo (Nequi, etc.)
+            const porTipo = {};
             ingresos.forEach(i => {
-                porItem[i.item] = (porItem[i.item] || 0) + i.monto;
+                porTipo[i.tipo] = (porTipo[i.tipo] || 0) + i.monto;
             });
 
-            new Chart(document.getElementById('itemChart'), {
+            new Chart(document.getElementById('tipoChart'), {
                 type: 'doughnut',
                 data: {
-                    labels: Object.keys(porItem),
+                    labels: Object.keys(porTipo),
                     datasets: [{
-                        data: Object.values(porItem),
-                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ef4444']
+                        data: Object.values(porTipo),
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6']
                     }]
                 },
                 options: {
@@ -162,6 +185,19 @@
                     plugins: { legend: { position: 'right', labels: { color: textColor } } }
                 }
             });
+        }
+
+        function renderList(ingresos) {
+            const recientes = ingresos.slice(-5).reverse();
+            document.getElementById('recentList').innerHTML = recientes.map(i => `
+                <div class="income-item">
+                    <div class="income-info">
+                        <div class="income-name">${i.items}</div>
+                        <div class="income-meta">${i.motivo} • ${i.tipo} • ${i.mes}</div>
+                    </div>
+                    <div class="income-amount">+$${i.monto.toLocaleString()}</div>
+                </div>
+            `).join('');
         }
 
         loadData();
