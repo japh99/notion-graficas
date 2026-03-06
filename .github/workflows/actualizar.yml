@@ -4,59 +4,31 @@ on:
   schedule:
     - cron: '0 * * * *'
   workflow_dispatch:
-    inputs:
-      log_level:
-        description: 'Nivel de logging'
-        required: false
-        default: 'INFO'
-        type: choice
-        options:
-          - DEBUG
-          - INFO
-          - WARNING
-  push:
-    branches: [main]
-    paths:
-      - 'main.py'
-      - '.github/workflows/actualizar.yml'
 
 permissions:
   contents: write
-  actions: read
-
-env:
-  PYTHON_VERSION: '3.11'
 
 jobs:
   actualizar:
-    name: 📊 Sincronización Notion → GitHub Pages
+    name: 📊 Sincronización
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    
-    outputs:
-      registros_total: ${{ steps.ejecucion.outputs.registros_total }}
-      estado: ${{ steps.ejecucion.outputs.estado }}
     
     steps:
       - name: 📥 Descargar código fuente
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
 
-      - name: 🐍 Configurar Python ${{ env.PYTHON_VERSION }}
+      - name: 🐍 Configurar Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
-          # ELIMINADO: cache y cache-dependency-path que causaban el error
+          python-version: '3.11'
 
       - name: 📦 Instalar dependencias Python
         run: |
           python -m pip install --upgrade pip
           pip install requests pytz
-          python -c "import requests, pytz; print('✅ Dependencias OK')"
 
       - name: 🚜 Ejecutar Script de Extracción
-        id: ejecucion
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           DB_INGRESOS: ${{ secrets.DB_INGRESOS }}
@@ -68,22 +40,7 @@ jobs:
           DB_SUBS: ${{ secrets.DB_SUBS }}
           DB_SUENO: ${{ secrets.DB_SUENO }}
           DB_COMPRAS: ${{ secrets.DB_COMPRAS }}
-          LOG_LEVEL: ${{ github.event.inputs.log_level || 'INFO' }}
-          TZ: America/Bogota
-          
-        run: |
-          echo "🚀 Iniciando extracción de datos..."
-          python main.py
-          
-          if [ -f datos.json ]; then
-            REGISTROS=$(python -c "import json; d=json.load(open('datos.json')); print(d['metadata']['total_registros'])")
-            echo "registros_total=$REGISTROS" >> $GITHUB_OUTPUT
-            echo "estado=success" >> $GITHUB_OUTPUT
-            echo "✅ Extracción completada: $REGISTROS registros"
-          else
-            echo "estado=failure" >> $GITHUB_OUTPUT
-            exit 1
-          fi
+        run: python main.py
 
       - name: 🔍 Verificar datos.json
         run: |
@@ -91,66 +48,19 @@ jobs:
             echo "❌ Error: datos.json no fue generado"
             exit 1
           fi
-          
-          python -c "import json; json.load(open('datos.json'))" || exit 1
-          
-          echo "📊 Resumen del archivo generado:"
           ls -lh datos.json
-          echo ""
-          echo "📝 Metadata:"
-          python -c "import json; d=json.load(open('datos.json')); print(json.dumps(d['metadata'], indent=2))"
+          echo "✅ datos.json generado correctamente"
 
       - name: 💾 Guardar cambios en repositorio
-        id: commit
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
           git add datos.json
           
-          # Verificar si hay cambios reales
           if git diff --cached --quiet; then
-            echo "ℹ️ Sin cambios significativos detectados"
-            echo "commit_realizado=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ Sin cambios significativos"
             exit 0
           fi
           
-          FECHA=$(date '+%Y-%m-%d %H:%M')
-          REGISTROS="${{ steps.ejecucion.outputs.registros_total }}"
-          
-          git commit -m "🔄 Sincronización automática - $FECHA [skip ci]
-          
-          📊 Total registros: $REGISTROS"
-          
-          # Push con reintentos
-          for i in 1 2 3; do
-            git push && break
-            echo "⚠️ Reintento $i..."
-            sleep 2
-          done
-          
-          echo "commit_realizado=true" >> $GITHUB_OUTPUT
-
-      - name: 🧹 Limpiar backups antiguos
-        run: |
-          ls -t datos_backup_*.json 2>/dev/null | tail -n +6 | xargs -r rm -f
-          echo "🗑️ Backups antiguos eliminados"
-
-  desplegar:
-    name: 🌐 Desplegar a GitHub Pages
-    needs: actualizar
-    if: github.ref == 'refs/heads/main' && needs.actualizar.outputs.estado == 'success'
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v4
-      
-      - name: 🚀 Desplegar a GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          exclude_assets: 'main.py,datos_backup_*.json,.github'
-          keep_files: true
-          commit_message: "🌐 Auto-deploy: ${{ needs.actualizar.outputs.registros_total }} registros"
+          git commit -m "🔄 Sincronización automática - $(date '+%Y-%m-%d %H:%M')"
+          git push
