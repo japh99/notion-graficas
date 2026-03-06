@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 import pytz
 
+# Configuración
 NOTION_TOKEN = os.environ.get('NOTION_TOKEN')
 headers = {
     "Authorization": f"Bearer {NOTION_TOKEN}",
@@ -11,10 +12,9 @@ headers = {
     "Content-Type": "application/json"
 }
 
-zona_horaria = pytz.timezone('America/Bogota')
-hora_actual = datetime.now(zona_horaria).strftime("%d/%m/%Y %I:%M %p")
-
-dbs_config = {
+# Diccionario Maestro de Bases de Datos
+# Agregamos las nuevas para el Sueño
+dbs = {
     "ingresos": os.environ.get('DB_INGRESOS'),
     "egresos": os.environ.get('DB_EGRESOS'),
     "tareas": os.environ.get('DB_TAREAS'),
@@ -22,78 +22,42 @@ dbs_config = {
     "pomodoro": os.environ.get('DB_POMODORO'),
     "memento": os.environ.get('DB_MEMENTO'),
     "suscripciones": os.environ.get('DB_SUBS'),
-    "sueno": os.environ.get('DB_SUENO'),
+    "sueno": os.environ.get('DB_SUENO'), # Noches (Bd)
+    "sueno_detalles": os.environ.get('DB_SUENO_DETALLES'), # Sueño (Bd)
+    "resumenes": os.environ.get('DB_SUENO_RESUMEN'), # Resúmenes (Bd)
     "compras": os.environ.get('DB_COMPRAS')
 }
 
-def extraer_datos_notion(db_id, nombre_db):
-    if not db_id or len(db_id) < 10:
-        print(f"⚠️  Saltando '{nombre_db}': ID no configurado")
-        return []
-    
-    print(f"\n{'='*50}")
-    print(f"📦 EXTRAYENDO: {nombre_db}")
-    print(f"{'='*50}")
-    
-    url = f"https://api.notion.com/v1/databases/{db_id}/query"
-    resultados = []
-    next_cursor = None
-    
-    while True:
-        payload = {"page_size": 100}
-        if next_cursor:
-            payload["start_cursor"] = next_cursor
-        
-        try:
-            response = requests.post(url, headers=headers, json=payload, timeout=30)
-            response.raise_for_status()
-            
-            data = response.json()
-            results = data.get("results", [])
-            resultados.extend(results)
-            
-            if results and len(resultados) <= len(results):
-                print(f"✅ Conectado. Total en Notion: {data.get('total', len(results))}")
-                print(f"\n🔍 ESTRUCTURA DE PROPIEDADES:")
-                props = results[0].get('properties', {})
-                for prop_name, prop_val in props.items():
-                    tipo = prop_val.get('type', 'unknown')
-                    print(f"   • {prop_name:<25} ({tipo})")
-            
-            next_cursor = data.get("next_cursor")
-            if not next_cursor:
-                break
-                
-        except Exception as e:
-            print(f"❌ Error: {e}")
-            break
-    
-    print(f"📊 Registros extraídos: {len(resultados)}")
-    return resultados
-
-print(f"\n🚀 INICIANDO EXTRACCIÓN JAPH 2026 - {hora_actual}\n")
-
 datos_finales = {
     "metadata": {
-        "ultima_actualizacion": hora_actual,
-        "estado": "OK",
-        "total_registros": 0  # Se calculará después
-    },
-    "datos": {}
+        "actualizacion": datetime.now(pytz.timezone('America/Bogota')).strftime("%d/%m %I:%M %p")
+    }
 }
 
-total_registros = 0
-for nombre, id_notion in dbs_config.items():
-    datos = extraer_datos_notion(id_notion, nombre)
-    datos_finales["datos"][nombre] = datos
-    total_registros += len(datos)
+def obtener_datos(db_id, nombre):
+    if not db_id:
+        print(f"⚠️ Saltando {nombre}: No hay ID.")
+        return []
+    try:
+        url = f"https://api.notion.com/v1/databases/{db_id}/query"
+        response = requests.post(url, headers=headers)
+        if response.status_code == 200:
+            res = response.json().get("results", [])
+            print(f"✅ {nombre} extraído ({len(res)} registros).")
+            return res
+        else:
+            print(f"❌ Error en {nombre}: {response.status_code}")
+            return []
+    except Exception as e:
+        print(f"❌ Error crítico en {nombre}: {e}")
+        return []
 
-# Calcular total_registros correctamente
-datos_finales["metadata"]["total_registros"] = total_registros
+# Ejecución
+for nombre, db_id in dbs.items():
+    datos_finales[nombre] = obtener_datos(db_id, nombre)
 
+# Guardar datos.json
 with open("datos.json", "w", encoding="utf-8") as f:
-    json.dump(datos_finales, f, ensure_ascii=False, indent=2)
+    json.dump(datos_finales, f, ensure_ascii=False, indent=4)
 
-print(f"\n{'='*50}")
-print(f"✅ COMPLETADO: {total_registros} registros totales")
-print(f"{'='*50}")
+print("🚀 Proceso terminado. datos.json actualizado.")
