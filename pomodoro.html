@@ -3,292 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPH 2026 - Pomodoro Analytics</title>
+    <title>JAPH 2026 - Pomodoro High Performance</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-primary: #ffffff; --bg-secondary: #f5f5f5;
-            --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
-            --accent: #ef4444; --accent-hover: #dc2626;
-            --border: #e0e0e0; --success: #10b981;
-            --card-bg: #ffffff;
+            --bg: #ffffff; --text: #2c2c2c; --text-sec: #6b6b6b;
+            --accent: #ef4444; --border: #e0e0e0; --card: #ffffff;
+            --focus: #ef4444; --break: #10b981;
         }
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #191919; --bg-secondary: #252525;
-                --text-primary: #ffffff; --text-secondary: #a0a0a0;
-                --accent: #f87171; --accent-hover: #ef4444;
-                --border: #2f2f2f; --success: #34d399;
-                --card-bg: #202020;
+                --bg: #0f0f0f; --text: #ffffff; --text-sec: #a0a0a0;
+                --accent: #f87171; --border: #262626; --card: #1a1a1a;
             }
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 20px; line-height: 1.5; }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 15px; line-height: 1.4; }
         .container { max-width: 1000px; margin: 0 auto; }
+
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        h1 { font-size: 1.4rem; font-weight: 900; color: var(--accent); letter-spacing: -0.02em; }
         
-        /* Header & Selectors */
-        .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-        h1 { font-size: 1.8rem; font-weight: 800; color: var(--accent); }
-        .subtitle { color: var(--text-secondary); font-size: 0.85rem; }
+        .selector { display: flex; background: var(--border); padding: 3px; border-radius: 12px; gap: 2px; }
+        .btn { border: none; background: transparent; color: var(--text-sec); padding: 8px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 0.7rem; transition: 0.3s; }
+        .btn.active { background: var(--card); color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
-        .period-selector { display: flex; background: var(--bg-secondary); padding: 4px; border-radius: 8px; gap: 4px; }
-        .period-btn { 
-            border: none; background: transparent; color: var(--text-secondary); 
-            padding: 6px 16px; border-radius: 6px; cursor: pointer; 
-            font-weight: 600; font-size: 0.85rem; transition: all 0.2s; 
-        }
-        .period-btn.active { background: var(--card-bg); color: var(--accent); shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        /* Stats */
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 15px; text-align: center; }
+        .stat-val { font-size: 1.4rem; font-weight: 800; color: var(--accent); }
+        .stat-lab { font-size: 0.65rem; color: var(--text-sec); text-transform: uppercase; margin-top: 4px; }
 
-        /* Stats Cards */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem; }
-        .stat-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
-        .stat-value { font-size: 1.5rem; font-weight: 800; }
+        /* Chart */
+        .main-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 20px; }
+        .chart-title { font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.05em; }
+        .chart-wrapper { position: relative; height: 320px; width: 100%; }
 
-        /* Charts */
-        .main-chart-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; }
-        .secondary-charts { display: grid; grid-template-columns: 1fr 1.5fr; gap: 1.5rem; flex-wrap: wrap; }
-        @media (max-width: 768px) { .secondary-charts { grid-template-columns: 1fr; } }
-
-        .chart-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
-        .chart-header { font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; }
-        .chart-wrapper { position: relative; height: 250px; width: 100%; }
-
-        .session-item { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
-        .session-item:last-child { border-bottom: none; }
-        .tag { font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; margin-left: 8px; }
-        .tag-enfoque { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-        .tag-descanso { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        #loader { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 100; font-weight: bold; }
     </style>
 </head>
 <body>
 
+    <div id="loader">Sincronizando Tiempo...</div>
+
     <div class="container">
         <div class="header">
-            <div>
-                <h1>🍅 Pomodoro Analytics</h1>
-                <p class="subtitle">Actualizado: <span id="lastUpdate">...</span></p>
-            </div>
-            <div class="period-selector">
-                <button class="period-btn active" onclick="updateView('day')">Día</button>
-                <button class="period-btn" onclick="updateView('week')">Semana</button>
-                <button class="period-btn" onclick="updateView('month')">Mes</button>
+            <h1>🍅 Pomodoro Engine</h1>
+            <div class="selector">
+                <button class="btn active" onclick="updateView('day')">DÍA</button>
+                <button class="btn" onclick="updateView('week')">SEMANA</button>
+                <button class="btn" onclick="updateView('month')">MES</button>
+                <button class="btn" onclick="updateView('year')">AÑO</button>
             </div>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total Enfoque</div>
-                <div class="stat-value" id="statFocus">0h</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Sesiones Realizadas</div>
-                <div class="stat-value" id="statSessions">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Promedio Diario</div>
-                <div class="stat-value" id="statAvg">0m</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Cumplimiento</div>
-                <div class="stat-value" id="statRatio" style="color: var(--success);">0%</div>
-            </div>
-        </div>
+        <div class="stats" id="statsGrid"></div>
 
-        <div class="main-chart-card">
-            <div class="chart-header">Rendimiento Temporal (Minutos)</div>
+        <div class="main-card">
+            <div class="chart-title" id="chartTitle">Análisis de Rendimiento</div>
             <div class="chart-wrapper"><canvas id="mainChart"></canvas></div>
-        </div>
-
-        <div class="secondary-charts">
-            <div class="chart-box">
-                <div class="chart-header">Balance</div>
-                <div class="chart-wrapper"><canvas id="pieChart"></canvas></div>
-            </div>
-            <div class="chart-box">
-                <div class="chart-header">Sesiones Recientes</div>
-                <div id="recentList"></div>
-            </div>
         </div>
     </div>
 
     <script>
         let rawData = [];
         let mainChart = null;
-        let pieChart = null;
-        let currentPeriod = 'day';
-
-        const isDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const getColors = () => isDark() ? { text: '#a0a0a0', grid: '#2f2f2f' } : { text: '#6b6b6b', grid: '#e0e0e0' };
+        const MESES_NOMBRES = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
         async function init() {
             try {
                 const response = await fetch('datos.json');
                 const json = await response.json();
-                
-                // Ajuste de ruta según tu datos.json
-                rawData = json.pomodoro || json.datos?.pomodoro || [];
-                document.getElementById('lastUpdate').textContent = json.metadata?.actualizacion || 'Recién';
-                
-                updateView('day');
+                rawData = json.pomodoro || [];
+                document.getElementById('loader').remove();
+                updateView('week');
             } catch (e) {
-                console.error("Error cargando datos", e);
+                document.getElementById('loader').innerText = "❌ Error cargando datos.json";
             }
         }
 
         function updateView(period) {
-            currentPeriod = period;
+            document.querySelectorAll('.btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === period));
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const tCol = isDark ? '#a0a0a0' : '#6b6b6b';
             
-            // Actualizar botones
-            document.querySelectorAll('.period-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.toLowerCase() === (period === 'day' ? 'día' : period === 'week' ? 'semana' : 'mes'));
-            });
-
-            const processed = processData(rawData);
-            renderStats(processed);
-            renderMainChart(processed[period]);
-            renderPieChart(processed.totals);
-            renderRecentList(processed.list);
-        }
-
-        function processData(data) {
-            const now = new Date();
-            const totals = { focus: 0, break: 0 };
-            const dayMap = {};
-            const weekMap = {};
-            const monthMap = {};
-            const list = [];
-
-            data.forEach(item => {
-                const p = item.properties;
-                const dateStr = p['Inicio 🍅']?.date?.start;
-                if (!dateStr) return;
-
-                const date = new Date(dateStr);
-                const minutes = p['Tiempo']?.number || 0;
-                const type = p['Tipo']?.select?.name || 'Enfoque';
-                const isFocus = type.includes('Enfoque');
-
-                if (isFocus) totals.focus += minutes;
-                else totals.break += minutes;
-
-                // Solo trackear enfoque para las gráficas de rendimiento
-                if (isFocus) {
-                    // Por Día
-                    const dKey = date.toISOString().split('T')[0];
-                    dayMap[dKey] = (dayMap[dKey] || 0) + minutes;
-
-                    // Por Semana (ISO Week)
-                    const wKey = getWeekID(date);
-                    weekMap[wKey] = (weekMap[wKey] || 0) + minutes;
-
-                    // Por Mes
-                    const mKey = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-                    monthMap[mKey] = (monthMap[mKey] || 0) + minutes;
-                }
-
-                list.push({ 
-                    name: p.Name?.title[0]?.plain_text || 'Sesión',
-                    date, minutes, type, isFocus 
-                });
-            });
-
-            return { day: dayMap, week: weekMap, month: monthMap, totals, list: list.sort((a,b) => b.date - a.date) };
-        }
-
-        function renderStats(data) {
-            const focusHours = (data.totals.focus / 60).toFixed(1);
-            const totalRatio = ((data.totals.focus / (data.totals.focus + data.totals.break)) * 100 || 0).toFixed(0);
+            const processed = processData(period);
+            renderStats(processed.stats);
             
-            document.getElementById('statFocus').textContent = `${focusHours}h`;
-            document.getElementById('statSessions').textContent = data.list.filter(i => i.isFocus).length;
-            document.getElementById('statRatio').textContent = `${totalRatio}%`;
-            
-            // Promedio diario basado en los últimos 7 días con actividad
-            const lastDays = Object.values(data.day).slice(-7);
-            const avg = lastDays.length ? (lastDays.reduce((a,b)=>a+b,0) / lastDays.length).toFixed(0) : 0;
-            document.getElementById('statAvg').textContent = `${avg}m`;
-        }
-
-        function renderMainChart(map) {
             const ctx = document.getElementById('mainChart').getContext('2d');
-            const labels = Object.keys(map).slice(-12); // Mostrar últimos 12 periodos
-            const values = labels.map(l => map[l]);
-            const config = getColors();
-
             if (mainChart) mainChart.destroy();
 
+            // Configuración Dinámica según el periodo
+            let type = 'bar';
+            let options = {
+                responsive: true, maintainAspectRatio: false,
+                animation: { duration: 2000, easing: 'easeOutElastic' },
+                plugins: { legend: { display: period === 'week', labels: { color: tCol, font: { size: 10 } } } },
+                scales: { 
+                    y: { stacked: period === 'week', ticks: { color: tCol }, grid: { color: 'rgba(125,125,125,0.1)' } },
+                    x: { stacked: period === 'week', ticks: { color: tCol }, grid: { display: false } }
+                }
+            };
+
+            if (period === 'day') {
+                type = 'radar';
+                options.scales = { r: { grid: { color: 'rgba(125,125,125,0.1)' }, pointLabels: { color: tCol } } };
+            } else if (period === 'month') {
+                type = 'line';
+            } else if (period === 'year') {
+                options.indexAxis = 'y'; // Barra horizontal para el año
+            }
+
             mainChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels.map(l => currentPeriod === 'day' ? l.split('-').slice(1).join('/') : l),
-                    datasets: [{
-                        data: values,
-                        backgroundColor: '#ef4444',
-                        borderRadius: 6,
-                        hoverBackgroundColor: '#f87171'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { grid: { color: config.grid }, ticks: { color: config.text } },
-                        x: { grid: { display: false }, ticks: { color: config.text } }
+                type: type,
+                data: processed.chartData,
+                options: options
+            });
+
+            document.getElementById('chartTitle').innerText = processed.title;
+        }
+
+        function processData(period) {
+            const now = new Date();
+            let title = "";
+            let stats = { focus: 0, sessions: 0, efficiency: 0 };
+            let chartData = { labels: [], datasets: [] };
+
+            if (period === 'day') {
+                title = "Distribución de Tareas Hoy (Radar)";
+                const today = rawData.filter(i => new Date(i.properties['Inicio 🍅']?.date?.start).toDateString() === now.toDateString());
+                const taskMap = {};
+                today.forEach(i => {
+                    const name = i.properties.Name?.title[0]?.plain_text || "General";
+                    const time = i.properties.Tiempo?.number || 0;
+                    if (i.properties.Tipo?.select?.name === "Enfoque") {
+                        taskMap[name] = (taskMap[name] || 0) + time;
+                        stats.focus += time;
+                        stats.sessions++;
                     }
+                });
+                chartData = {
+                    labels: Object.keys(taskMap),
+                    datasets: [{ label: 'Minutos', data: Object.values(taskMap), backgroundColor: 'rgba(239, 68, 68, 0.2)', borderColor: '#ef4444', borderWidth: 2 }]
+                };
+            } 
+            
+            else if (period === 'week') {
+                title = "Enfoque vs Descanso Semanal (Stacked)";
+                const days = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+                const focusData = [0,0,0,0,0,0,0], breakData = [0,0,0,0,0,0,0];
+                
+                rawData.slice(-30).forEach(i => {
+                    const d = new Date(i.properties['Inicio 🍅']?.date?.start);
+                    const dayIdx = (d.getDay() + 6) % 7;
+                    const time = i.properties.Tiempo?.number || 0;
+                    if (i.properties.Tipo?.select?.name === "Enfoque") { focusData[dayIdx] += time; stats.focus += time; stats.sessions++; }
+                    else { breakData[dayIdx] += time; }
+                });
+                
+                chartData = {
+                    labels: days,
+                    datasets: [
+                        { label: 'Enfoque', data: focusData, backgroundColor: '#ef4444', borderRadius: 5 },
+                        { label: 'Descanso', data: breakData, backgroundColor: '#10b981', borderRadius: 5 }
+                    ]
+                };
+            }
+
+            else if (period === 'month') {
+                title = "Tendencia de Enfoque Mensual (Line)";
+                const monthDays = {}, labels = [];
+                for(let i=29; i>=0; i--) {
+                    const d = new Date(new Date().setDate(now.getDate() - i)).toISOString().split('T')[0];
+                    monthDays[d] = 0; labels.push(d.split('-')[2]);
                 }
-            });
+                rawData.forEach(i => {
+                    const d = i.properties['Inicio 🍅']?.date?.start;
+                    if(monthDays[d] !== undefined && i.properties.Tipo?.select?.name === "Enfoque") {
+                        monthDays[d] += i.properties.Tiempo?.number || 0;
+                    }
+                });
+                stats.focus = Object.values(monthDays).reduce((a,b)=>a+b,0);
+                chartData = {
+                    labels: labels,
+                    datasets: [{ label: 'Minutos', data: Object.values(monthDays), borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', fill: true, tension: 0.4 }]
+                };
+            }
+
+            else if (period === 'year') {
+                title = "Cronología de Productividad Anual (Horizontal)";
+                const monthStats = new Array(12).fill(0);
+                rawData.forEach(i => {
+                    const d = new Date(i.properties['Inicio 🍅']?.date?.start);
+                    if(d.getFullYear() === now.getFullYear() && i.properties.Tipo?.select?.name === "Enfoque") {
+                        monthStats[d.getMonth()] += i.properties.Tiempo?.number || 0;
+                    }
+                });
+                stats.focus = monthStats.reduce((a,b)=>a+b,0);
+                chartData = {
+                    labels: MESES_NOMBRES,
+                    datasets: [{ label: 'Minutos Totales', data: monthStats, backgroundColor: '#ef4444', borderRadius: 5 }]
+                };
+            }
+
+            stats.efficiency = stats.focus > 0 ? Math.round((stats.sessions * 25 / stats.focus) * 100) : 0;
+            return { title, stats, chartData };
         }
 
-        function renderPieChart(totals) {
-            const ctx = document.getElementById('pieChart').getContext('2d');
-            if (pieChart) pieChart.destroy();
-
-            pieChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Enfoque', 'Descanso'],
-                    datasets: [{
-                        data: [totals.focus, totals.break],
-                        backgroundColor: ['#ef4444', '#10b981'],
-                        borderWidth: 0,
-                        cutout: '70%'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom', labels: { color: getColors().text, usePointStyle: true } } }
-                }
-            });
-        }
-
-        function renderRecentList(list) {
-            const html = list.slice(0, 5).map(i => `
-                <div class="session-item">
-                    <div>
-                        <span style="font-size: 0.85rem; font-weight: 600;">${i.name}</span>
-                        <span class="tag ${i.isFocus ? 'tag-enfoque' : 'tag-descanso'}">${i.type}</span>
-                    </div>
-                    <div style="text-align: right">
-                        <div style="font-weight: 800; color: var(--accent); font-size: 0.9rem;">${i.minutes}m</div>
-                        <div style="font-size: 0.7rem; color: var(--text-secondary);">${i.date.toLocaleDateString()}</div>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('recentList').innerHTML = html || '<p style="font-size: 0.8rem; color: var(--text-secondary);">Sin datos</p>';
-        }
-
-        function getWeekID(date) {
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
-            const yearStart = new Date(d.getFullYear(), 0, 1);
-            const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-            return `${d.getFullYear()}-W${weekNo}`;
+        function renderStats(s) {
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-card"><div class="stat-val">${(s.focus/60).toFixed(1)}h</div><div class="stat-lab">Total Enfoque</div></div>
+                <div class="stat-card"><div class="stat-val">${s.sessions}</div><div class="stat-lab">Sesiones</div></div>
+                <div class="stat-card"><div class="stat-val" style="color:#10b981">${s.efficiency}%</div><div class="stat-lab">Eficiencia</div></div>
+            `;
         }
 
         init();
