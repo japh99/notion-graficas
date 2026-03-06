@@ -11,11 +11,11 @@
             --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
             --accent: #ef4444; --accent-light: #f87171;
             --border: #e0e0e0; --success: #10b981;
-            --card-bg: #ffffff;
+            --card-bg: #ffffff';
         }
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #191919; --bg-secondary: #252525;
+                --bg-primary: #191919; --bg-secondary: '#252525';
                 --text-primary: #ffffff; --text-secondary: #a0a0a0;
                 --accent: #f87171; --accent-light: #fca5a5;
                 --border: #2f2f2f; --success: #34d399;
@@ -35,6 +35,14 @@
         .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
         .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
         .chart-wrapper { position: relative; height: 300px; }
+        .session-list { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .list-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+        .session-item { display: flex; justify-content: space-between; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        .session-item:last-child { border-bottom: none; }
+        .session-info { flex: 1; }
+        .session-name { font-weight: 600; font-size: 0.9rem; }
+        .session-meta { font-size: 0.75rem; color: var(--text-secondary); }
+        .session-time { font-weight: 700; color: var(--accent); }
         .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
@@ -55,6 +63,11 @@
                 <div class="chart-wrapper"><canvas id="timeChart"></canvas></div>
             </div>
         </div>
+        
+        <div class="session-list">
+            <div class="list-title">Últimas Sesiones</div>
+            <div id="sessionList"></div>
+        </div>
     </div>
 
     <script>
@@ -64,8 +77,7 @@
                 const data = await response.json();
                 document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
                 
-                // NOMBRES EXACTOS: Name (title), Tiempo (number), Tipo (select: "Enfoque" o "Descanso")
-                const pomodoros = data.datos?.pomodoro || data.pomodoro || [];
+                const pomodoros = data.datos?.pomodoro || [];
                 processPomodoros(pomodoros);
             } catch (error) {
                 document.getElementById('statsGrid').innerHTML = `<div style="color: var(--accent);">Error: ${error.message}</div>`;
@@ -73,27 +85,40 @@
         }
 
         function processPomodoros(pomodoros) {
+            // ESTRUCTURA REAL DE POMODORO:
+            // • Inicio 🍅 (date)
+            // • 🔥 PROYECTOS (relation)
+            // • Tipo (select) → "Enfoque" o "Descanso"
+            // • Tiempo (number) → minutos
+            // • Enfoque 🍅 (formula)
+            // • Fórmula Descanso (formula)
+            // • Fórmula Enfoque (formula)
+            // • Descansos ☕️ (formula)
+            // • Name (title)
+            
             const processed = pomodoros.map(p => {
                 const props = p.properties || {};
                 return {
-                    // NOMBRES EXACTOS:
                     nombre: props.Name?.title?.[0]?.plain_text || 'Sesión',
+                    inicio: props['Inicio 🍅']?.date?.start,
+                    tipo: props.Tipo?.select?.name || 'Enfoque',
                     tiempo: props.Tiempo?.number || 25,
-                    tipo: props.Tipo?.select?.name || 'Enfoque' // "Enfoque" o "Descanso"
+                    enfoqueFormula: props['Enfoque 🍅']?.formula?.number || 0,
+                    descansos: props['Descansos ☕️']?.formula?.number || 0
                 };
             });
 
             const totalSesiones = processed.length;
             const tiempoTotal = processed.reduce((s, p) => s + p.tiempo, 0);
-            const enfoque = processed.filter(p => p.tipo === 'Enfoque');
-            const descanso = processed.filter(p => p.tipo === 'Descanso');
+            const enfoque = processed.filter(p => p.tipo === 'Enfoque' || p.tipo.includes('Enfoque'));
+            const descanso = processed.filter(p => p.tipo === 'Descanso' || p.tipo.includes('Descanso'));
             const tiempoEnfoque = enfoque.reduce((s, p) => s + p.tiempo, 0);
             const tiempoDescanso = descanso.reduce((s, p) => s + p.tiempo, 0);
 
             document.getElementById('statsGrid').innerHTML = `
                 <div class="stat-card">
                     <div class="stat-value">${totalSesiones}</div>
-                    <div class="stat-label">Sesiones Totales</div>
+                    <div class="stat-label">Sesiones</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">${(tiempoTotal / 60).toFixed(1)}h</div>
@@ -110,13 +135,13 @@
             `;
 
             renderCharts(processed, tiempoEnfoque, tiempoDescanso);
+            renderList(processed);
         }
 
         function renderCharts(pomodoros, tiempoEnfoque, tiempoDescanso) {
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const textColor = isDark ? '#ffffff' : '#2c2c2c';
 
-            // Gráfico de tipos
             new Chart(document.getElementById('typeChart'), {
                 type: 'pie',
                 data: {
@@ -133,7 +158,6 @@
                 }
             });
 
-            // Gráfico de tiempo por sesión
             new Chart(document.getElementById('timeChart'), {
                 type: 'bar',
                 data: {
@@ -141,7 +165,9 @@
                     datasets: [{
                         label: 'Minutos',
                         data: pomodoros.slice(-10).map(p => p.tiempo),
-                        backgroundColor: pomodoros.slice(-10).map(p => p.tipo === 'Enfoque' ? '#ef4444' : '#10b981'),
+                        backgroundColor: pomodoros.slice(-10).map(p => 
+                            p.tipo.includes('Enfoque') ? '#ef4444' : '#10b981'
+                        ),
                         borderRadius: 4
                     }]
                 },
@@ -155,6 +181,226 @@
                     }
                 }
             });
+        }
+
+        function renderList(pomodoros) {
+            const recientes = pomodoros.slice(-5).reverse();
+            document.getElementById('sessionList').innerHTML = recientes.map(p => {
+                const fecha = p.inicio ? new Date(p.inicio).toLocaleDateString('es') : 'Sin fecha';
+                return `
+                    <div class="session-item">
+                        <div class="session-info">
+                            <div class="session-name">${p.nombre}</div>
+                            <div class="session-meta">${p.tipo} • ${fecha}</div>
+                        </div>
+                        <div class="session-time">${p.tiempo} min</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        loadData();
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAPH 2026 - Pomodoro</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f5f5f5;
+            --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
+            --accent: #ef4444; --accent-light: #f87171;
+            --border: #e0e0e0; --success: #10b981;
+            --card-bg: #ffffff';
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #191919; --bg-secondary: '#252525';
+                --text-primary: #ffffff; --text-secondary: #a0a0a0;
+                --accent: #f87171; --accent-light: #fca5a5;
+                --border: #2f2f2f; --success: #34d399;
+                --card-bg: #202020;
+            }
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.85rem; color: var(--text-secondary); }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+        .chart-wrapper { position: relative; height: 300px; }
+        .session-list { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .list-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
+        .session-item { display: flex; justify-content: space-between; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        .session-item:last-child { border-bottom: none; }
+        .session-info { flex: 1; }
+        .session-name { font-weight: 600; font-size: 0.9rem; }
+        .session-meta { font-size: 0.75rem; color: var(--text-secondary); }
+        .session-time { font-weight: 700; color: var(--accent); }
+        .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍅 Pomodoro Tracker</h1>
+        <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
+        
+        <div class="stats-grid" id="statsGrid"><div class="loading">Cargando...</div></div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">Distribución: Enfoque vs Descanso</div>
+                <div class="chart-wrapper"><canvas id="typeChart"></canvas></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Tiempo por Sesión</div>
+                <div class="chart-wrapper"><canvas id="timeChart"></canvas></div>
+            </div>
+        </div>
+        
+        <div class="session-list">
+            <div class="list-title">Últimas Sesiones</div>
+            <div id="sessionList"></div>
+        </div>
+    </div>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('datos.json');
+                const data = await response.json();
+                document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
+                
+                const pomodoros = data.datos?.pomodoro || [];
+                processPomodoros(pomodoros);
+            } catch (error) {
+                document.getElementById('statsGrid').innerHTML = `<div style="color: var(--accent);">Error: ${error.message}</div>`;
+            }
+        }
+
+        function processPomodoros(pomodoros) {
+            // ESTRUCTURA REAL DE POMODORO:
+            // • Inicio 🍅 (date)
+            // • 🔥 PROYECTOS (relation)
+            // • Tipo (select) → "Enfoque" o "Descanso"
+            // • Tiempo (number) → minutos
+            // • Enfoque 🍅 (formula)
+            // • Fórmula Descanso (formula)
+            // • Fórmula Enfoque (formula)
+            // • Descansos ☕️ (formula)
+            // • Name (title)
+            
+            const processed = pomodoros.map(p => {
+                const props = p.properties || {};
+                return {
+                    nombre: props.Name?.title?.[0]?.plain_text || 'Sesión',
+                    inicio: props['Inicio 🍅']?.date?.start,
+                    tipo: props.Tipo?.select?.name || 'Enfoque',
+                    tiempo: props.Tiempo?.number || 25,
+                    enfoqueFormula: props['Enfoque 🍅']?.formula?.number || 0,
+                    descansos: props['Descansos ☕️']?.formula?.number || 0
+                };
+            });
+
+            const totalSesiones = processed.length;
+            const tiempoTotal = processed.reduce((s, p) => s + p.tiempo, 0);
+            const enfoque = processed.filter(p => p.tipo === 'Enfoque' || p.tipo.includes('Enfoque'));
+            const descanso = processed.filter(p => p.tipo === 'Descanso' || p.tipo.includes('Descanso'));
+            const tiempoEnfoque = enfoque.reduce((s, p) => s + p.tiempo, 0);
+            const tiempoDescanso = descanso.reduce((s, p) => s + p.tiempo, 0);
+
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${totalSesiones}</div>
+                    <div class="stat-label">Sesiones</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${(tiempoTotal / 60).toFixed(1)}h</div>
+                    <div class="stat-label">Tiempo Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--accent);">${enfoque.length}</div>
+                    <div class="stat-label">Enfoque</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--success);">${descanso.length}</div>
+                    <div class="stat-label">Descanso</div>
+                </div>
+            `;
+
+            renderCharts(processed, tiempoEnfoque, tiempoDescanso);
+            renderList(processed);
+        }
+
+        function renderCharts(pomodoros, tiempoEnfoque, tiempoDescanso) {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const textColor = isDark ? '#ffffff' : '#2c2c2c';
+
+            new Chart(document.getElementById('typeChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Enfoque', 'Descanso'],
+                    datasets: [{
+                        data: [tiempoEnfoque, tiempoDescanso],
+                        backgroundColor: ['#ef4444', '#10b981']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: textColor } } }
+                }
+            });
+
+            new Chart(document.getElementById('timeChart'), {
+                type: 'bar',
+                data: {
+                    labels: pomodoros.slice(-10).map((p, i) => `#${i + 1}`),
+                    datasets: [{
+                        label: 'Minutos',
+                        data: pomodoros.slice(-10).map(p => p.tiempo),
+                        backgroundColor: pomodoros.slice(-10).map(p => 
+                            p.tipo.includes('Enfoque') ? '#ef4444' : '#10b981'
+                        ),
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: isDark ? '#2f2f2f' : '#e0e0e0' }, ticks: { color: textColor } },
+                        x: { grid: { display: false }, ticks: { color: textColor } }
+                    }
+                }
+            });
+        }
+
+        function renderList(pomodoros) {
+            const recientes = pomodoros.slice(-5).reverse();
+            document.getElementById('sessionList').innerHTML = recientes.map(p => {
+                const fecha = p.inicio ? new Date(p.inicio).toLocaleDateString('es') : 'Sin fecha';
+                return `
+                    <div class="session-item">
+                        <div class="session-info">
+                            <div class="session-name">${p.nombre}</div>
+                            <div class="session-meta">${p.tipo} • ${fecha}</div>
+                        </div>
+                        <div class="session-time">${p.tiempo} min</div>
+                    </div>
+                `;
+            }).join('');
         }
 
         loadData();
