@@ -7,144 +7,44 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
-            --text-primary: #2c2c2c;
-            --text-secondary: #6b6b6b;
-            --accent: #6366f1;
-            --accent-light: #818cf8;
-            --border: #e0e0e0;
-            --success: #10b981;
-            --danger: #ef4444;
-            --card-bg: #ffffff;
+            --bg-primary: #ffffff; --bg-secondary: #f5f5f5;
+            --text-primary: #2c2c2c; --text-secondary: #6b6b6b;
+            --accent: #6366f1; --accent-light: #818cf8;
+            --border: #e0e0e0; --success: #10b981; --danger: #ef4444;
+            --card-bg: #ffffff';
         }
-        
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg-primary: #191919;
-                --bg-secondary: #252525;
-                --text-primary: #ffffff;
-                --text-secondary: #a0a0a0;
-                --accent: #818cf8;
-                --accent-light: #a5b4fc;
-                --border: #2f2f2f;
-                --success: #34d399;
-                --danger: #f87171;
+                --bg-primary: #191919; --bg-secondary: '#252525';
+                --text-primary: #ffffff; --text-secondary: #a0a0a0;
+                --accent: #818cf8; --accent-light: #a5b4fc;
+                --border: #2f2f2f; --success: #34d399; --danger: #f87171;
                 --card-bg: #202020;
             }
         }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            padding: 20px;
-        }
-        
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); padding: 20px; }
         .container { max-width: 1200px; margin: 0 auto; }
-        
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
+        h1 { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
         .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem; }
-        
-        .balance-hero {
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            border-radius: 16px;
-            padding: 2rem;
-            color: white;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        
-        .balance-label { font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem; }
-        .balance-value { font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; }
-        .balance-breakdown {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            font-size: 0.9rem;
-        }
-        
+        .balance-hero { background: linear-gradient(135deg, var(--accent), var(--accent-light)); border-radius: 16px; padding: 2rem; color: white; text-align: center; margin-bottom: 2rem; }
+        .balance-label { font-size: 0.9rem; opacity: 0.9; }
+        .balance-value { font-size: 3.5rem; font-weight: 700; margin: 0.5rem 0; }
+        .balance-breakdown { display: flex; justify-content: center; gap: 2rem; font-size: 0.9rem; margin-top: 1rem; }
         .breakdown-item { display: flex; align-items: center; gap: 0.5rem; }
-        .breakdown-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
         .dot-income { background: #34d399; }
         .dot-expense { background: #f87171; }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .metric-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        
-        .metric-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .metric-label { font-size: 0.8rem; color: var(--text-secondary); }
-        .metric-trend { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 12px; }
-        .trend-up { background: rgba(16, 185, 129, 0.2); color: var(--success); }
-        .trend-down { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
-        
-        .metric-value { font-size: 1.8rem; font-weight: 700; }
-        .metric-value.positive { color: var(--success); }
-        .metric-value.negative { color: var(--danger); }
-        
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .chart-container {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; }
+        .stat-value.positive { color: var(--success); }
+        .stat-value.negative { color: var(--danger); }
+        .stat-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem; }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .chart-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
         .chart-title { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; }
         .chart-wrapper { position: relative; height: 300px; }
-        
-        .insights-panel {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        
-        .insight-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent);
-        }
-        
         .loading { text-align: center; padding: 3rem; color: var(--text-secondary); }
     </style>
 </head>
@@ -154,43 +54,31 @@
         <p class="subtitle">Última actualización: <span id="lastUpdate">Cargando...</span></p>
         
         <div class="balance-hero">
-            <div class="balance-label">Balance Neto del Mes</div>
+            <div class="balance-label">Balance Neto</div>
             <div class="balance-value" id="netBalance">$0</div>
             <div class="balance-breakdown">
                 <div class="breakdown-item">
-                    <div class="breakdown-dot dot-income"></div>
+                    <div class="dot dot-income"></div>
                     <span>Ingresos: <strong id="totalIncome">$0</strong></span>
                 </div>
                 <div class="breakdown-item">
-                    <div class="breakdown-dot dot-expense"></div>
+                    <div class="dot dot-expense"></div>
                     <span>Egresos: <strong id="totalExpense">$0</strong></span>
                 </div>
             </div>
         </div>
         
-        <div class="metrics-grid" id="metricsGrid">
-            <div class="loading">Calculando métricas...</div>
-        </div>
+        <div class="stats-grid" id="statsGrid"><div class="loading">Calculando...</div></div>
         
         <div class="charts-grid">
             <div class="chart-container">
-                <div class="chart-title">Flujo de Caja (Últimos 6 meses)</div>
-                <div class="chart-wrapper">
-                    <canvas id="cashflowChart"></canvas>
-                </div>
+                <div class="chart-title">Flujo de Caja por Mes</div>
+                <div class="chart-wrapper"><canvas id="cashflowChart"></canvas></div>
             </div>
-            
             <div class="chart-container">
-                <div class="chart-title">Composición Financiera</div>
-                <div class="chart-wrapper">
-                    <canvas id="compositionChart"></canvas>
-                </div>
+                <div class="chart-title">Distribución</div>
+                <div class="chart-wrapper"><canvas id="pieChart"></canvas></div>
             </div>
-        </div>
-        
-        <div class="insights-panel">
-            <div class="chart-title">📊 Insights Financieros</div>
-            <div id="insightsList"></div>
         </div>
     </div>
 
@@ -199,135 +87,96 @@
             try {
                 const response = await fetch('datos.json');
                 const data = await response.json();
+                document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
                 
-                document.getElementById('lastUpdate').textContent = 
-                    data.metadata?.ultima_actualizacion || 'Desconocida';
-                
-                const ingresos = data.datos?.ingresos || data.ingresos || [];
-                const egresos = data.datos?.egresos || data.egresos || [];
-                
+                const ingresos = data.datos?.ingresos || [];
+                const egresos = data.datos?.egresos || [];
                 processBalance(ingresos, egresos);
             } catch (error) {
-                document.getElementById('metricsGrid').innerHTML = 
-                    `<div style="color: var(--danger);">Error: ${error.message}</div>`;
+                document.getElementById('statsGrid').innerHTML = `<div style="color: var(--danger);">Error: ${error.message}</div>`;
             }
         }
-        
+
         function processBalance(ingresos, egresos) {
-            const ingresosProc = ingresos.map(i => ({
-                monto: i.properties?.Monto?.number || 0,
-                fecha: new Date(i.properties?.Fecha?.date?.start || i.created_time),
-                categoria: i.properties?.Fuente?.select?.name || 'Otro'
-            }));
-            
-            const egresosProc = egresos.map(e => ({
-                monto: e.properties?.Monto?.number || 0,
-                fecha: new Date(e.properties?.Fecha?.date?.start || e.created_time),
-                categoria: e.properties?.Categoría?.select?.name || 'Otro',
-                tipo: e.properties?.Tipo?.select?.name || 'Fijo'
-            }));
-            
+            // Procesar ingresos
+            const ingresosProc = ingresos.map(i => {
+                const p = i.properties || {};
+                return {
+                    monto: p.Monto?.number || 0,
+                    mes: p.Mes?.select?.name || 'Sin mes'
+                };
+            });
+
+            // Procesar egresos
+            const egresosProc = egresos.map(e => {
+                const p = e.properties || {};
+                return {
+                    monto: p.Monto?.number || 0,
+                    mes: p.Mes?.select?.name || 'Sin mes'
+                };
+            });
+
             const totalIng = ingresosProc.reduce((s, i) => s + i.monto, 0);
             const totalEgr = egresosProc.reduce((s, e) => s + e.monto, 0);
             const balance = totalIng - totalEgr;
-            
-            document.getElementById('netBalance').textContent = 
-                (balance >= 0 ? '+' : '') + '$' + (balance / 1000000).toFixed(2) + 'M';
+
+            document.getElementById('netBalance').textContent = (balance >= 0 ? '+' : '') + '$' + (balance / 1000000).toFixed(2) + 'M';
             document.getElementById('netBalance').style.color = balance >= 0 ? '#34d399' : '#f87171';
             document.getElementById('totalIncome').textContent = '$' + (totalIng / 1000000).toFixed(2) + 'M';
             document.getElementById('totalExpense').textContent = '$' + (totalEgr / 1000000).toFixed(2) + 'M';
-            
-            renderMetrics(totalIng, totalEgr, balance, ingresosProc, egresosProc);
-            renderCharts(ingresosProc, egresosProc);
-            generateInsights(totalIng, totalEgr, egresosProc);
-        }
-        
-        function renderMetrics(ing, egr, balance, ingresos, egresos) {
-            const ratioAhorro = ing > 0 ? (balance / ing * 100) : 0;
-            const gastoFijo = egresos.filter(e => e.tipo === 'Fijo').reduce((s, e) => s + e.monto, 0);
-            const gastoVar = egr - gastoFijo;
-            
-            document.getElementById('metricsGrid').innerHTML = `
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-label">Ratio de Ahorro</span>
-                        <span class="metric-trend ${ratioAhorro > 20 ? 'trend-up' : 'trend-down'}">
-                            ${ratioAhorro > 20 ? 'Óptimo' : 'Bajo'}
-                        </span>
-                    </div>
-                    <div class="metric-value ${ratioAhorro > 0 ? 'positive' : 'negative'}">
-                        ${ratioAhorro.toFixed(1)}%
-                    </div>
+
+            // Calcular ratio de ahorro
+            const ratioAhorro = totalIng > 0 ? ((totalIng - totalEgr) / totalIng * 100) : 0;
+
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value ${ratioAhorro >= 0 ? 'positive' : 'negative'}">${ratioAhorro.toFixed(1)}%</div>
+                    <div class="stat-label">Margen de Ahorro</div>
                 </div>
-                
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-label">Gastos Fijos</span>
-                        <span class="metric-trend trend-down">Mensual</span>
-                    </div>
-                    <div class="metric-value negative">
-                        $${(gastoFijo / 1000000).toFixed(2)}M
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-value">${ingresosProc.length}</div>
+                    <div class="stat-label">Ingresos Registrados</div>
                 </div>
-                
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-label">Gastos Variables</span>
-                        <span class="metric-trend trend-down">Controlable</span>
-                    </div>
-                    <div class="metric-value negative">
-                        $${(gastoVar / 1000000).toFixed(2)}M
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-value">${egresosProc.length}</div>
+                    <div class="stat-label">Egresos Registrados</div>
                 </div>
-                
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <span class="metric-label">Runway (meses)</span>
-                        <span class="metric-trend trend-up">Estimado</span>
-                    </div>
-                    <div class="metric-value positive">
-                        ${balance > 0 ? Math.floor(balance / gastoFijo) : 0}
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-value">${new Set([...ingresosProc.map(i => i.mes), ...egresosProc.map(e => e.mes)]).size}</div>
+                    <div class="stat-label">Meses con Movimiento</div>
                 </div>
             `;
+
+            renderCharts(ingresosProc, egresosProc);
         }
-        
+
         function renderCharts(ingresos, egresos) {
             const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const textColor = isDark ? '#ffffff' : '#2c2c2c';
             const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
-            
-            // Flujo de caja mensual
-            const flujo = {};
-            for (let i = 5; i >= 0; i--) {
-                const fecha = new Date();
-                fecha.setMonth(fecha.getMonth() - i);
-                const key = fecha.toLocaleDateString('es', { month: 'short' });
-                flujo[key] = { ingresos: 0, egresos: 0 };
-            }
-            
-            ingresos.forEach(i => {
-                const key = i.fecha.toLocaleDateString('es', { month: 'short' });
-                if (flujo[key]) flujo[key].ingresos += i.monto;
+
+            // Combinar meses
+            const meses = [...new Set([...ingresos.map(i => i.mes), ...egresos.map(e => e.mes)])];
+            const porMes = {};
+            meses.forEach(m => {
+                porMes[m] = {
+                    ingresos: ingresos.filter(i => i.mes === m).reduce((s, i) => s + i.monto, 0),
+                    egresos: egresos.filter(e => e.mes === m).reduce((s, e) => s + e.monto, 0)
+                };
             });
-            
-            egresos.forEach(e => {
-                const key = e.fecha.toLocaleDateString('es', { month: 'short' });
-                if (flujo[key]) flujo[key].egresos += e.monto;
-            });
-            
+
             new Chart(document.getElementById('cashflowChart'), {
                 type: 'bar',
                 data: {
-                    labels: Object.keys(flujo),
+                    labels: Object.keys(porMes),
                     datasets: [{
                         label: 'Ingresos',
-                        data: Object.values(flujo).map(f => f.ingresos),
+                        data: Object.values(porMes).map(m => m.ingresos),
                         backgroundColor: '#10b981',
                         borderRadius: 4
                     }, {
                         label: 'Egresos',
-                        data: Object.values(flujo).map(f => f.egresos),
+                        data: Object.values(porMes).map(m => m.egresos),
                         backgroundColor: '#ef4444',
                         borderRadius: 4
                     }]
@@ -337,27 +186,21 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { labels: { color: textColor } } },
                     scales: {
-                        y: { 
-                            grid: { color: gridColor }, 
-                            ticks: { 
-                                color: textColor,
-                                callback: v => '$' + (v / 1000) + 'K'
-                            } 
-                        },
+                        y: { grid: { color: gridColor }, ticks: { color: textColor, callback: v => '$' + (v / 1000) + 'K' } },
                         x: { grid: { display: false }, ticks: { color: textColor } }
                     }
                 }
             });
-            
-            // Composición (donut)
+
+            // Pie chart
             const totalIng = ingresos.reduce((s, i) => s + i.monto, 0);
             const totalEgr = egresos.reduce((s, e) => s + e.monto, 0);
             const ahorro = Math.max(0, totalIng - totalEgr);
-            
-            new Chart(document.getElementById('compositionChart'), {
+
+            new Chart(document.getElementById('pieChart'), {
                 type: 'doughnut',
                 data: {
-                    labels: ['Gastos', 'Ahorro/Inversión'],
+                    labels: ['Egresos', 'Ahorro/Disponible'],
                     datasets: [{
                         data: [totalEgr, ahorro],
                         backgroundColor: ['#ef4444', '#10b981'],
@@ -368,46 +211,11 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     cutout: '70%',
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: textColor } }
-                    }
+                    plugins: { legend: { position: 'bottom', labels: { color: textColor } } }
                 }
             });
         }
-        
-        function generateInsights(ing, egr, egresos) {
-            const insights = [];
-            const ratio = ing > 0 ? ((ing - egr) / ing * 100) : 0;
-            
-            if (ratio < 10) {
-                insights.push('🚨 <strong>Alerta de ahorro:</strong> Tu ratio está por debajo del 10% recomendado. Revisa gastos no esenciales.');
-            } else if (ratio > 30) {
-                insights.push('🌟 <strong>Excelente disciplina:</strong> Estás ahorrando el ' + ratio.toFixed(0) + '% de tus ingresos.');
-            }
-            
-            const gastoHormiga = egresos.filter(e => e.monto < 20000).reduce((s, e) => s + e.monto, 0);
-            if (gastoHormiga > ing * 0.1) {
-                insights.push('🐜 <strong>Gasto hormiga detectado:</strong> $' + (gastoHormiga / 1000).toFixed(0) + 'K en pequeñas compras (>10% de ingresos).');
-            }
-            
-            const mayorCategoria = {};
-            egresos.forEach(e => {
-                mayorCategoria[e.categoria] = (mayorCategoria[e.categoria] || 0) + e.monto;
-            });
-            const catMayor = Object.entries(mayorCategoria).sort((a, b) => b[1] - a[1])[0];
-            if (catMayor && catMayor[1] > egr * 0.4) {
-                insights.push('📊 <strong>Concentración de gastos:</strong> ' + catMayor[0] + ' representa el ' + ((catMayor[1]/egr)*100).toFixed(0) + '% de tus egresos.');
-            }
-            
-            if (insights.length === 0) {
-                insights.push('✅ <strong>Balance saludable:</strong> Tus finanzas están en rango óptimo. Mantén el seguimiento.');
-            }
-            
-            document.getElementById('insightsList').innerHTML = insights.map(i => 
-                `<div class="insight-item">${i}</div>`
-            ).join('');
-        }
-        
+
         loadData();
     </script>
 </body>
