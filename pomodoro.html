@@ -3,220 +3,531 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPH 2026 - Auditoría Inteligente</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard Pomodoro · Notion</title>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        :root {
-            --text: #37352f; --text-sec: #6b6b6b;
-            --accent: #ef4444; --border: rgba(55, 53, 47, 0.16);
-            --card: rgba(255, 255, 255, 0.05);
-            --work: #3b82f6; --biz: #f59e0b; --pers: #10b981; --other: #9ca3af;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: transparent;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem;
+            color: #1e293b; /* color base para modo claro (Notion lo adapta) */
+        }
+
+        /* El contenedor principal también es transparente, se funde con Notion */
+        .dashboard {
+            max-width: 1400px;
+            width: 100%;
+            background: transparent;
+        }
+
+        /* Tarjetas sin fondo sólido, solo bordes muy suaves */
+        .card {
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 1.2rem;
+            padding: 1.5rem 1.2rem;
+            backdrop-filter: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            transition: border 0.2s;
+        }
+
+        /* Para modo oscuro de Notion (inversión automática vía sistema) */
         @media (prefers-color-scheme: dark) {
-            :root {
-                --text: #EBEBEB; --text-sec: #9ca3af;
-                --accent: #f87171; --border: rgba(255, 255, 255, 0.14);
-                --card: rgba(255, 255, 255, 0.03);
+            body {
+                color: #e2e8f0;
+            }
+            .card {
+                border-color: rgba(255, 255, 255, 0.08);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             }
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-        
-        body { background: transparent !important; color: var(--text); padding: 15px; overflow-x: hidden; }
-        .container { max-width: 1200px; margin: 0 auto; }
 
-        /* Header */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 10px; }
-        h1 { font-size: 1.4rem; font-weight: 900; color: var(--accent); letter-spacing: -0.02em; }
-        .selector { display: flex; background: var(--border); padding: 3px; border-radius: 12px; gap: 2px; }
-        .btn { border: none; background: transparent; color: var(--text-sec); padding: 8px 16px; border-radius: 9px; cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: 0.3s; }
-        .btn.active { background: var(--text); color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+        /* Cabecera con KPIs y botones */
+        .header-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
 
-        /* KPI Grid */
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center; }
-        .stat-val { font-size: 1.8rem; font-weight: 900; color: var(--accent); line-height: 1.1; }
-        .stat-lab { font-size: 0.65rem; color: var(--text-sec); text-transform: uppercase; font-weight: 800; margin-top: 6px; }
+        .kpi-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
 
-        /* Main Charts */
-        .grid-charts { display: grid; grid-template-columns: 2fr 1.2fr; gap: 20px; margin-bottom: 25px; }
-        @media (max-width: 850px) { .grid-charts { grid-template-columns: 1fr; } }
-        
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; display: flex; flex-direction: column; }
-        .card-title { font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.05em; }
-        .chart-box { position: relative; height: 320px; width: 100%; flex-grow: 1; }
+        .kpi-item {
+            display: flex;
+            flex-direction: column;
+        }
 
-        /* Bottom Row: Project Details */
-        .project-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; }
+        .kpi-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            opacity: 0.6;
+            font-weight: 500;
+        }
 
-        #loader { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; font-weight: 900; background: transparent; }
+        .kpi-value {
+            font-size: 2.4rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.6rem;
+            background: rgba(0, 0, 0, 0.02);
+            padding: 0.4rem;
+            border-radius: 3rem;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .filter-buttons {
+                background: rgba(255, 255, 255, 0.02);
+                border-color: rgba(255, 255, 255, 0.06);
+            }
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0.7;
+        }
+
+        .filter-btn.active {
+            background: rgba(0, 0, 0, 0.1);
+            opacity: 1;
+            backdrop-filter: blur(4px);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .filter-btn.active {
+                background: rgba(255, 255, 255, 0.15);
+            }
+        }
+
+        /* Grid de gráficos */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.9fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            min-height: 260px;
+        }
+
+        canvas {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+            max-height: 280px;
+        }
+
+        .project-list-container {
+            margin-top: 1rem;
+        }
+
+        .project-list-title {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Estado vacío / carga */
+        .empty-state, .loading {
+            text-align: center;
+            padding: 3rem;
+            opacity: 0.6;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
-
-    <div id="loader">ANALIZANDO...</div>
-
-    <div class="container">
-        <div class="header">
-            <h1>JAPH Pomodoro Intelligence</h1>
-            <div class="selector">
-                <button class="btn active" onclick="update('day')">HOY</button>
-                <button class="btn" onclick="update('week')">SEMANA</button>
-                <button class="btn" onclick="update('month')">MES</button>
+<div class="dashboard">
+    <!-- KPIs y filtros -->
+    <div class="header-row">
+        <div class="kpi-group">
+            <div class="kpi-item">
+                <span class="kpi-label">🍅 Enfoque</span>
+                <span class="kpi-value" id="total-enfoque">0</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">☕️ Descansos</span>
+                <span class="kpi-value" id="total-descanso">0</span>
+            </div>
+            <div class="kpi-item">
+                <span class="kpi-label">🏆 Categoría líder</span>
+                <span class="kpi-value" id="categoria-lider">—</span>
             </div>
         </div>
-
-        <!-- KPIs Dinámicos -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-val" id="kFocus">0h</div>
-                <div class="stat-lab">Total Enfoque</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="kBreak" style="color: #10b981;">0h</div>
-                <div class="stat-lab">Total Descanso</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="kBestCat" style="color: var(--text);">---</div>
-                <div class="stat-lab">Categoría Líder</div>
-            </div>
-        </div>
-
-        <div class="grid-charts">
-            <!-- Gráfico 1: Cronología Apilada por Categoría -->
-            <div class="card">
-                <div class="card-title">Composición del Tiempo (Categorías)</div>
-                <div class="chart-box"><canvas id="stackChart"></canvas></div>
-            </div>
-            <!-- Gráfico 2: Distribución por Categoría -->
-            <div class="card">
-                <div class="card-title">Distribución Total</div>
-                <div class="chart-box"><canvas id="catChart"></canvas></div>
-            </div>
-        </div>
-
-        <!-- Gráfico 3: Tiempo por Proyecto Individual -->
-        <div class="project-card">
-            <div class="card-title">Minutos por Proyecto / Tarea</div>
-            <div class="chart-box" style="height: 400px;"><canvas id="projChart"></canvas></div>
+        <div class="filter-buttons">
+            <button class="filter-btn" data-filter="today">HOY</button>
+            <button class="filter-btn active" data-filter="week">SEMANA</button>
+            <button class="filter-btn" data-filter="month">MES</button>
         </div>
     </div>
 
-    <script>
-        let rawData = [];
-        let charts = {};
-        const COLORS = { 'Trabajo': '#3b82f6', 'Negocios': '#f59e0b', 'Personal': '#10b981', 'Otro': '#9ca3af' };
+    <!-- Gráficos principales -->
+    <div class="charts-grid">
+        <!-- Stacked Bar (Cronología) -->
+        <div class="card">
+            <div style="font-size:0.9rem; margin-bottom:0.8rem; opacity:0.7;">📅 Enfoque diario por categoría</div>
+            <div class="chart-container">
+                <canvas id="stackedChart"></canvas>
+            </div>
+        </div>
+        <!-- Doughnut (Distribución) -->
+        <div class="card">
+            <div style="font-size:0.9rem; margin-bottom:0.8rem; opacity:0.7;">🥧 Distribución por categoría</div>
+            <div class="chart-container">
+                <canvas id="doughnutChart"></canvas>
+            </div>
+        </div>
+    </div>
 
-        async function init() {
-            try {
-                const res = await fetch('datos.json');
-                const json = await res.json();
-                rawData = json.pomodoro || [];
-                document.getElementById('loader').remove();
-                update('week');
-            } catch (e) { document.getElementById('loader').innerText = "Error: Datos no encontrados."; }
+    <!-- Auditoría de proyectos (Horizontal Bar) -->
+    <div class="card project-list-container">
+        <div class="project-list-title">📋 Proyectos (minutos de enfoque)</div>
+        <div class="chart-container" style="min-height: 300px;">
+            <canvas id="projectChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---- CONSTANTES Y CONFIGURACIÓN ----
+        const CATEGORIES = {
+            Trabajo: { name: 'Trabajo', color: '#2563eb' },    // azul
+            Negocios: { name: 'Negocios', color: '#f97316' },  // naranja
+            Personal: { name: 'Personal', color: '#10b981' },  // verde
+            Otro: { name: 'Otro', color: '#6b7280' }           // gris
+        };
+
+        // Variables globales
+        let rawData = [];                // todos los registros parseados
+        let currentFilter = 'week';       // por defecto SEMANA
+        let charts = { stacked: null, doughnut: null, project: null };
+
+        // Elementos DOM
+        const totalEnfoqueSpan = document.getElementById('total-enfoque');
+        const totalDescansoSpan = document.getElementById('total-descanso');
+        const liderSpan = document.getElementById('categoria-lider');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // ---- FUNCIONES DE CATEGORIZACIÓN ----
+        function categorizeItem(item) {
+            const tipo = (item.properties.Tipo?.select?.name || '').toLowerCase().trim();
+            const name = (item.properties.Name?.title?.[0]?.plain_text || '').toLowerCase().trim();
+
+            // Prioridad 1: Tipo explícito
+            if (tipo.includes('trabajo')) return 'Trabajo';
+            if (tipo.includes('negocio')) return 'Negocios';
+            if (tipo.includes('personal')) return 'Personal';
+
+            // Prioridad 2: Keywords en nombre
+            if (/\b(trabajo|work|office|cliente)\b/.test(name)) return 'Trabajo';
+            if (/\b(negocio|business|ingresos|ventas|startup)\b/.test(name)) return 'Negocios';
+            if (/\b(personal|gym|leer|casa|salud)\b/.test(name)) return 'Personal';
+
+            return 'Otro';
         }
 
-        const dropAnim = { duration: 2000, easing: 'easeOutElastic', delay: (c) => c.dataIndex * 120 };
-
-        function update(period) {
-            document.querySelectorAll('.btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === (period === 'day' ? 'hoy' : period)));
-            
-            const processed = processData(period);
-            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const tCol = isDark ? '#A0A0A0' : '#6b6b6b';
-
-            // Actualizar KPIs
-            document.getElementById('kFocus').innerText = (processed.sumF / 60).toFixed(1) + 'h';
-            document.getElementById('kBreak').innerText = (processed.sumB / 60).toFixed(1) + 'h';
-            document.getElementById('kBestCat').innerText = processed.bestCat;
-
-            // 1. STACKED BAR (Timeline)
-            draw('stackChart', 'bar', {
-                labels: processed.timelineLabels,
-                datasets: Object.keys(COLORS).map(cat => ({
-                    label: cat, data: processed.timelineData[cat], backgroundColor: COLORS[cat], borderRadius: 5
-                }))
-            }, { scales: { x: { stacked: true, grid: { display: false }, ticks: { color: tCol } }, y: { stacked: true, grid: { color: 'rgba(125,125,125,0.1)' }, ticks: { color: tCol } } } });
-
-            // 2. DONA (Categorías)
-            draw('catChart', 'doughnut', {
-                labels: Object.keys(processed.catTotals),
-                datasets: [{ data: Object.values(processed.catTotals), backgroundColor: Object.keys(processed.catTotals).map(k => COLORS[k]), borderWidth: 0, cutout: '75%' }]
-            }, { plugins: { legend: { position: 'bottom', labels: { color: tCol, usePointStyle: true, font: { size: 10 } } } } });
-
-            // 3. HORIZONTAL BARS (Proyectos)
-            draw('projChart', 'bar', {
-                labels: processed.projLabels,
-                datasets: [{ label: 'Minutos de Enfoque', data: processed.projValues, backgroundColor: '#f87171', borderRadius: 4 }]
-            }, { indexAxis: 'y', scales: { x: { grid: { color: 'rgba(125,125,125,0.1)' }, ticks: { color: tCol } }, y: { ticks: { color: tCol, font: { size: 10 } } } } });
+        // Extraer minutos (asumimos que vienen como número directamente)
+        function extractMinutes(item, field) {
+            const val = item.properties[field]?.formula?.number;
+            return typeof val === 'number' ? val : 0;
         }
 
-        function processData(period) {
+        // Obtener fecha del registro (prioridad Inicio 🍅, fallback created_time)
+        function getRecordDate(item) {
+            let dateStr = item.properties['Inicio 🍅']?.date?.start;
+            if (!dateStr) {
+                // fallback a created_time (formato ISO)
+                dateStr = item.created_time; // viene en el objeto raíz
+            }
+            if (!dateStr) return null;
+            return new Date(dateStr);
+        }
+
+        // ---- PARSEO DE DATOS DESDE JSON ----
+        function parsePomodoroData(jsonData) {
+            if (!jsonData || !Array.isArray(jsonData.pomodoro)) return [];
+
+            return jsonData.pomodoro.map(item => {
+                const enfoque = extractMinutes(item, 'Enfoque 🍅');
+                const descanso = extractMinutes(item, 'Descansos ☕️');
+                const categoria = categorizeItem(item);
+                const fecha = getRecordDate(item);
+                const nombre = item.properties.Name?.title?.[0]?.plain_text || 'Sin nombre';
+
+                return {
+                    id: item.id || Math.random(),
+                    nombre,
+                    enfoque,
+                    descanso,
+                    categoria,
+                    fecha: fecha || new Date(0) // si no hay fecha, se asigna época (no se mostrará con filtros)
+                };
+            }).filter(d => d.fecha); // solo registros con fecha válida
+        }
+
+        // ---- FILTROS DE FECHA ----
+        function isDateInRange(date, filterType) {
             const now = new Date();
-            let sumF = 0, sumB = 0;
-            let catTotals = { 'Trabajo': 0, 'Negocios': 0, 'Personal': 0, 'Otro': 0 };
-            let projMap = {};
-            let timeline = {};
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const target = new Date(date);
 
-            const range = period === 'day' ? 0 : period === 'week' ? 6 : 29;
-            for(let i=range; i>=0; i--) {
-                const d = new Date(); d.setDate(now.getDate() - i);
-                const k = d.toISOString().split('T')[0];
-                timeline[k] = { 'Trabajo': 0, 'Negocios': 0, 'Personal': 0, 'Otro': 0 };
+            switch (filterType) {
+                case 'today':
+                    return target >= todayStart && target < new Date(todayStart.getTime() + 86400000);
+                case 'week': {
+                    const weekAgo = new Date(todayStart);
+                    weekAgo.setDate(weekAgo.getDate() - 6); // últimos 7 días incluyendo hoy
+                    return target >= weekAgo;
+                }
+                case 'month': {
+                    const monthAgo = new Date(todayStart);
+                    monthAgo.setDate(monthAgo.getDate() - 29); // últimos 30 días
+                    return target >= monthAgo;
+                }
+                default: // 'all' (no se usa en botones, pero por si acaso)
+                    return true;
+            }
+        }
+
+        // ---- AGREGACIÓN PARA GRÁFICOS ----
+        function aggregateByDateAndCategory(data) {
+            const map = new Map(); // clave: fecha YYYY-MM-DD, valor: objeto con minutos por categoría
+
+            data.forEach(rec => {
+                if (!rec.fecha) return;
+                const dateKey = rec.fecha.toISOString().split('T')[0];
+                if (!map.has(dateKey)) {
+                    map.set(dateKey, { Trabajo:0, Negocios:0, Personal:0, Otro:0 });
+                }
+                const dayData = map.get(dateKey);
+                dayData[rec.categoria] = (dayData[rec.categoria] || 0) + rec.enfoque;
+            });
+
+            // ordenar por fecha
+            const sortedDates = Array.from(map.keys()).sort();
+            const datasets = {
+                Trabajo: [],
+                Negocios: [],
+                Personal: [],
+                Otro: []
+            };
+
+            sortedDates.forEach(date => {
+                const day = map.get(date);
+                datasets.Trabajo.push(day.Trabajo || 0);
+                datasets.Negocios.push(day.Negocios || 0);
+                datasets.Personal.push(day.Personal || 0);
+                datasets.Otro.push(day.Otro || 0);
+            });
+
+            return { labels: sortedDates, datasets };
+        }
+
+        function aggregateByCategory(data) {
+            const totals = { Trabajo:0, Negocios:0, Personal:0, Otro:0 };
+            data.forEach(rec => {
+                totals[rec.categoria] += rec.enfoque;
+            });
+            return totals;
+        }
+
+        function aggregateProjects(data) {
+            // Agrupar por nombre de proyecto (puede haber repeticiones, sumamos)
+            const projMap = new Map();
+            data.forEach(rec => {
+                const key = rec.nombre;
+                if (!projMap.has(key)) {
+                    projMap.set(key, { nombre: rec.nombre, enfoque:0, categoria: rec.categoria });
+                }
+                projMap.get(key).enfoque += rec.enfoque;
+            });
+            // Convertir a array y ordenar descendente
+            return Array.from(projMap.values()).sort((a,b) => b.enfoque - a.enfoque);
+        }
+
+        // ---- ACTUALIZACIÓN DE TODOS LOS GRÁFICOS Y KPIs ----
+        function updateDashboard() {
+            // Filtrar datos según el filtro actual
+            const filteredData = rawData.filter(rec => isDateInRange(rec.fecha, currentFilter));
+
+            // Calcular totales
+            const totalEnfoque = filteredData.reduce((sum, r) => sum + r.enfoque, 0);
+            const totalDescanso = filteredData.reduce((sum, r) => sum + r.descanso, 0);
+
+            // Categoría líder (suma enfoque por categoría)
+            const catTotals = aggregateByCategory(filteredData);
+            let lider = 'Ninguna';
+            let max = 0;
+            for (let [cat, val] of Object.entries(catTotals)) {
+                if (val > max) { max = val; lider = cat; }
             }
 
-            rawData.forEach(item => {
-                const p = item.properties;
-                const dStr = p['Inicio 🍅']?.date?.start || item.created_time;
-                const dKey = dStr.split('T')[0];
+            // Actualizar KPIs
+            totalEnfoqueSpan.textContent = Math.round(totalEnfoque);
+            totalDescansoSpan.textContent = Math.round(totalDescanso);
+            liderSpan.textContent = lider;
 
-                if (timeline[dKey] !== undefined) {
-                    const f = p['Enfoque 🍅']?.formula?.number || p['Tiempo']?.number || 0;
-                    const b = p['Descansos ☕️']?.formula?.number || 0;
-                    const type = (p['Tipo']?.select?.name || "").toLowerCase();
-                    const name = p.Name?.title[0]?.plain_text || "General";
-
-                    // Identificación Inteligente
-                    let cat = 'Otro';
-                    if (type.includes('trabajo') || name.toLowerCase().includes('trabajo')) cat = 'Trabajo';
-                    else if (type.includes('negocio') || name.toLowerCase().includes('negocio')) cat = 'Negocios';
-                    else if (type.includes('personal') || type.includes('leer') || name.toLowerCase().includes('personal')) cat = 'Personal';
-
-                    sumF += f; sumB += b;
-                    catTotals[cat] += f;
-                    timeline[dKey][cat] += f;
-                    if (f > 0) projMap[name] = (projMap[name] || 0) + f;
-                }
-            });
-
-            const bestCat = Object.keys(catTotals).reduce((a, b) => catTotals[a] > catTotals[b] ? a : b);
-            const sortedProjs = Object.entries(projMap).sort((a,b) => b[1] - a[1]);
-
-            return {
-                sumF, sumB, bestCat, catTotals,
-                timelineLabels: Object.keys(timeline).map(k => k.slice(5)),
-                timelineData: {
-                    'Trabajo': Object.values(timeline).map(d => d['Trabajo']),
-                    'Negocios': Object.values(timeline).map(d => d['Negocios']),
-                    'Personal': Object.values(timeline).map(d => d['Personal']),
-                    'Otro': Object.values(timeline).map(d => d['Otro'])
-                },
-                projLabels: sortedProjs.map(p => p[0]),
-                projValues: sortedProjs.map(p => p[1])
+            // --- Preparar datos para gráficos ---
+            const { labels, datasets: stackedData } = aggregateByDateAndCategory(filteredData);
+            const doughnutData = {
+                labels: Object.keys(CATEGORIES),
+                values: [catTotals.Trabajo, catTotals.Negocios, catTotals.Personal, catTotals.Otro]
             };
-        }
+            const projects = aggregateProjects(filteredData);
+            const projectLabels = projects.map(p => p.nombre);
+            const projectValues = projects.map(p => p.enfoque);
+            const projectColors = projects.map(p => CATEGORIES[p.categoria]?.color || CATEGORIES.Otro.color);
 
-        function draw(id, type, data, options = {}) {
-            const ctx = document.getElementById(id).getContext('2d');
-            if (charts[id]) charts[id].destroy();
-            charts[id] = new Chart(ctx, {
-                type, data, options: {
-                    responsive: true, maintainAspectRatio: false, animation: dropAnim,
-                    plugins: { legend: { display: false } }, ...options
+            // Destruir gráficos anteriores si existen
+            if (charts.stacked) charts.stacked.destroy();
+            if (charts.doughnut) charts.doughnut.destroy();
+            if (charts.project) charts.project.destroy();
+
+            // Si no hay datos, mostrar mensaje y salir (no crear gráficos)
+            if (filteredData.length === 0) {
+                // Mostrar algo en los canvas (opcional)
+                document.querySelectorAll('canvas').forEach(c => {
+                    const ctx = c.getContext('2d');
+                    ctx.clearRect(0,0,c.width,c.height);
+                    ctx.font = '14px system-ui';
+                    ctx.fillStyle = '#888';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Sin datos en este periodo', c.width/2, c.height/2);
+                });
+                return;
+            }
+
+            // ---- CREAR NUEVOS GRÁFICOS ----
+            const stackedCtx = document.getElementById('stackedChart').getContext('2d');
+            charts.stacked = new Chart(stackedCtx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Trabajo', data: stackedData.Trabajo, backgroundColor: CATEGORIES.Trabajo.color, stack: 'stack' },
+                        { label: 'Negocios', data: stackedData.Negocios, backgroundColor: CATEGORIES.Negocios.color, stack: 'stack' },
+                        { label: 'Personal', data: stackedData.Personal, backgroundColor: CATEGORIES.Personal.color, stack: 'stack' },
+                        { label: 'Otro', data: stackedData.Otro, backgroundColor: CATEGORIES.Otro.color, stack: 'stack' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 2000, easing: 'easeOutElastic' },
+                    plugins: { legend: { display: false } },
+                    scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } }
+                }
+            });
+
+            const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+            charts.doughnut = new Chart(doughnutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: doughnutData.labels,
+                    datasets: [{
+                        data: doughnutData.values,
+                        backgroundColor: Object.values(CATEGORIES).map(c => c.color),
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 2000, easing: 'easeOutElastic' },
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth:12 } } },
+                    cutout: '65%'
+                }
+            });
+
+            const projectCtx = document.getElementById('projectChart').getContext('2d');
+            charts.project = new Chart(projectCtx, {
+                type: 'bar',
+                data: {
+                    labels: projectLabels,
+                    datasets: [{
+                        label: 'Minutos enfoque',
+                        data: projectValues,
+                        backgroundColor: projectColors,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 2000, easing: 'easeOutElastic' },
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true } }
                 }
             });
         }
-        init();
-    </script>
+
+        // ---- CARGA INICIAL DE DATOS ----
+        async function loadData() {
+            // Mostrar estado de carga
+            document.querySelectorAll('.kpi-value').forEach(el => el.textContent = '...');
+            try {
+                const response = await fetch('datos.json');
+                if (!response.ok) throw new Error('No se pudo cargar datos.json');
+                const json = await response.json();
+                rawData = parsePomodoroData(json);
+                // Filtro por defecto: semana (ya está active)
+                updateDashboard();
+            } catch (error) {
+                console.error(error);
+                document.body.innerHTML += `<div class="empty-state">Error al cargar datos: ${error.message}</div>`;
+            }
+        }
+
+        // ---- EVENTOS DE FILTRO ----
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter; // 'today', 'week', 'month'
+                currentFilter = filter;
+                updateDashboard();
+            });
+        });
+
+        // Iniciar todo
+        loadData();
+    })();
+</script>
 </body>
 </html>
