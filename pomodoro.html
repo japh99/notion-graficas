@@ -2,287 +2,203 @@
 <html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPH 2026 - Auditoría Pro</title>
-    
-    <!-- 1. TAILWIND CSS (Diseño Automático) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- 2. CHART.JS (Gráficos) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Configuración de Colores Tailwind -->
     <script>
-        tailwind.config = {
-            darkMode: 'class', // Se adapta al modo oscuro
-            theme: {
-                extend: {
-                    colors: {
-                        notion: { bg: '#191919', card: '#202020', border: '#2f2f2f', text: '#e5e5e5' },
-                        cat: { work: '#3b82f6', pers: '#10b981', biz: '#f59e0b', other: '#9ca3af' },
-                        pom: { red: '#ef4444' }
-                    }
-                }
-            }
-        }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { notion: { bg: '#191919', card: '#202020', text: '#e5e5e5' } } } } }
     </script>
-    <style>
-        /* Animación de carga suave */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-drop { animation: fadeIn 0.6s ease-out forwards; }
-    </style>
 </head>
 <body class="bg-transparent text-gray-800 dark:text-gray-200 p-4 font-sans antialiased">
 
-    <!-- LOADER -->
-    <div id="loader" class="fixed inset-0 flex items-center justify-center bg-white dark:bg-notion-bg z-50">
-        <div class="text-center">
-            <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-            <p class="text-xs font-bold uppercase tracking-widest opacity-70">Sincronizando...</p>
-        </div>
-    </div>
+    <div id="loader" class="fixed inset-0 flex items-center justify-center font-bold text-xs uppercase tracking-widest">Conectando bases de datos...</div>
 
-    <div class="max-w-5xl mx-auto space-y-6">
-        
+    <div class="max-w-6xl mx-auto space-y-6">
         <!-- HEADER -->
-        <div class="flex flex-wrap justify-between items-center border-b border-gray-200 dark:border-notion-border pb-4">
-            <div>
-                <h1 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">
-                    🍅 AUDITORÍA DE TIEMPO
-                </h1>
-                <p class="text-xs text-gray-500 mt-1">Análisis de rendimiento JAPH 2026</p>
-            </div>
-            
-            <!-- SELECTOR DE PERIODO -->
-            <div class="flex bg-gray-100 dark:bg-notion-border p-1 rounded-xl">
-                <button onclick="update('day')" class="period-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-white dark:hover:bg-notion-card">DÍA</button>
-                <button onclick="update('week')" class="period-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-white dark:hover:bg-notion-card">SEMANA</button>
-                <button onclick="update('month')" class="period-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-white dark:hover:bg-notion-card">MES</button>
+        <div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-800 pb-4">
+            <h1 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-600">AUDITORÍA DE TIEMPO REAL</h1>
+            <div class="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+                <button onclick="update('day')" class="p-btn px-3 py-1 text-xs font-bold rounded-md">DÍA</button>
+                <button onclick="update('week')" class="p-btn px-3 py-1 text-xs font-bold rounded-md">SEMANA</button>
+                <button onclick="update('month')" class="p-btn px-3 py-1 text-xs font-bold rounded-md">MES</button>
             </div>
         </div>
 
-        <!-- KPIs GRID -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="kpi-container">
-            <!-- Se llenará con JS -->
-        </div>
+        <!-- KPIs -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="kpi-grid"></div>
 
-        <!-- MAIN CHARTS -->
+        <!-- GRAFICOS -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Gráfico 1: Stacked (Ocupa 2 espacios) -->
-            <div class="lg:col-span-2 bg-white dark:bg-notion-card border border-gray-200 dark:border-notion-border rounded-2xl p-5 shadow-sm animate-drop">
-                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Cronología de Enfoque</h3>
-                <div class="h-72 w-full relative">
-                    <canvas id="mainChart"></canvas>
-                </div>
+            <!-- Stacked Bar (Cronología) -->
+            <div class="lg:col-span-2 bg-white dark:bg-notion-card border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Cronología por Categoría</h3>
+                <div class="h-64 relative"><canvas id="mainChart"></canvas></div>
             </div>
-
-            <!-- Gráfico 2: Dona -->
-            <div class="bg-white dark:bg-notion-card border border-gray-200 dark:border-notion-border rounded-2xl p-5 shadow-sm animate-drop" style="animation-delay: 0.1s">
-                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Distribución</h3>
-                <div class="h-72 w-full relative">
-                    <canvas id="pieChart"></canvas>
-                </div>
+            <!-- Pie Chart (Totales) -->
+            <div class="bg-white dark:bg-notion-card border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+                <h3 class="text-xs font-bold text-gray-400 uppercase mb-4">Distribución</h3>
+                <div class="h-64 relative"><canvas id="pieChart"></canvas></div>
             </div>
         </div>
 
-        <!-- TABLA DE DETALLES -->
-        <div class="bg-white dark:bg-notion-card border border-gray-200 dark:border-notion-border rounded-2xl p-5 shadow-sm animate-drop" style="animation-delay: 0.2s">
-            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Desglose por Proyecto</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left">
-                    <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-notion-border/50">
-                        <tr>
-                            <th class="px-4 py-3 rounded-l-lg">Proyecto</th>
-                            <th class="px-4 py-3">Categoría</th>
-                            <th class="px-4 py-3">Tiempo Total</th>
-                            <th class="px-4 py-3 rounded-r-lg text-right">Eficiencia</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body" class="divide-y divide-gray-100 dark:divide-notion-border">
-                        <!-- Se llena con JS -->
-                    </tbody>
-                </table>
-            </div>
+        <!-- TABLA DETALLADA -->
+        <div class="bg-white dark:bg-notion-card border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+            <table class="w-full text-sm text-left">
+                <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-800">
+                    <tr><th class="px-4 py-3">Proyecto</th><th class="px-4 py-3">Tipo</th><th class="px-4 py-3">Tiempo</th><th class="px-4 py-3 text-right">Barra</th></tr>
+                </thead>
+                <tbody id="table-body" class="divide-y divide-gray-100 dark:divide-gray-800"></tbody>
+            </table>
         </div>
-
     </div>
 
-    <!-- LÓGICA JAVASCRIPT -->
     <script>
-        let rawData = [];
-        let chartInstances = {};
-        const COLORS = { 'Trabajo': '#3b82f6', 'Negocios': '#f59e0b', 'Personal': '#10b981', 'Otro': '#9ca3af' };
+        let sessions = [], projectsDB = {};
+        let charts = {};
+        const COLORS = { 'Trabajo': '#3b82f6', 'Personal': '#10b981', 'Negocios': '#f59e0b', 'Otro': '#9ca3af' };
 
-        // 1. INICIALIZACIÓN
         async function init() {
             try {
-                // Intenta cargar datos locales (simulando fetch)
                 const res = await fetch('datos.json');
                 const json = await res.json();
-                rawData = json.pomodoro || json.datos?.pomodoro || [];
                 
-                document.getElementById('loader').classList.add('hidden');
-                update('week'); // Vista por defecto
-            } catch (e) {
-                document.getElementById('loader').innerHTML = `<p class="text-red-500">Error: No se encontró datos.json</p>`;
-            }
+                sessions = json.pomodoro || [];
+                const rawProjects = json.proyectos || [];
+
+                // CREAR MAPA DE PROYECTOS (ID -> Categoria)
+                // Cruzamos los datos: Usamos el ID del proyecto para saber su "Tipo" real
+                rawProjects.forEach(p => {
+                    const name = p.properties.Nombre?.title[0]?.plain_text || "Sin nombre";
+                    const type = p.properties.Tipo?.select?.name || "Otro"; 
+                    // Guardamos por ID para búsqueda exacta
+                    projectsDB[p.id] = { name, type }; 
+                });
+
+                document.getElementById('loader').remove();
+                update('week');
+            } catch (e) { document.getElementById('loader').innerText = "Error: Falta DB_PROYECTOS en GitHub"; }
         }
 
-        // 2. ACTUALIZAR VISTA
         function update(period) {
-            // Estilos de botones
-            document.querySelectorAll('.period-btn').forEach(b => {
-                const isActive = b.innerText.toLowerCase() === (period === 'day' ? 'día' : period === 'week' ? 'semana' : 'mes');
-                b.className = `period-btn px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${isActive ? 'bg-white dark:bg-notion-card text-blue-500 shadow-sm' : 'text-gray-500 hover:bg-gray-200 dark:hover:bg-notion-border'}`;
+            document.querySelectorAll('.p-btn').forEach(b => {
+                b.className = `p-btn px-3 py-1 text-xs font-bold rounded-md transition-all ${b.innerText.toLowerCase() === period ? 'bg-white dark:bg-gray-700 text-blue-500 shadow' : 'text-gray-500'}`;
             });
 
             const data = processData(period);
-            renderKPIs(data);
-            renderCharts(data, period);
-            renderTable(data);
+            renderKPIs(data.stats);
+            renderCharts(data);
+            renderTable(data.projStats, data.stats.total);
         }
 
-        // 3. PROCESAMIENTO DE DATOS INTELIGENTE
         function processData(period) {
             const now = new Date();
             const limit = period === 'day' ? 0 : period === 'week' ? 6 : 29;
             
-            let stats = { totalF: 0, totalB: 0, sessions: 0 };
-            let projects = {};
-            let timeline = {}; // Para el gráfico X
+            let timeline = {};
+            let projStats = {};
+            let stats = { total: 0, work: 0, pers: 0, biz: 0 };
 
             // Inicializar timeline
             for(let i=limit; i>=0; i--) {
                 const d = new Date(); d.setDate(now.getDate() - i);
-                timeline[d.toISOString().split('T')[0]] = { 'Trabajo':0, 'Negocios':0, 'Personal':0, 'Otro':0 };
+                timeline[d.toISOString().split('T')[0]] = { 'Trabajo':0, 'Personal':0, 'Negocios':0, 'Otro':0 };
             }
 
-            rawData.forEach(item => {
-                const p = item.properties;
-                const dStr = p['Inicio 🍅']?.date?.start || item.created_time;
+            sessions.forEach(s => {
+                const p = s.properties;
+                const dStr = p['Inicio 🍅']?.date?.start || s.created_time;
                 const dKey = dStr.split('T')[0];
 
                 if (timeline[dKey]) {
-                    // Datos
-                    const focus = p['Enfoque 🍅']?.formula?.number || p['Tiempo']?.number || 0;
-                    const desc = p['Descansos ☕️']?.formula?.number || 0;
+                    // 1. OBTENER TIEMPO
+                    const time = p['Enfoque 🍅']?.formula?.number || p['Tiempo']?.number || 0;
                     
-                    // Categorización
-                    let type = (p['Tipo']?.select?.name || "").toLowerCase();
-                    let name = (p.Name?.title[0]?.plain_text || "Sin Nombre").toLowerCase();
-                    
+                    // 2. OBTENER CATEGORÍA CRUZADA (La magia)
+                    // Buscamos la relación en "🔥 PROYECTOS"
                     let cat = 'Otro';
-                    if (type.includes('trabajo') || name.includes('trabajo') || name.includes('cliente')) cat = 'Trabajo';
-                    else if (type.includes('negocio') || name.includes('negocio') || name.includes('ventas')) cat = 'Negocios';
-                    else if (type.includes('personal') || name.includes('gym') || name.includes('leer')) cat = 'Personal';
+                    let pName = 'Sesión suelta';
+                    
+                    const relation = p['🔥 PROYECTOS']?.relation;
+                    if (relation && relation.length > 0) {
+                        const projID = relation[0].id; // Tomamos el ID del proyecto
+                        if (projectsDB[projID]) {
+                            cat = projectsDB[projID].type; // ¡Aquí sacamos el "Trabajo/Personal" real!
+                            pName = projectsDB[projID].name;
+                        }
+                    }
 
-                    if (focus > 0) {
-                        stats.totalF += focus;
-                        stats.totalB += desc;
-                        stats.sessions++;
-                        
-                        // Agregar a Timeline
-                        timeline[dKey][cat] += focus;
+                    // Sumar datos
+                    if (time > 0) {
+                        stats.total += time;
+                        if (cat.includes('Trabajo')) stats.work += time;
+                        else if (cat.includes('Negocio')) stats.biz += time;
+                        else if (cat.includes('Personal')) stats.pers += time;
 
-                        // Agregar a Proyectos
-                        const realName = p.Name?.title[0]?.plain_text || "Sin Nombre";
-                        if(!projects[realName]) projects[realName] = { cat, focus:0, desc:0 };
-                        projects[realName].focus += focus;
-                        projects[realName].desc += desc;
+                        // Normalizar keys para el gráfico
+                        let key = 'Otro';
+                        if (cat.includes('Trabajo')) key = 'Trabajo';
+                        if (cat.includes('Negocio')) key = 'Negocios';
+                        if (cat.includes('Personal')) key = 'Personal';
+
+                        timeline[dKey][key] += time;
+
+                        if (!projStats[pName]) projStats[pName] = { time: 0, cat: key };
+                        projStats[pName].time += time;
                     }
                 }
             });
 
-            return {
-                stats,
-                timelineLabels: Object.keys(timeline).map(d => d.slice(5)), // MM-DD
-                timelineData: {
-                    'Trabajo': Object.values(timeline).map(v => v.Trabajo),
-                    'Negocios': Object.values(timeline).map(v => v.Negocios),
-                    'Personal': Object.values(timeline).map(v => v.Personal)
-                },
-                projects
+            return { 
+                stats, 
+                timelineLabels: Object.keys(timeline).map(d => d.slice(5)), 
+                timelineData: timeline,
+                projStats 
             };
         }
 
-        // 4. RENDERIZADO
-        function renderKPIs(d) {
-            const container = document.getElementById('kpi-container');
-            const efficiency = Math.round((d.stats.totalF / (d.stats.totalF + d.stats.totalB || 1)) * 100);
-            
-            const kpi = (lbl, val, col) => `
-                <div class="bg-white dark:bg-notion-card border border-gray-200 dark:border-notion-border rounded-2xl p-4 flex flex-col items-center justify-center">
-                    <span class="text-2xl font-black ${col}">${val}</span>
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mt-1">${lbl}</span>
-                </div>`;
-
-            container.innerHTML = `
-                ${kpi('Horas Enfoque', (d.stats.totalF/60).toFixed(1) + 'h', 'text-blue-500')}
-                ${kpi('Horas Descanso', (d.stats.totalB/60).toFixed(1) + 'h', 'text-green-500')}
-                ${kpi('Sesiones', d.stats.sessions, 'text-gray-500 dark:text-gray-300')}
-                ${kpi('Eficiencia', efficiency + '%', efficiency > 80 ? 'text-green-500' : 'text-orange-500')}
+        function renderKPIs(s) {
+            const kpi = (l, v, c) => `<div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 text-center"><div class="text-xl font-black ${c}">${(v/60).toFixed(1)}h</div><div class="text-[10px] uppercase text-gray-500 font-bold">${l}</div></div>`;
+            document.getElementById('kpi-grid').innerHTML = `
+                ${kpi('Total', s.total, 'text-gray-800 dark:text-white')}
+                ${kpi('Trabajo', s.work, 'text-blue-500')}
+                ${kpi('Negocios', s.biz, 'text-orange-500')}
+                ${kpi('Personal', s.pers, 'text-green-500')}
             `;
         }
 
-        function renderCharts(d, period) {
+        function renderCharts(d) {
             const ctx1 = document.getElementById('mainChart').getContext('2d');
             const ctx2 = document.getElementById('pieChart').getContext('2d');
-            
-            if(chartInstances.main) chartInstances.main.destroy();
-            if(chartInstances.pie) chartInstances.pie.destroy();
+            if(charts.a) charts.a.destroy(); if(charts.b) charts.b.destroy();
 
             // Stacked Bar
-            chartInstances.main = new Chart(ctx1, {
-                type: 'bar',
-                data: {
-                    labels: d.timelineLabels,
-                    datasets: Object.keys(COLORS).map(k => ({
-                        label: k, data: d.timelineData[k], backgroundColor: COLORS[k], borderRadius: 4, stack: 'Stack 0'
-                    }))
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: { x: { grid: { display: false } }, y: { grid: { color: '#33333333' } } },
-                    plugins: { legend: { display: false } }
-                }
+            const datasets = Object.keys(COLORS).map(k => ({
+                label: k, data: Object.values(d.timelineData).map(v => v[k]), backgroundColor: COLORS[k], borderRadius: 4
+            }));
+
+            charts.a = new Chart(ctx1, {
+                type: 'bar', data: { labels: d.timelineLabels, datasets },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#33333333' } } }, plugins: { legend: { display: false } } }
             });
 
-            // Doughnut (Distribución Total)
-            const totals = {
-                'Trabajo': d.timelineData.Trabajo.reduce((a,b)=>a+b,0),
-                'Negocios': d.timelineData.Negocios.reduce((a,b)=>a+b,0),
-                'Personal': d.timelineData.Personal.reduce((a,b)=>a+b,0)
-            };
-            
-            chartInstances.pie = new Chart(ctx2, {
+            // Doughnut
+            charts.b = new Chart(ctx2, {
                 type: 'doughnut',
                 data: {
-                    labels: Object.keys(totals),
-                    datasets: [{ data: Object.values(totals), backgroundColor: Object.keys(totals).map(k=>COLORS[k]), borderWidth: 0 }]
+                    labels: ['Trabajo', 'Negocios', 'Personal', 'Otro'],
+                    datasets: [{ data: [d.stats.work, d.stats.biz, d.stats.pers, d.stats.total - (d.stats.work+d.stats.biz+d.stats.pers)], backgroundColor: Object.values(COLORS), borderWidth: 0 }]
                 },
-                options: { 
-                    responsive: true, maintainAspectRatio: false, cutout: '70%',
-                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'right', labels: { usePointStyle: true, boxWidth: 8, font: {size: 10} } } } }
             });
         }
 
-        function renderTable(d) {
-            const tbody = document.getElementById('table-body');
-            const sorted = Object.entries(d.projects).sort((a,b) => b[1].focus - a[1].focus);
-            
-            tbody.innerHTML = sorted.map(([name, val]) => `
-                <tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                    <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">${name}</td>
-                    <td class="px-4 py-3">
-                        <span class="px-2 py-1 rounded text-xs font-bold" style="background:${COLORS[val.cat]}20; color:${COLORS[val.cat]}">${val.cat}</span>
-                    </td>
-                    <td class="px-4 py-3 font-bold">${val.focus} min</td>
-                    <td class="px-4 py-3 text-right">
-                        <div class="w-24 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full ml-auto overflow-hidden">
-                            <div class="h-full" style="width:${Math.min((val.focus/(val.focus+val.desc))*100, 100)}%; background:${COLORS[val.cat]}"></div>
-                        </div>
-                    </td>
+        function renderTable(projs, total) {
+            const sorted = Object.entries(projs).sort((a,b) => b[1].time - a[1].time);
+            document.getElementById('table-body').innerHTML = sorted.map(([n, v]) => `
+                <tr class="hover:bg-gray-100 dark:hover:bg-gray-700/50">
+                    <td class="px-4 py-2 font-medium text-gray-800 dark:text-gray-200">${n}</td>
+                    <td class="px-4 py-2"><span class="text-[10px] px-2 py-1 rounded font-bold" style="background:${COLORS[v.cat]}22; color:${COLORS[v.cat]}">${v.cat}</span></td>
+                    <td class="px-4 py-2 font-bold">${v.time}m</td>
+                    <td class="px-4 py-2"><div class="w-20 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full ml-auto"><div class="h-full rounded-full" style="width:${(v.time/total)*100}%; background:${COLORS[v.cat]}"></div></div></td>
                 </tr>
             `).join('');
         }
