@@ -2,17 +2,17 @@ name: Actualizar Dashboard
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Se ejecuta automáticamente cada hora
-  workflow_dispatch:      # Permite ejecutarlo manualmente con un botón
+    - cron: '0 * * * *'  # Ejecutar cada hora
+  workflow_dispatch:      # Botón manual
 
 jobs:
   actualizar:
     runs-on: ubuntu-latest
     permissions:
-      contents: write    # Permiso obligatorio para guardar el archivo datos.json
+      contents: write    # Permiso para guardar datos.json
 
     steps:
-      - name: Descargar código del repositorio
+      - name: Descargar código
         uses: actions/checkout@v3
 
       - name: Configurar Python
@@ -20,30 +20,33 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Instalar librerías necesarias
+      - name: Instalar librerías
         run: pip install requests pytz
 
-      - name: Ejecutar Robot Extractor (Python)
+      - name: Ejecutar Extractor Maestro
         env:
-          # Aquí conectamos tus Secrets de GitHub con el código
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          # Finanzas
           DB_INGRESOS: ${{ secrets.DB_INGRESOS }}
           DB_EGRESOS: ${{ secrets.DB_EGRESOS }}
-          DB_TAREAS: ${{ secrets.DB_TAREAS }}
-          DB_HABITOS: ${{ secrets.DB_HABITOS }}
-          DB_POMODORO: ${{ secrets.DB_POMODORO }}
-          DB_MEMENTO: ${{ secrets.DB_MEMENTO }}
           DB_SUBS: ${{ secrets.DB_SUBS }}
+          DB_COMPRAS: ${{ secrets.DB_COMPRAS }}
+          # Productividad
+          DB_TAREAS: ${{ secrets.DB_TAREAS }}
+          DB_POMODORO: ${{ secrets.DB_POMODORO }}
+          DB_PROYECTOS: ${{ secrets.DB_PROYECTOS }}
+          # Salud y Vida
+          DB_HABITOS: ${{ secrets.DB_HABITOS }}
           DB_SUENO: ${{ secrets.DB_SUENO }}
           DB_SUENO_DETALLES: ${{ secrets.DB_SUENO_DETALLES }}
           DB_SUENO_RESUMEN: ${{ secrets.DB_SUENO_RESUMEN }}
-          DB_COMPRAS: ${{ secrets.DB_COMPRAS }}
+          DB_MEMENTO: ${{ secrets.DB_MEMENTO }}
         run: python main.py
 
-      - name: Guardar datos.json en el repositorio
+      - name: Guardar cambios
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add datos.json
-          git commit -m "Sincronización automática de datos desde Notion" || exit 0
+          git commit -m "Sincronización de datos Notion" || exit 0
           git push
