@@ -3,1066 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAPH 2026 - Dashboard Pomodoro V2</title>
+    <title>JAPH 2026 - Pomodoro Analytics Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg: #ffffff;
-            --text: #1f2937;
-            --text-sec: #6b7280;
-            --card: #ffffff;
-            --border: #e5e7eb;
-            --work: #f59e0b;
-            --pers: #10b981;
-            --biz: #ef4444;
-            --other: #6b7280;
-            --focus: #ef4444;
-            --break: #10b981;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --bg: #0f0f0f; --text: #f3f4f6; --text-sec: #9ca3af;
+            --accent: #f87171; --border: #262626; --card: #16161a;
+            --success: #10b981;
         }
-        
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #111827;
-                --text: #f9fafb;
-                --text-sec: #9ca3af;
-                --card: #1f2937;
-                --border: #374151;
-                --shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
-            }
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: var(--text); padding: 20px; min-height: 100vh; }
-        .container { max-width: 1200px; margin: 0 auto; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 20px; line-height: 1.5; }
+        .container { max-width: 1000px; margin: 0 auto; }
 
-        /* HEADER & CONTROLS */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
-        h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
-        .period-selector { display: flex; background: var(--border); padding: 4px; border-radius: 12px; gap: 4px; }
-        .btn { 
-            border: none; 
-            background: transparent; 
-            color: var(--text-sec); 
-            padding: 10px 20px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-weight: 700; 
-            font-size: 0.75rem; 
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-        .btn:hover { background: rgba(255,255,255,0.1); }
-        .btn.active { 
-            background: var(--card); 
-            color: var(--text); 
-            box-shadow: var(--shadow);
-        }
+        /* Controles */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .selector { display: flex; background: var(--border); padding: 4px; border-radius: 14px; gap: 4px; }
+        .btn { border: none; background: transparent; color: var(--text-sec); padding: 10px 20px; border-radius: 11px; cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: 0.4s; }
+        .btn.active { background: var(--card); color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
 
-        /* KPI STATS */
-        .stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 15px; 
-            margin-bottom: 30px; 
-        }
-        .stat-card { 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 16px; 
-            padding: 20px; 
-            border-left: 4px solid var(--bd-color, #ccc);
-            box-shadow: var(--shadow);
-            transition: transform 0.2s;
-        }
-        .stat-card:hover { transform: translateY(-2px); }
-        .stat-val { font-size: 1.8rem; font-weight: 800; margin-bottom: 4px; }
-        .stat-lab { font-size: 0.7rem; color: var(--text-sec); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; }
-        .stat-delta { 
-            font-size: 0.75rem; 
-            margin-top: 8px; 
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .delta-up { color: #10b981; }
-        .delta-down { color: #ef4444; }
-        .delta-neutral { color: var(--text-sec); }
+        /* KPIs */
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; text-align: center; }
+        .stat-val { font-size: 2rem; font-weight: 900; color: var(--accent); }
+        .stat-lab { font-size: 0.7rem; color: var(--text-sec); text-transform: uppercase; font-weight: 800; margin-top: 5px; }
 
-        /* CHARTS LAYOUT */
-        .grid-charts { 
-            display: grid; 
-            grid-template-columns: 2fr 1fr; 
-            gap: 20px; 
-            margin-bottom: 30px; 
-        }
-        .grid-charts-aux { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 20px; 
-            margin-bottom: 30px; 
-        }
-        @media (max-width: 900px) { 
-            .grid-charts { grid-template-columns: 1fr; } 
-            .grid-charts-aux { grid-template-columns: 1fr; }
-        }
-        
-        .card { 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 20px; 
-            padding: 24px; 
-            display: flex; 
-            flex-direction: column;
-            box-shadow: var(--shadow);
-        }
-        .card-head { 
-            font-size: 0.85rem; 
-            font-weight: 800; 
-            margin-bottom: 20px; 
-            color: var(--text-sec); 
-            text-transform: uppercase; 
-            letter-spacing: 0.08em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .chart-box { position: relative; height: 300px; width: 100%; flex-grow: 1; }
-        .chart-box-small { position: relative; height: 200px; width: 100%; }
+        /* Gráficos */
+        .grid-charts { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; margin-bottom: 25px; }
+        @media (max-width: 800px) { .grid-charts { grid-template-columns: 1fr; } }
+        .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; }
+        .chart-title { font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.05em; }
+        .chart-wrapper { position: relative; height: 300px; width: 100%; }
 
-        /* CALENDAR VIEW */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .calendar-header {
-            text-align: center;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text-sec);
-            text-transform: uppercase;
-            padding: 8px;
-        }
-        .calendar-day {
-            aspect-ratio: 1;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 6px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: var(--card);
-        }
-        .calendar-day:hover { border-color: var(--focus); transform: scale(1.05); }
-        .calendar-day.empty { background: transparent; border: none; cursor: default; }
-        .calendar-day.empty:hover { transform: none; }
-        .calendar-day-number { font-size: 0.75rem; font-weight: 600; color: var(--text-sec); }
-        .calendar-day-sessions { 
-            font-size: 0.65rem; 
-            font-weight: 800; 
-            margin-top: 2px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: var(--focus);
-            color: white;
-        }
-        .calendar-day-sessions.zero { background: transparent; color: var(--text-sec); }
-
-        /* TABLE */
-        .table-container { 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 20px; 
-            padding: 24px; 
-            overflow-x: auto;
-            box-shadow: var(--shadow);
-        }
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        th { 
-            text-align: left; 
-            color: var(--text-sec); 
-            padding: 14px 12px; 
-            border-bottom: 2px solid var(--border); 
-            font-size: 0.7rem; 
-            text-transform: uppercase;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-        }
-        td { padding: 14px 12px; border-bottom: 1px solid var(--border); }
-        tr:hover td { background: rgba(0,0,0,0.02); }
-        @media (prefers-color-scheme: dark) { tr:hover td { background: rgba(255,255,255,0.02); } }
-        
-        .tag { 
-            padding: 6px 12px; 
-            border-radius: 20px; 
-            font-weight: 700; 
-            font-size: 0.75rem; 
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
-        
-        .progress-bar-container {
-            width: 100%;
-            background: var(--border);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-        .progress-bar {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.6s ease;
-        }
-
-        /* Loading & Empty States */
-        #loader { 
-            position: fixed; 
-            inset: 0; 
-            background: var(--bg); 
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            z-index: 100; 
-            gap: 20px;
-        }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border);
-            border-top-color: var(--focus);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-sec);
-        }
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        /* Trend Line Chart */
-        .trend-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
+        #loader { position: fixed; inset: 0; background: var(--bg); display: flex; justify-content: center; align-items: center; z-index: 1000; font-weight: 800; }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="spinner"></div>
-        <div style="font-weight: 700; color: var(--text-sec);">Cargando datos de Notion...</div>
-    </div>
+    <div id="loader">Analizando Rendimiento Real...</div>
 
-    <div class="container" id="app" style="display: none;">
+    <div class="container">
         <div class="header">
-            <h1>
-                <span style="font-size: 1.8rem;">🍅</span>
-                <span>Auditoría de Tiempo JAPH</span>
-            </h1>
-            <div class="period-selector">
-                <button class="btn active" onclick="updateView('day')" data-period="day">DÍA</button>
-                <button class="btn" onclick="updateView('week')" data-period="week">SEMANA</button>
-                <button class="btn" onclick="updateView('month')" data-period="month">MES</button>
-                <button class="btn" onclick="updateView('calendar')" data-period="calendar">CALENDARIO</button>
+            <h1 style="font-size: 1.5rem; font-weight: 900; color: var(--accent);">🍅 Pomodoro Intelligence</h1>
+            <div class="selector">
+                <button class="btn active" onclick="updateView('day')">HOY</button>
+                <button class="btn" onclick="updateView('week')">SEMANA</button>
+                <button class="btn" onclick="updateView('month')">MES</button>
             </div>
         </div>
 
-        <!-- KPIs -->
-        <div class="stats-grid" id="kpiContainer"></div>
+        <div class="stats" id="kpiGrid"></div>
 
-        <!-- Charts Grid -->
-        <div class="grid-charts" id="chartsContainer">
-            <!-- Principal: Stacked Bar -->
-            <div class="card">
-                <div class="card-head">
-                    <span id="mainChartTitle">Cronología Apilada</span>
-                    <span id="totalSessionsBadge" style="font-size: 0.75rem; color: var(--text-sec);"></span>
-                </div>
-                <div class="chart-box">
-                    <canvas id="mainChart"></canvas>
-                </div>
+        <div class="grid-charts">
+            <div class="chart-card">
+                <div class="chart-title">📈 Rendimiento de Enfoque (Minutos)</div>
+                <div class="chart-wrapper"><canvas id="mainChart"></canvas></div>
             </div>
-            
-            <!-- Secundario: Doughnut -->
-            <div class="card">
-                <div class="card-head">Distribución por Categoría</div>
-                <div class="chart-box">
-                    <canvas id="pieChart"></canvas>
-                </div>
+            <div class="chart-card">
+                <div class="chart-title">⚖️ Balance: Trabajo vs Descanso</div>
+                <div class="chart-wrapper"><canvas id="pieChart"></canvas></div>
             </div>
-        </div>
-
-        <!-- Auxiliar: Trend Line (solo para vistas no calendario) -->
-        <div class="grid-charts-aux" id="trendContainer">
-            <div class="card">
-                <div class="card-head">
-                    <span>Tendencia de Eficiencia</span>
-                    <span id="efficiencyKPI" class="trend-indicator"></span>
-                </div>
-                <div class="chart-box-small">
-                    <canvas id="trendChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Calendar View (oculto por defecto) -->
-        <div class="card" id="calendarContainer" style="display: none;">
-            <div class="card-head">Vista Calendario - Sesiones por Día</div>
-            <div id="calendarGrid" class="calendar-grid"></div>
-        </div>
-
-        <!-- Tabla de Auditoría -->
-        <div class="table-container">
-            <div class="card-head" style="margin-bottom: 16px;">Desglose Detallado por Proyecto</div>
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th>Proyecto/Sesión</th>
-                        <th>Categoría</th>
-                        <th>Tiempo Total</th>
-                        <th>% del Periodo</th>
-                        <th>Distribución</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // CONFIGURACIÓN GLOBAL Y PREVENCIÓN DE DOBLE EJECUCIÓN
-        // ==========================================
-        
-        if (window.POMODORO_DASHBOARD_INITIALIZED) {
-            console.log('Dashboard ya inicializado, previniendo doble ejecución');
-        } else {
-            window.POMODORO_DASHBOARD_INITIALIZED = true;
-            
-            // Variables globales
-            let rawData = [];
-            let chartInstances = {};
-            let currentPeriod = 'week';
-            
-            // Colores por categoría (según especificación)
-            const CAT_COLORS = {
-                'Trabajo': '#f59e0b',   // Ámbar
-                'Personal': '#10b981',  // Verde
-                'Negocios': '#ef4444',  // Rojo
-                'Otro': '#6b7280'       // Gris
-            };
-            
-            const CAT_LABELS = {
-                'Trabajo': '💼 Trabajo',
-                'Personal': '🌱 Personal',
-                'Negocios': '🚀 Negocios',
-                'Otro': '📌 Otro'
-            };
+        let rawData = [];
+        let instances = {};
 
-            // Palabras clave para categorización inteligente
-            const CAT_KEYWORDS = {
-                'Trabajo': ['trabajo', 'work', 'reunión', 'reunion', 'cliente', 'diseño', 'desarrollo', 'code', 'programar', 'meeting', 'project', 'proyecto'],
-                'Personal': ['personal', 'leer', 'meditación', 'meditacion', 'gym', 'casa', 'ejercicio', 'lectura', 'hobby', 'descanso', 'relax'],
-                'Negocios': ['negocio', 'business', 'estrategia', 'venta', 'marketing', 'ventas', 'clientes', 'emprendimiento', 'startup', 'inversión']
-            };
-
-            // ==========================================
-            // INICIALIZACIÓN
-            // ==========================================
-            
-            async function init() {
-                try {
-                    const res = await fetch('datos.json');
-                    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-                    
-                    const json = await res.json();
-                    rawData = json.pomodoro || json.datos?.pomodoro || [];
-                    
-                    if (!Array.isArray(rawData)) {
-                        throw new Error('Formato de datos inválido');
-                    }
-                    
-                    // Ocultar loader y mostrar app
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('app').style.display = 'block';
-                    
-                    // Renderizar vista inicial
-                    updateView('week');
-                    
-                } catch (e) {
-                    console.error('Error cargando datos:', e);
-                    document.getElementById('loader').innerHTML = `
-                        <div style="text-align: center; color: var(--text-sec);">
-                            <div style="font-size: 3rem; margin-bottom: 16px;">⚠️</div>
-                            <div style="font-weight: 700; margin-bottom: 8px;">Error cargando datos.json</div>
-                            <div style="font-size: 0.85rem;">${e.message}</div>
-                        </div>
-                    `;
-                }
-            }
-
-            // ==========================================
-            // DESTRUCCIÓN SEGURA DE GRÁFICOS
-            // ==========================================
-            
-            function destroyChart(chartId) {
-                if (chartInstances[chartId]) {
-                    chartInstances[chartId].destroy();
-                    chartInstances[chartId] = null;
-                    delete chartInstances[chartId];
-                }
-            }
-
-            function destroyAllCharts() {
-                Object.keys(chartInstances).forEach(key => destroyChart(key));
-            }
-
-            // ==========================================
-            // CATEGORIZACIÓN INTELIGENTE
-            // ==========================================
-            
-            function categorizeSession(name, type) {
-                const text = `${name} ${type}`.toLowerCase();
-                
-                for (const [category, keywords] of Object.entries(CAT_KEYWORDS)) {
-                    if (keywords.some(kw => text.includes(kw))) {
-                        return category;
-                    }
-                }
-                return 'Otro';
-            }
-
-            // ==========================================
-            // PROCESAMIENTO DE DATOS POR PERÍODO
-            // ==========================================
-            
-            function processData(period) {
-                const now = new Date();
-                const today = now.toISOString().split('T')[0];
-                
-                let daysMap = {};
-                let totals = { 'Trabajo': 0, 'Personal': 0, 'Negocios': 0, 'Otro': 0 };
-                let projects = {};
-                let grandTotal = 0;
-                let totalFocusTime = 0;
-                let totalBreakTime = 0;
-                let sessionsCount = 0;
-                let dailyData = {}; // Para cálculo de rachas y eficiencia
-                
-                // Configurar rango de fechas según período
-                let daysBack = 0;
-                if (period === 'day') daysBack = 6;      // Últimos 7 días
-                else if (period === 'week') daysBack = 27;  // Últimas 4 semanas (28 días)
-                else if (period === 'month') daysBack = 179; // Últimos 6 meses (180 días)
-                else if (period === 'calendar') daysBack = 179;
-                
-                // Inicializar días en el eje X
-                for (let i = daysBack; i >= 0; i--) {
-                    const d = new Date();
-                    d.setDate(now.getDate() - i);
-                    const k = d.toISOString().split('T')[0];
-                    daysMap[k] = { 'Trabajo': 0, 'Personal': 0, 'Negocios': 0, 'Otro': 0, total: 0 };
-                    dailyData[k] = { focus: 0, break: 0, sessions: 0 };
-                }
-                
-                // Procesar cada sesión
-                rawData.forEach(item => {
-                    const p = item.properties;
-                    const dateStr = p['Inicio 🍅']?.date?.start;
-                    if (!dateStr) return;
-                    
-                    const dateKey = dateStr.split('T')[0];
-                    
-                    // Obtener tiempo (prioridad: Tiempo > Enfoque 🍅 > Fórmula Enfoque)
-                    const focusTime = p['Tiempo']?.number || p['Enfoque 🍅']?.formula?.number || p['Fórmula Enfoque']?.formula?.number || 0;
-                    const breakTime = p['Descansos ☕️']?.formula?.number || p['Fórmula Descanso']?.formula?.number || 0;
-                    const totalTime = focusTime + breakTime;
-                    
-                    const name = p.Name?.title?.[0]?.plain_text || 'Sin nombre';
-                    const type = p['Tipo']?.select?.name || '';
-                    
-                    // Categorizar
-                    const category = categorizeSession(name, type);
-                    
-                    // Solo contar si hay tiempo de enfoque
-                    if (focusTime > 0 && daysMap[dateKey]) {
-                        daysMap[dateKey][category] += focusTime;
-                        daysMap[dateKey].total += focusTime;
-                        totals[category] += focusTime;
-                        grandTotal += focusTime;
-                        totalFocusTime += focusTime;
-                        sessionsCount++;
-                        
-                        dailyData[dateKey].focus += focusTime;
-                        dailyData[dateKey].sessions += 1;
-                    }
-                    
-                    if (breakTime > 0 && dailyData[dateKey]) {
-                        dailyData[dateKey].break += breakTime;
-                        totalBreakTime += breakTime;
-                    }
-                    
-                    // Agregar a proyectos para tabla
-                    const projKey = name;
-                    if (!projects[projKey]) {
-                        projects[projKey] = { cat: category, time: 0, sessions: 0 };
-                    }
-                    if (focusTime > 0) {
-                        projects[projKey].time += focusTime;
-                        projects[projKey].sessions += 1;
-                    }
-                });
-                
-                // Calcular métricas adicionales
-                const activeDays = Object.values(dailyData).filter(d => d.focus > 0).length;
-                const avgFocusPerDay = activeDays > 0 ? Math.round(totalFocusTime / activeDays) : 0;
-                const efficiency = grandTotal > 0 ? Math.round((totalFocusTime / (totalFocusTime + totalBreakTime)) * 100) : 0;
-                
-                // Calcular mejor racha
-                let currentStreak = 0;
-                let maxStreak = 0;
-                const sortedDates = Object.keys(dailyData).sort();
-                for (const date of sortedDates) {
-                    if (dailyData[date].focus > 0) {
-                        currentStreak++;
-                        maxStreak = Math.max(maxStreak, currentStreak);
-                    } else {
-                        currentStreak = 0;
-                    }
-                }
-                
-                // Calcular comparativa vs período anterior (simple)
-                const midPoint = Math.floor(daysBack / 2);
-                const firstHalf = Object.values(dailyData).slice(0, midPoint).reduce((a, b) => a + b.focus, 0);
-                const secondHalf = Object.values(dailyData).slice(midPoint).reduce((a, b) => a + b.focus, 0);
-                const delta = firstHalf > 0 ? Math.round(((secondHalf - firstHalf) / firstHalf) * 100) : 0;
-                
-                return {
-                    daysLabels: Object.keys(daysMap).map(d => {
-                        const [year, month, day] = d.split('-');
-                        return period === 'month' ? `${month}/${year.slice(2)}` : `${month}-${day}`;
-                    }),
-                    daysData: Object.values(daysMap),
-                    rawDates: Object.keys(daysMap),
-                    totals,
-                    projects,
-                    grandTotal,
-                    metrics: {
-                        totalFocusTime,
-                        totalBreakTime,
-                        sessionsCount,
-                        avgFocusPerDay,
-                        efficiency,
-                        maxStreak,
-                        delta,
-                        activeDays
-                    },
-                    dailyData
-                };
-            }
-
-            // ==========================================
-            // RENDERIZADO DE KPIs
-            // ==========================================
-            
-            function renderKPIs(data) {
-                const { totals, metrics, grandTotal } = data;
-                const container = document.getElementById('kpiContainer');
-                
-                // KPIs por categoría (solo mostrar si tienen valor)
-                let kpiHTML = '';
-                
-                // KPIs principales
-                const kpis = [
-                    { 
-                        label: 'Tiempo Total Enfoque', 
-                        value: `${(metrics.totalFocusTime / 60).toFixed(1)}h`,
-                        color: '#ef4444',
-                        delta: metrics.delta,
-                        deltaLabel: 'vs período ant.'
-                    },
-                    { 
-                        label: 'Promedio Diario', 
-                        value: `${Math.round(metrics.avgFocusPerDay)} min`,
-                        color: '#3b82f6',
-                        subtext: `${metrics.activeDays} días activos`
-                    },
-                    { 
-                        label: 'Eficiencia', 
-                        value: `${metrics.efficiency}%`,
-                        color: '#10b981',
-                        subtext: 'Enfoque / Total'
-                    },
-                    { 
-                        label: 'Mejor Racha', 
-                        value: `${metrics.maxStreak} días`,
-                        color: '#f59e0b',
-                        subtext: 'Consecutivos'
-                    },
-                    { 
-                        label: 'Total Sesiones', 
-                        value: metrics.sessionsCount,
-                        color: '#8b5cf6',
-                        subtext: 'Pomodoros completados'
-                    }
-                ];
-                
-                // Agregar KPIs por categoría con valor > 0
-                Object.entries(totals).forEach(([cat, val]) => {
-                    if (val > 0) {
-                        const hours = (val / 60).toFixed(1);
-                        const percent = grandTotal > 0 ? Math.round((val / grandTotal) * 100) : 0;
-                        kpis.push({
-                            label: CAT_LABELS[cat],
-                            value: `${hours}h`,
-                            color: CAT_COLORS[cat],
-                            subtext: `${percent}% del total`,
-                            isCategory: true
-                        });
-                    }
-                });
-                
-                kpiHTML = kpis.map(kpi => {
-                    let deltaHTML = '';
-                    if (kpi.delta !== undefined) {
-                        const deltaClass = kpi.delta > 0 ? 'delta-up' : kpi.delta < 0 ? 'delta-down' : 'delta-neutral';
-                        const arrow = kpi.delta > 0 ? '↑' : kpi.delta < 0 ? '↓' : '→';
-                        deltaHTML = `<div class="stat-delta ${deltaClass}">${arrow} ${Math.abs(kpi.delta)}% ${kpi.deltaLabel || ''}</div>`;
-                    }
-                    
-                    return `
-                    <div class="stat-card" style="--bd-color: ${kpi.color}">
-                        <div class="stat-val" style="color: ${kpi.color}">${kpi.value}</div>
-                        <div class="stat-lab">${kpi.label}</div>
-                        ${kpi.subtext ? `<div style="font-size: 0.75rem; color: var(--text-sec); margin-top: 4px;">${kpi.subtext}</div>` : ''}
-                        ${deltaHTML}
-                    </div>`;
-                }).join('');
-                
-                container.innerHTML = kpiHTML;
-            }
-
-            // ==========================================
-            // RENDERIZADO DE GRÁFICOS
-            // ==========================================
-            
-            function renderCharts(data, period) {
-                const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const textColor = isDark ? '#9ca3af' : '#6b7280';
-                const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
-                
-                // 1. STACKED BAR CHART (Principal)
-                destroyChart('main');
-                const ctx1 = document.getElementById('mainChart').getContext('2d');
-                
-                const datasets = Object.keys(CAT_COLORS).map(cat => ({
-                    label: CAT_LABELS[cat],
-                    data: data.daysData.map(day => day[cat]),
-                    backgroundColor: CAT_COLORS[cat],
-                    borderRadius: 4,
-                    borderSkipped: false,
-                }));
-                
-                // Animación easeOutBounce personalizada
-                const easeOutBounce = (t) => {
-                    const n1 = 7.5625;
-                    const d1 = 2.75;
-                    if (t < 1 / d1) {
-                        return n1 * t * t;
-                    } else if (t < 2 / d1) {
-                        return n1 * (t -= 1.5 / d1) * t + 0.75;
-                    } else if (t < 2.5 / d1) {
-                        return n1 * (t -= 2.25 / d1) * t + 0.9375;
-                    } else {
-                        return n1 * (t -= 2.625 / d1) * t + 0.984375;
-                    }
-                };
-                
-                chartInstances.main = new Chart(ctx1, {
-                    type: 'bar',
-                    data: {
-                        labels: data.daysLabels,
-                        datasets: datasets
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: {
-                            duration: 1000,
-                            easing: easeOutBounce,
-                            y: {
-                                from: 500
-                            }
-                        },
-                        interaction: {
-                            mode: 'index',
-                            intersect: false,
-                        },
-                        scales: {
-                            x: {
-                                stacked: true,
-                                grid: { display: false },
-                                ticks: { color: textColor, font: { size: 11 } }
-                            },
-                            y: {
-                                stacked: true,
-                                grid: { color: gridColor },
-                                ticks: { 
-                                    color: textColor,
-                                    callback: function(value) {
-                                        return value + ' min';
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                                labels: {
-                                    usePointStyle: true,
-                                    color: textColor,
-                                    font: { size: 11 }
-                                }
-                            },
-                            tooltip: {
-                                backgroundColor: isDark ? '#1f2937' : '#ffffff',
-                                titleColor: isDark ? '#f9fafb' : '#1f2937',
-                                bodyColor: isDark ? '#d1d5db' : '#4b5563',
-                                borderColor: isDark ? '#374151' : '#e5e7eb',
-                                borderWidth: 1,
-                                padding: 12,
-                                callbacks: {
-                                    label: function(context) {
-                                        return `${context.dataset.label}: ${context.raw} min`;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-                
-                // Actualizar título según período
-                const titles = {
-                    'day': 'Últimos 7 Días - Desglose por Categoría',
-                    'week': 'Últimas 4 Semanas - Cronología Apilada',
-                    'month': 'Últimos 6 Meses - Tendencia Acumulada',
-                    'calendar': 'Vista Mensual - Distribución Temporal'
-                };
-                document.getElementById('mainChartTitle').innerText = titles[period] || 'Cronología';
-                document.getElementById('totalSessionsBadge').innerText = `${data.metrics.sessionsCount} sesiones`;
-                
-                // 2. DOUGHNUT CHART (Distribución)
-                destroyChart('pie');
-                const ctx2 = document.getElementById('pieChart').getContext('2d');
-                
-                const pieData = Object.values(data.totals);
-                const hasData = pieData.some(v => v > 0);
-                
-                if (hasData) {
-                    chartInstances.pie = new Chart(ctx2, {
-                        type: 'doughnut',
-                        data: {
-                            labels: Object.keys(data.totals).map(k => CAT_LABELS[k]),
-                            datasets: [{
-                                data: pieData,
-                                backgroundColor: Object.keys(data.totals).map(k => CAT_COLORS[k]),
-                                borderWidth: 0,
-                                hoverOffset: 4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            cutout: '65%',
-                            animation: {
-                                animateScale: true,
-                                animateRotate: true,
-                                duration: 800
-                            },
-                            plugins: {
-                                legend: {
-                                    position: 'bottom',
-                                    labels: {
-                                        color: textColor,
-                                        usePointStyle: true,
-                                        boxWidth: 8,
-                                        padding: 15,
-                                        font: { size: 11 }
-                                    }
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                            const percent = total > 0 ? Math.round((context.raw / total) * 100) : 0;
-                                            return `${context.label}: ${context.raw} min (${percent}%)`;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                } else {
-                    // Estado vacío para doughnut
-                    ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height);
-                    ctx2.fillStyle = textColor;
-                    ctx2.textAlign = 'center';
-                    ctx2.fillText('Sin datos para mostrar', ctx2.canvas.width/2, ctx2.canvas.height/2);
-                }
-                
-                // 3. TREND LINE CHART (Eficiencia)
-                if (period !== 'calendar') {
-                    destroyChart('trend');
-                    const ctx3 = document.getElementById('trendChart').getContext('2d');
-                    
-                    // Calcular eficiencia por día
-                    const efficiencyData = data.daysData.map((day, idx) => {
-                        const dateKey = data.rawDates[idx];
-                        const dayInfo = data.dailyData[dateKey];
-                        if (!dayInfo || dayInfo.focus + dayInfo.break === 0) return 0;
-                        return Math.round((dayInfo.focus / (dayInfo.focus + dayInfo.break)) * 100);
-                    });
-                    
-                    // Calcular línea de tendencia (media móvil de 3 días)
-                    const trendData = efficiencyData.map((val, idx, arr) => {
-                        if (idx < 2) return val;
-                        return Math.round((arr[idx-2] + arr[idx-1] + val) / 3);
-                    });
-                    
-                    // Actualizar KPI de eficiencia
-                    const avgEff = Math.round(efficiencyData.reduce((a, b) => a + b, 0) / efficiencyData.filter(v => v > 0).length) || 0;
-                    const effColor = avgEff >= 70 ? '#10b981' : avgEff >= 50 ? '#f59e0b' : '#ef4444';
-                    document.getElementById('efficiencyKPI').innerHTML = `
-                        <span style="color: ${effColor}">●</span> Promedio: ${avgEff}%
-                    `;
-                    
-                    chartInstances.trend = new Chart(ctx3, {
-                        type: 'line',
-                        data: {
-                            labels: data.daysLabels,
-                            datasets: [
-                                {
-                                    label: 'Eficiencia Diaria',
-                                    data: efficiencyData,
-                                    borderColor: '#ef4444',
-                                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                                    borderWidth: 2,
-                                    pointRadius: 3,
-                                    pointBackgroundColor: '#ef4444',
-                                    tension: 0.4,
-                                    fill: true
-                                },
-                                {
-                                    label: 'Tendencia (MA3)',
-                                    data: trendData,
-                                    borderColor: '#3b82f6',
-                                    borderWidth: 2,
-                                    borderDash: [5, 5],
-                                    pointRadius: 0,
-                                    tension: 0.4,
-                                    fill: false
-                                }
-                            ]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            interaction: {
-                                mode: 'index',
-                                intersect: false,
-                            },
-                            scales: {
-                                x: {
-                                    grid: { display: false },
-                                    ticks: { color: textColor, font: { size: 10 }, maxTicksLimit: 8 }
-                                },
-                                y: {
-                                    min: 0,
-                                    max: 100,
-                                    grid: { color: gridColor },
-                                    ticks: {
-                                        color: textColor,
-                                        callback: function(value) {
-                                            return value + '%';
-                                        }
-                                    }
-                                }
-                            },
-                            plugins: {
-                                legend: {
-                                    display: true,
-                                    position: 'top',
-                                    labels: { color: textColor, usePointStyle: true, font: { size: 10 } }
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-
-            // ==========================================
-            // RENDERIZADO DE CALENDARIO
-            // ==========================================
-            
-            function renderCalendar(data) {
-                const container = document.getElementById('calendarGrid');
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = now.getMonth();
-                
-                // Días de la semana
-                const weekDays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-                let html = weekDays.map(d => `<div class="calendar-header">${d}</div>`).join('');
-                
-                // Primer día del mes
-                const firstDay = new Date(year, month, 1);
-                const lastDay = new Date(year, month + 1, 0);
-                const startPadding = firstDay.getDay();
-                
-                // Días del mes anterior (padding)
-                for (let i = 0; i < startPadding; i++) {
-                    html += `<div class="calendar-day empty"></div>`;
-                }
-                
-                // Días del mes actual
-                for (let day = 1; day <= lastDay.getDate(); day++) {
-                    const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                    const dayData = data.dailyData[dateKey];
-                    const sessions = dayData ? dayData.sessions : 0;
-                    const hasData = sessions > 0;
-                    
-                    const sessionClass = hasData ? '' : 'zero';
-                    const sessionText = hasData ? `${sessions} ses` : '0';
-                    
-                    const isToday = dateKey === now.toISOString().split('T')[0];
-                    const todayStyle = isToday ? 'border: 2px solid var(--focus);' : '';
-                    
-                    html += `
-                        <div class="calendar-day" style="${todayStyle}" title="${dateKey}: ${dayData ? dayData.focus : 0} min de enfoque">
-                            <div class="calendar-day-number">${day}</div>
-                            <div class="calendar-day-sessions ${sessionClass}">${sessionText}</div>
-                        </div>
-                    `;
-                }
-                
-                container.innerHTML = html;
-            }
-
-            // ==========================================
-            // RENDERIZADO DE TABLA
-            // ==========================================
-            
-            function renderTable(projects, total) {
-                const tbody = document.getElementById('tableBody');
-                const sorted = Object.entries(projects)
-                    .filter(([_, data]) => data.time > 0)
-                    .sort((a, b) => b[1].time - a[1].time);
-                
-                if (sorted.length === 0) {
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="5" class="empty-state">
-                                <div class="empty-state-icon">📊</div>
-                                <div>No hay datos para mostrar en este período</div>
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-                
-                tbody.innerHTML = sorted.map(([name, data]) => {
-                    const percent = total > 0 ? Math.round((data.time / total) * 100) : 0;
-                    const color = CAT_COLORS[data.cat];
-                    const hours = (data.time / 60).toFixed(1);
-                    
-                    return `
-                    <tr>
-                        <td style="font-weight: 600; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${name}">
-                            ${name}
-                        </td>
-                        <td>
-                            <span class="tag" style="background: ${color}20; color: ${color}; border: 1px solid ${color}40;">
-                                ${CAT_LABELS[data.cat]}
-                            </span>
-                        </td>
-                        <td style="font-weight: 700;">
-                            ${hours}h <span style="font-size: 0.75rem; color: var(--text-sec); font-weight: 400;">(${data.sessions} sesiones)</span>
-                        </td>
-                        <td style="font-weight: 700; color: ${color};">
-                            ${percent}%
-                        </td>
-                        <td style="width: 150px;">
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" style="width: ${percent}%; background: ${color};"></div>
-                            </div>
-                        </td>
-                    </tr>`;
-                }).join('');
-            }
-
-            // ==========================================
-            // ACTUALIZACIÓN DE VISTA
-            // ==========================================
-            
-            window.updateView = function(period) {
-                currentPeriod = period;
-                
-                // Actualizar botones activos
-                document.querySelectorAll('.btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.period === period);
-                });
-                
-                // Mostrar/ocultar contenedores según vista
-                const isCalendar = period === 'calendar';
-                document.getElementById('chartsContainer').style.display = isCalendar ? 'none' : 'grid';
-                document.getElementById('trendContainer').style.display = isCalendar ? 'none' : 'block';
-                document.getElementById('calendarContainer').style.display = isCalendar ? 'block' : 'none';
-                
-                // Procesar datos
-                const data = processData(period);
-                
-                // Renderizar componentes
-                renderKPIs(data);
-                
-                if (isCalendar) {
-                    renderCalendar(data);
-                } else {
-                    renderCharts(data, period);
-                }
-                
-                renderTable(data.projects, data.grandTotal);
-            };
-
-            // ==========================================
-            // INICIO
-            // ==========================================
-            
-            // Esperar a que DOM esté listo
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
+        async function init() {
+            try {
+                const res = await fetch('datos.json');
+                const data = await res.json();
+                rawData = data.pomodoro || [];
+                document.getElementById('loader').remove();
+                updateView('week');
+            } catch (e) {
+                document.getElementById('loader').innerText = "❌ Error: Verifica los IDs";
             }
         }
+
+        const animConfig = { duration: 2000, easing: 'easeOutElastic', delay: (c) => c.dataIndex * 100 };
+
+        function updateView(period) {
+            document.querySelectorAll('.btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === (period === 'day' ? 'hoy' : period)));
+            
+            const processed = processData(period);
+            renderKPIs(processed);
+            
+            // Gráfico de Barras / Líneas
+            draw('mainChart', period === 'month' ? 'line' : 'bar', {
+                labels: processed.labels,
+                datasets: [{ 
+                    label: 'Minutos', 
+                    data: processed.values, 
+                    backgroundColor: '#f87171', 
+                    borderColor: '#f87171',
+                    borderRadius: 6,
+                    fill: period === 'month',
+                    tension: 0.4
+                }]
+            }, { scales: { y: { ticks: { color: '#888' }, grid: { color: '#262626' } }, x: { ticks: { color: '#888' }, grid: { display: false } } } });
+
+            // Gráfico de Dona
+            draw('pieChart', 'doughnut', {
+                labels: ['Enfoque 🍅', 'Descanso ☕️'],
+                datasets: [{ data: [processed.totalF, processed.totalB], backgroundColor: ['#ef4444', '#10b981'], borderWidth: 0, cutout: '75%' }]
+            });
+        }
+
+        function processData(period) {
+            const now = new Date();
+            let totalF = 0, totalB = 0, sessions = 0;
+            let timeline = {};
+
+            const range = period === 'day' ? 0 : period === 'week' ? 6 : 29;
+            for(let i=range; i>=0; i--) {
+                const d = new Date(); d.setDate(now.getDate() - i);
+                timeline[d.toISOString().split('T')[0]] = 0;
+            }
+
+            rawData.forEach(item => {
+                const p = item.properties;
+                const dStr = p['Inicio 🍅']?.date?.start || item.created_time;
+                const dKey = dStr.split('T')[0];
+
+                const f = p['Enfoque 🍅']?.formula?.number || p['Tiempo']?.number || 0;
+                const b = p['Descansos ☕️']?.formula?.number || 0;
+
+                if (timeline[dKey] !== undefined) {
+                    timeline[dKey] += f;
+                    totalF += f;
+                    totalB += b;
+                    if(f > 0) sessions++;
+                }
+            });
+
+            return {
+                totalF, totalB, sessions,
+                labels: Object.keys(timeline).map(k => k.slice(5)),
+                values: Object.values(timeline)
+            };
+        }
+
+        function renderKPIs(d) {
+            const efficiency = d.totalF > 0 ? Math.round((d.totalF / (d.totalF + d.totalB)) * 100) : 0;
+            document.getElementById('kpiGrid').innerHTML = `
+                <div class="stat-card"><div class="stat-val">${(d.totalF/60).toFixed(1)}h</div><div class="stat-lab">Total Enfoque</div></div>
+                <div class="stat-card"><div class="stat-val">${d.sessions}</div><div class="stat-lab">Sesiones</div></div>
+                <div class="stat-card"><div class="stat-val" style="color:var(--success)">${efficiency}%</div><div class="stat-lab">Eficiencia</div></div>
+            `;
+        }
+
+        function draw(id, type, data, options = {}) {
+            const ctx = document.getElementById(id).getContext('2d');
+            if (instances[id]) instances[id].destroy();
+            instances[id] = new Chart(ctx, {
+                type, data, options: {
+                    responsive: true, maintainAspectRatio: false, animation: animConfig,
+                    plugins: { legend: { display: type === 'doughnut', position: 'bottom', labels: { color: '#888', font: { size: 10 } } } },
+                    ...options
+                }
+            });
+        }
+        init();
     </script>
 </body>
 </html>
