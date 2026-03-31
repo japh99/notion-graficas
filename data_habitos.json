@@ -1,0 +1,214 @@
+{
+    "datos": [
+        {
+            "object": "page",
+            "id": "31858e9c-21ef-8028-9215-fec896cc0911",
+            "created_time": "2026-03-03T03:51:00.000Z",
+            "last_edited_time": "2026-03-06T00:43:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "brain",
+                    "color": "yellow"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "18558e9c-21ef-81e2-b440-dbe777a4324e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Meditacion": {
+                    "id": "EN%3Ad",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Leer": {
+                    "id": "H%5E%5Dc",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "No Azúcar": {
+                    "id": "NZS%3B",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Fecha": {
+                    "id": "bOyD",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-03",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Dormí 7-8h": {
+                    "id": "dMF%3A",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Ejercicio": {
+                    "id": "h%3D%5CU",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Agradecer": {
+                    "id": "tsrp",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Agua 2LT": {
+                    "id": "yQIO",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Ducha Fría ": {
+                    "id": "zkrq",
+                    "type": "checkbox",
+                    "checkbox": false
+                },
+                "Diario": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Prueba ",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Prueba ",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Prueba-31858e9c21ef80289215fec896cc0911",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-8054-aa9b-c43965f56b89",
+            "created_time": "2026-03-06T00:39:00.000Z",
+            "last_edited_time": "2026-03-06T03:03:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": null,
+            "parent": {
+                "type": "database_id",
+                "database_id": "18558e9c-21ef-81e2-b440-dbe777a4324e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Meditacion": {
+                    "id": "EN%3Ad",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Leer": {
+                    "id": "H%5E%5Dc",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "No Azúcar": {
+                    "id": "NZS%3B",
+                    "type": "checkbox",
+                    "checkbox": false
+                },
+                "Fecha": {
+                    "id": "bOyD",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Dormí 7-8h": {
+                    "id": "dMF%3A",
+                    "type": "checkbox",
+                    "checkbox": false
+                },
+                "Ejercicio": {
+                    "id": "h%3D%5CU",
+                    "type": "checkbox",
+                    "checkbox": false
+                },
+                "Agradecer": {
+                    "id": "tsrp",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Agua 2LT": {
+                    "id": "yQIO",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Ducha Fría ": {
+                    "id": "zkrq",
+                    "type": "checkbox",
+                    "checkbox": true
+                },
+                "Diario": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Prueba 2",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Prueba 2",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Prueba-2-31b58e9c21ef8054aa9bc43965f56b89",
+            "public_url": null,
+            "archived": false
+        }
+    ],
+    "metadata": {
+        "ultima_actualizacion": "31/03/2026 12:06 PM",
+        "estado": "Sincronizado"
+    }
+}

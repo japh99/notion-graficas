@@ -1,0 +1,2507 @@
+{
+    "datos": [
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-800d-afd2-cd0092adc157",
+            "created_time": "2026-03-06T17:16:00.000Z",
+            "last_edited_time": "2026-03-06T17:16:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:16:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "upr[",
+                        "name": "Descanso largo",
+                        "color": "yellow"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 15
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "15"
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 15
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Descanso",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Descanso",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Descanso-31b58e9c21ef800dafd2cd0092adc157",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-800f-b6cc-cf43fb4fc47b",
+            "created_time": "2026-03-06T17:17:00.000Z",
+            "last_edited_time": "2026-03-06T17:17:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:17:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "J>mA",
+                        "name": "Descanso corto",
+                        "color": "green"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 5
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "5"
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 5
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Descanso",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Descanso",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Descanso-31b58e9c21ef800fb6cccf43fb4fc47b",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-8013-8290-f12ae934060b",
+            "created_time": "2026-03-06T17:16:00.000Z",
+            "last_edited_time": "2026-03-06T17:16:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:16:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef80138290f12ae934060b",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-8017-8b1b-ff0112427163",
+            "created_time": "2026-03-06T17:17:00.000Z",
+            "last_edited_time": "2026-03-06T17:17:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:17:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef80178b1bff0112427163",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-801a-ac68-e16a4a4ae4d3",
+            "created_time": "2026-03-06T00:04:00.000Z",
+            "last_edited_time": "2026-03-06T00:04:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05T19:04:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-809c-8c9d-c310ff993335"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "upr[",
+                        "name": "Descanso largo",
+                        "color": "yellow"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 10
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "15"
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 15
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Descanso",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Descanso",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Descanso-31b58e9c21ef801aac68e16a4a4ae4d3",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-8028-a083-f99d9af44788",
+            "created_time": "2026-03-06T00:03:00.000Z",
+            "last_edited_time": "2026-03-06T00:03:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05T19:03:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-809c-8c9d-c310ff993335"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "upr[",
+                        "name": "Descanso largo",
+                        "color": "yellow"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 15
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "15"
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 15
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Descanso",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Descanso",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Descanso-31b58e9c21ef8028a083f99d9af44788",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-802d-9173-c48fac1dc1d1",
+            "created_time": "2026-03-06T00:03:00.000Z",
+            "last_edited_time": "2026-03-06T00:03:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05T19:03:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-809c-8c9d-c310ff993335"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "J>mA",
+                        "name": "Descanso corto",
+                        "color": "green"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 5
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "5"
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 5
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Descanso",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Descanso",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Descanso-31b58e9c21ef802d9173c48fac1dc1d1",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-8038-85d1-c2ea014f50ed",
+            "created_time": "2026-03-06T17:16:00.000Z",
+            "last_edited_time": "2026-03-06T17:16:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:16:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "upr[",
+                        "name": "Descanso largo",
+                        "color": "yellow"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 15
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "15"
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 15
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Descanso",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Descanso",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Descanso-31b58e9c21ef803885d1c2ea014f50ed",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-8040-8999-e45c358eaa1a",
+            "created_time": "2026-03-06T17:17:00.000Z",
+            "last_edited_time": "2026-03-06T17:17:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:17:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef80408999e45c358eaa1a",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-8040-a7d0-f5db87cfc0c0",
+            "created_time": "2026-03-06T17:16:00.000Z",
+            "last_edited_time": "2026-03-06T17:16:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:16:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef8040a7d0f5db87cfc0c0",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-806c-8504-fa6372256820",
+            "created_time": "2026-03-06T00:03:00.000Z",
+            "last_edited_time": "2026-03-06T00:03:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05T19:03:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-809c-8c9d-c310ff993335"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef806c8504fa6372256820",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-807b-915d-e1b14bd8e26a",
+            "created_time": "2026-03-06T00:03:00.000Z",
+            "last_edited_time": "2026-03-06T00:03:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05T19:03:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-809c-8c9d-c310ff993335"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef807b915de1b14bd8e26a",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-8085-854d-d97f43dac81b",
+            "created_time": "2026-03-06T00:03:00.000Z",
+            "last_edited_time": "2026-03-06T00:03:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05T19:03:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-809c-8c9d-c310ff993335"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef8085854dd97f43dac81b",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-808f-9240-e3a4ffab4809",
+            "created_time": "2026-03-06T17:17:00.000Z",
+            "last_edited_time": "2026-03-06T17:17:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:17:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "J>mA",
+                        "name": "Descanso corto",
+                        "color": "green"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 5
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "5"
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 5
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Descanso",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Descanso",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Descanso-31b58e9c21ef808f9240e3a4ffab4809",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-80d4-853e-c8d5e7301f0c",
+            "created_time": "2026-03-06T00:03:00.000Z",
+            "last_edited_time": "2026-03-06T00:03:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05T19:03:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-809c-8c9d-c310ff993335"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "J>mA",
+                        "name": "Descanso corto",
+                        "color": "green"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 5
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "5"
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 5
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Descanso",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Descanso",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Descanso-31b58e9c21ef80d4853ec8d5e7301f0c",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-80f7-a002-ed05b61a3a90",
+            "created_time": "2026-03-06T17:16:00.000Z",
+            "last_edited_time": "2026-03-06T17:16:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:16:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef80f7a002ed05b61a3a90",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-80f9-8ad9-d78361e073ec",
+            "created_time": "2026-03-06T17:16:00.000Z",
+            "last_edited_time": "2026-03-06T17:16:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:16:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef80f98ad9d78361e073ec",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-80fb-9e74-d60930143860",
+            "created_time": "2026-03-06T00:03:00.000Z",
+            "last_edited_time": "2026-03-06T00:03:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05T19:03:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-809c-8c9d-c310ff993335"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef80fb9e74d60930143860",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-80fc-8264-fafa114778c5",
+            "created_time": "2026-03-06T17:16:00.000Z",
+            "last_edited_time": "2026-03-06T17:16:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:16:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "J>mA",
+                        "name": "Descanso corto",
+                        "color": "green"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 5
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "5"
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 5
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Descanso",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Descanso",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Descanso-31b58e9c21ef80fc8264fafa114778c5",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-80fd-aad4-d9baef51d1d4",
+            "created_time": "2026-03-06T17:17:00.000Z",
+            "last_edited_time": "2026-03-06T17:17:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-06T12:17:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-80ba-82e1-e9727b9b876c"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef80fdaad4d9baef51d1d4",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "31b58e9c-21ef-80fe-910f-cce05599ed8b",
+            "created_time": "2026-03-06T00:02:00.000Z",
+            "last_edited_time": "2026-03-06T00:02:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-03-05T19:02:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "31b58e9c-21ef-809c-8c9d-c310ff993335"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-31b58e9c21ef80fe910fcce05599ed8b",
+            "public_url": null,
+            "archived": false
+        }
+    ],
+    "metadata": {
+        "ultima_actualizacion": "31/03/2026 12:06 PM",
+        "estado": "Sincronizado"
+    }
+}
