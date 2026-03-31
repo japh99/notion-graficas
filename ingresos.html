@@ -69,29 +69,27 @@
     </div>
 
     <script>
+        // XSS Prevention: Safe HTML escaping helper
+        function esc(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
         async function loadData() {
             try {
-                const response = await fetch('datos.json');
+                const response = await fetch('data_ingresos.json');
                 const data = await response.json();
                 document.getElementById('lastUpdate').textContent = data.metadata?.ultima_actualizacion || 'Desconocida';
                 
-                const ingresos = data.datos?.ingresos || [];
+                const ingresos = data.datos || [];
                 processIngresos(ingresos);
             } catch (error) {
-                document.getElementById('kpiGrid').innerHTML = `<div style="color: #ef4444;">Error: ${error.message}</div>`;
+                document.getElementById('kpiGrid').innerHTML = `<div style="color: #ef4444;">Error: ${esc(error.message)}</div>`;
             }
         }
 
         function processIngresos(ingresos) {
-            // ESTRUCTURA REAL:
-            // • Fecha (date) → "2026-03-02"
-            // • Motivo (select) → "Sueldo"
-            // • Tipo (select) → "Nequi"
-            // • Monto (number) → 510000
-            // • Balance (relation)
-            // • Mes (select) → "Febrero"
-            // • Items (title) → "Nomina Hotel - Segunda Quin Feb"
-            
             const processed = ingresos.map(i => {
                 const p = i.properties || {};
                 return {
@@ -136,7 +134,6 @@
             const textColor = isDark ? '#ffffff' : '#2c2c2c';
             const gridColor = isDark ? '#2f2f2f' : '#e0e0e0';
 
-            // Por Mes
             const porMes = {};
             ingresos.forEach(i => {
                 porMes[i.mes] = (porMes[i.mes] || 0) + i.monto;
@@ -164,7 +161,6 @@
                 }
             });
 
-            // Por Tipo (Nequi, etc.)
             const porTipo = {};
             ingresos.forEach(i => {
                 porTipo[i.tipo] = (porTipo[i.tipo] || 0) + i.monto;
@@ -192,8 +188,8 @@
             document.getElementById('recentList').innerHTML = recientes.map(i => `
                 <div class="income-item">
                     <div class="income-info">
-                        <div class="income-name">${i.items}</div>
-                        <div class="income-meta">${i.motivo} • ${i.tipo} • ${i.mes}</div>
+                        <div class="income-name">${esc(i.items)}</div>
+                        <div class="income-meta">${esc(i.motivo)} • ${esc(i.tipo)} • ${esc(i.mes)}</div>
                     </div>
                     <div class="income-amount">+$${i.monto.toLocaleString()}</div>
                 </div>

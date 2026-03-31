@@ -27,24 +27,22 @@ dbs_config = {
     "suscripciones": os.environ.get('DB_SUBS'),
     "compras": os.environ.get('DB_COMPRAS'),
     
-    # Productividad (Aquí está la magia nueva)
+    # Productividad
     "tareas": os.environ.get('DB_TAREAS'),
-    "pomodoro": os.environ.get('DB_POMODORO'),   # Sesiones (Tiempos)
-    "proyectos": os.environ.get('DB_PROYECTOS'), # Categorías (Trabajo/Personal)
+    "pomodoro": os.environ.get('DB_POMODORO'),
+    "proyectos": os.environ.get('DB_PROYECTOS'),
     
     # Salud y Vida
     "habitos": os.environ.get('DB_HABITOS'),
-    "sueno": os.environ.get('DB_SUENO'),           # Noches
-    "sueno_detalles": os.environ.get('DB_SUENO_DETALLES'), # Detalles
-    "resumenes": os.environ.get('DB_SUENO_RESUMEN'),       # Resúmenes
+    "sueno": os.environ.get('DB_SUENO'),
+    "sueno_detalles": os.environ.get('DB_SUENO_DETALLES'),
+    "resumenes": os.environ.get('DB_SUENO_RESUMEN'),
     "memento": os.environ.get('DB_MEMENTO')
 }
 
-datos_finales = {
-    "metadata": {
-        "ultima_actualizacion": hora_actual,
-        "estado": "Sincronizado"
-    }
+metadata = {
+    "ultima_actualizacion": hora_actual,
+    "estado": "Sincronizado"
 }
 
 # ==========================================
@@ -91,12 +89,14 @@ def obtener_datos(db_id, nombre):
 print(f"--- INICIO DE EXTRACCIÓN: {hora_actual} ---")
 
 for nombre_clave, id_notion in dbs_config.items():
-    datos_finales[nombre_clave] = obtener_datos(id_notion, nombre_clave)
+    data = obtener_datos(id_notion, nombre_clave)
+    # Save individual files to prevent excessive data exposure
+    file_name = f"data_{nombre_clave}.json"
+    try:
+        with open(file_name, "w", encoding="utf-8") as f:
+            json.dump({"datos": data, "metadata": metadata}, f, ensure_ascii=False, indent=4)
+        print(f"💾 Guardado: {file_name}")
+    except Exception as e:
+        print(f"❌ Error guardando {file_name}: {e}")
 
-# Guardar
-try:
-    with open("datos.json", "w", encoding="utf-8") as f:
-        json.dump(datos_finales, f, ensure_ascii=False, indent=4)
-    print("\n🚀 ¡ÉXITO! Base de datos centralizada actualizada.")
-except Exception as e:
-    print(f"\n❌ Error guardando JSON: {e}")
+print("\n🚀 ¡ÉXITO! Datos sincronizados en archivos individuales.")
