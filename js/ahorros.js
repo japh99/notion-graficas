@@ -1,6 +1,6 @@
 async function loadData() {
             try {
-                const response = await fetch('datos.json');
+                const response = await fetch('../data/datos.json');
                 const data = await response.json();
                 
                 document.getElementById('lastUpdate').textContent = 

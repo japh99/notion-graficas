@@ -1,4 +1,4 @@
-fetch('datos.json')
+fetch('../data/datos.json')
             .then(r => r.json())
             .then(data => {
                 let html = '';
