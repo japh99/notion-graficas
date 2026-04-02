@@ -1,7 +1,127 @@
 {
-    "datos": [],
+    "datos": [
+        {
+            "object": "page",
+            "id": "33658e9c-21ef-8073-84d5-fb5837fb6090",
+            "created_time": "2026-04-02T03:21:00.000Z",
+            "last_edited_time": "2026-04-02T03:21:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "emoji",
+                "emoji": "🍅"
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "1b358e9c-21ef-8186-b5bb-cfee6dab430e"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Inicio 🍅": {
+                    "id": "%3D%7DDw",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-01T22:21:00.000-05:00",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "🔥 PROYECTOS": {
+                    "id": "%40UU%3B",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "33558e9c-21ef-8089-adc6-dacfa5114546"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "By%5BB",
+                    "type": "select",
+                    "select": {
+                        "id": "YR@G",
+                        "name": "Enfoque 🍅",
+                        "color": "red"
+                    }
+                },
+                "Tiempo": {
+                    "id": "LiQ%5D",
+                    "type": "number",
+                    "number": 25
+                },
+                "Enfoque 🍅": {
+                    "id": "SvTS",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 25
+                    }
+                },
+                "Fórmula Descanso": {
+                    "id": "al%3C%5D",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": ""
+                    }
+                },
+                "Fórmula Enfoque": {
+                    "id": "rK_m",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": "25"
+                    }
+                },
+                "Descansos ☕️": {
+                    "id": "%7CQvh",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": null
+                    }
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Enfoque",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Enfoque",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Enfoque-33658e9c21ef807384d5fb5837fb6090",
+            "public_url": null,
+            "archived": false
+        }
+    ],
     "metadata": {
-        "ultima_actualizacion": "01/04/2026 09:51 PM",
+        "ultima_actualizacion": "02/04/2026 12:08 AM",
         "estado": "Sincronizado"
     }
 }
