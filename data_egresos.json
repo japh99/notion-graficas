@@ -8474,10 +8474,560 @@
             "url": "https://www.notion.so/Pr-stamo-JUAN-AGUILAR-33458e9c21ef80feababefe5f79072fa",
             "public_url": null,
             "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33858e9c-21ef-8055-af9f-f660667f8640",
+            "created_time": "2026-04-04T21:53:00.000Z",
+            "last_edited_time": "2026-04-04T21:54:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "red"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-8107-b4b5-f0a7f87b4da7"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Balance": {
+                    "id": "%3AWre",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "FHr%3A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "3ae6f52c-9903-4f05-bcf2-9f255941c1c2",
+                            "name": "Movimiento bancario",
+                            "color": "default"
+                        }
+                    ]
+                },
+                "Fecha": {
+                    "id": "IN%3C%3A",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-01",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 20000
+                },
+                "Forty Box": {
+                    "id": "ZiLt",
+                    "type": "select",
+                    "select": {
+                        "id": "AuAe",
+                        "name": "Nequi",
+                        "color": "purple"
+                    }
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Transferencia - JAPH LULO",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Transferencia - JAPH LULO",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Transferencia-JAPH-LULO-33858e9c21ef8055af9ff660667f8640",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33858e9c-21ef-8081-93a5-fc049a2e1b94",
+            "created_time": "2026-04-04T21:54:00.000Z",
+            "last_edited_time": "2026-04-04T21:55:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "red"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-8107-b4b5-f0a7f87b4da7"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Balance": {
+                    "id": "%3AWre",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "FHr%3A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "G=ME",
+                            "name": "Otros",
+                            "color": "gray"
+                        }
+                    ]
+                },
+                "Fecha": {
+                    "id": "IN%3C%3A",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-01",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 15000
+                },
+                "Forty Box": {
+                    "id": "ZiLt",
+                    "type": "select",
+                    "select": {
+                        "id": "AuAe",
+                        "name": "Nequi",
+                        "color": "purple"
+                    }
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Compra - CARGADOR TV BOX LAMACA",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Compra - CARGADOR TV BOX LAMACA",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Compra-CARGADOR-TV-BOX-LAMACA-33858e9c21ef808193a5fc049a2e1b94",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33858e9c-21ef-809d-bd96-d347e1ceff5e",
+            "created_time": "2026-04-04T22:08:00.000Z",
+            "last_edited_time": "2026-04-04T22:10:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "red"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-8107-b4b5-f0a7f87b4da7"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Balance": {
+                    "id": "%3AWre",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "FHr%3A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "3ae6f52c-9903-4f05-bcf2-9f255941c1c2",
+                            "name": "Movimiento bancario",
+                            "color": "default"
+                        }
+                    ]
+                },
+                "Fecha": {
+                    "id": "IN%3C%3A",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-03",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 150000
+                },
+                "Forty Box": {
+                    "id": "ZiLt",
+                    "type": "select",
+                    "select": {
+                        "id": "AuAe",
+                        "name": "Nequi",
+                        "color": "purple"
+                    }
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Movimiento - LEIDY GIRON (1)",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Movimiento - LEIDY GIRON (1)",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Movimiento-LEIDY-GIRON-1-33858e9c21ef809dbd96d347e1ceff5e",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33858e9c-21ef-80ee-9bbb-c0ae7787d7e6",
+            "created_time": "2026-04-04T22:03:00.000Z",
+            "last_edited_time": "2026-04-04T22:06:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "red"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-8107-b4b5-f0a7f87b4da7"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Balance": {
+                    "id": "%3AWre",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "FHr%3A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "HrSf",
+                            "name": "Alimentación",
+                            "color": "brown"
+                        }
+                    ]
+                },
+                "Fecha": {
+                    "id": "IN%3C%3A",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-02",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 20000
+                },
+                "Forty Box": {
+                    "id": "ZiLt",
+                    "type": "select",
+                    "select": {
+                        "id": "AuAe",
+                        "name": "Nequi",
+                        "color": "purple"
+                    }
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Compra - Comida",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Compra - Comida",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Compra-Comida-33858e9c21ef80ee9bbbc0ae7787d7e6",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33858e9c-21ef-80f4-9966-fcd930f76d29",
+            "created_time": "2026-04-04T21:56:00.000Z",
+            "last_edited_time": "2026-04-04T21:57:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "red"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-8107-b4b5-f0a7f87b4da7"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Balance": {
+                    "id": "%3AWre",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "FHr%3A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "HrSf",
+                            "name": "Alimentación",
+                            "color": "brown"
+                        }
+                    ]
+                },
+                "Fecha": {
+                    "id": "IN%3C%3A",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-02",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 15000
+                },
+                "Forty Box": {
+                    "id": "ZiLt",
+                    "type": "select",
+                    "select": {
+                        "id": "AuAe",
+                        "name": "Nequi",
+                        "color": "purple"
+                    }
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Compra  - Comida",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Compra  - Comida",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Compra-Comida-33858e9c21ef80f49966fcd930f76d29",
+            "public_url": null,
+            "archived": false
         }
     ],
     "metadata": {
-        "ultima_actualizacion": "04/04/2026 04:38 PM",
+        "ultima_actualizacion": "04/04/2026 05:37 PM",
         "estado": "Sincronizado"
     }
 }
