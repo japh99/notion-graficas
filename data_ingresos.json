@@ -2903,10 +2903,322 @@
             "url": "https://www.notion.so/Sueldo-Q2-Marzo-LAMACA-33858e9c21ef80b69e27fd7aab28d0ef",
             "public_url": null,
             "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33958e9c-21ef-8017-912a-e8638e6847d2",
+            "created_time": "2026-04-05T01:04:00.000Z",
+            "last_edited_time": "2026-04-05T01:04:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "green"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-815f-b817-e7212750b313"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Fecha": {
+                    "id": "%3FbD_",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-04",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Motivo": {
+                    "id": "FHr%3A",
+                    "type": "select",
+                    "select": {
+                        "id": "1c57933a-ef31-43d5-b83c-2e6238ae19e5",
+                        "name": "Gestión",
+                        "color": "gray"
+                    }
+                },
+                "Bancos": {
+                    "id": "J%3FvN",
+                    "type": "select",
+                    "select": null
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 34000
+                },
+                "Balance": {
+                    "id": "qjAx",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items ": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Recarga PSE - Rene Herrera (3)",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Recarga PSE - Rene Herrera (3)",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Recarga-PSE-Rene-Herrera-3-33958e9c21ef8017912ae8638e6847d2",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33958e9c-21ef-8054-82a5-fc700cb2034f",
+            "created_time": "2026-04-05T01:00:00.000Z",
+            "last_edited_time": "2026-04-05T01:02:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "green"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-815f-b817-e7212750b313"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Fecha": {
+                    "id": "%3FbD_",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-03",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Motivo": {
+                    "id": "FHr%3A",
+                    "type": "select",
+                    "select": {
+                        "id": "1c57933a-ef31-43d5-b83c-2e6238ae19e5",
+                        "name": "Gestión",
+                        "color": "gray"
+                    }
+                },
+                "Bancos": {
+                    "id": "J%3FvN",
+                    "type": "select",
+                    "select": null
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 130000
+                },
+                "Balance": {
+                    "id": "qjAx",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items ": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Recarga PSE - Brandon Diaz",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Recarga PSE - Brandon Diaz",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Recarga-PSE-Brandon-Diaz-33958e9c21ef805482a5fc700cb2034f",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33958e9c-21ef-8056-97b5-c47187779d75",
+            "created_time": "2026-04-05T01:02:00.000Z",
+            "last_edited_time": "2026-04-05T01:02:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "green"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-815f-b817-e7212750b313"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Fecha": {
+                    "id": "%3FbD_",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-03",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Motivo": {
+                    "id": "FHr%3A",
+                    "type": "select",
+                    "select": {
+                        "id": "1c57933a-ef31-43d5-b83c-2e6238ae19e5",
+                        "name": "Gestión",
+                        "color": "gray"
+                    }
+                },
+                "Bancos": {
+                    "id": "J%3FvN",
+                    "type": "select",
+                    "select": null
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 4000
+                },
+                "Balance": {
+                    "id": "qjAx",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items ": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Recarga PSE - Rene Herrera (2)",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Recarga PSE - Rene Herrera (2)",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Recarga-PSE-Rene-Herrera-2-33958e9c21ef805697b5c47187779d75",
+            "public_url": null,
+            "archived": false
         }
     ],
     "metadata": {
-        "ultima_actualizacion": "04/04/2026 06:38 PM",
+        "ultima_actualizacion": "04/04/2026 10:20 PM",
         "estado": "Sincronizado"
     }
 }

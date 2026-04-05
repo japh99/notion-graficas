@@ -9024,10 +9024,450 @@
             "url": "https://www.notion.so/Compra-Comida-33858e9c21ef80f49966fcd930f76d29",
             "public_url": null,
             "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33958e9c-21ef-800b-ae00-c12c1166286e",
+            "created_time": "2026-04-05T01:00:00.000Z",
+            "last_edited_time": "2026-04-05T01:00:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "red"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-8107-b4b5-f0a7f87b4da7"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Balance": {
+                    "id": "%3AWre",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "FHr%3A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "3ae6f52c-9903-4f05-bcf2-9f255941c1c2",
+                            "name": "Movimiento bancario",
+                            "color": "default"
+                        }
+                    ]
+                },
+                "Fecha": {
+                    "id": "IN%3C%3A",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-03",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 20000
+                },
+                "Forty Box": {
+                    "id": "ZiLt",
+                    "type": "select",
+                    "select": {
+                        "id": "AuAe",
+                        "name": "Nequi",
+                        "color": "purple"
+                    }
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Movimiento - LEIDY GIRON (2)",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Movimiento - LEIDY GIRON (2)",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Movimiento-LEIDY-GIRON-2-33958e9c21ef800bae00c12c1166286e",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33958e9c-21ef-80a4-88d4-e86bb19b71fa",
+            "created_time": "2026-04-05T01:04:00.000Z",
+            "last_edited_time": "2026-04-05T01:05:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "red"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-8107-b4b5-f0a7f87b4da7"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Balance": {
+                    "id": "%3AWre",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "FHr%3A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "G=ME",
+                            "name": "Otros",
+                            "color": "gray"
+                        }
+                    ]
+                },
+                "Fecha": {
+                    "id": "IN%3C%3A",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-04",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 34000
+                },
+                "Forty Box": {
+                    "id": "ZiLt",
+                    "type": "select",
+                    "select": {
+                        "id": "AuAe",
+                        "name": "Nequi",
+                        "color": "purple"
+                    }
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Pago - HIELO GILBERTO VALENCIA",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Pago - HIELO GILBERTO VALENCIA",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Pago-HIELO-GILBERTO-VALENCIA-33958e9c21ef80a488d4e86bb19b71fa",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33958e9c-21ef-80bf-a516-c435bb4625ce",
+            "created_time": "2026-04-05T01:03:00.000Z",
+            "last_edited_time": "2026-04-05T01:04:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "red"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-8107-b4b5-f0a7f87b4da7"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Balance": {
+                    "id": "%3AWre",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "FHr%3A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "3ae6f52c-9903-4f05-bcf2-9f255941c1c2",
+                            "name": "Movimiento bancario",
+                            "color": "default"
+                        }
+                    ]
+                },
+                "Fecha": {
+                    "id": "IN%3C%3A",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-03",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 10000
+                },
+                "Forty Box": {
+                    "id": "ZiLt",
+                    "type": "select",
+                    "select": {
+                        "id": "AuAe",
+                        "name": "Nequi",
+                        "color": "purple"
+                    }
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Transferencia - JAPH LULO (2)",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Transferencia - JAPH LULO (2)",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Transferencia-JAPH-LULO-2-33958e9c21ef80bfa516c435bb4625ce",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "33958e9c-21ef-80c8-bed5-d7f4441718a5",
+            "created_time": "2026-04-05T01:02:00.000Z",
+            "last_edited_time": "2026-04-05T01:03:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "icon",
+                "icon": {
+                    "name": "currency",
+                    "color": "red"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "2c458e9c-21ef-8107-b4b5-f0a7f87b4da7"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Balance": {
+                    "id": "%3AWre",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "2c458e9c-21ef-81fa-810f-f08e0b51ebed"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Tipo": {
+                    "id": "FHr%3A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "GcCS",
+                            "name": "Vivienda",
+                            "color": "purple"
+                        }
+                    ]
+                },
+                "Fecha": {
+                    "id": "IN%3C%3A",
+                    "type": "date",
+                    "date": {
+                        "start": "2026-04-03",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Monto": {
+                    "id": "TGlM",
+                    "type": "number",
+                    "number": 550000
+                },
+                "Forty Box": {
+                    "id": "ZiLt",
+                    "type": "select",
+                    "select": {
+                        "id": "AuAe",
+                        "name": "Nequi",
+                        "color": "purple"
+                    }
+                },
+                "Mes": {
+                    "id": "x%3Am~",
+                    "type": "select",
+                    "select": {
+                        "id": "ZLDN",
+                        "name": "Abril",
+                        "color": "pink"
+                    }
+                },
+                "Items": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Pago - ARRIENDO MES MARZO",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Pago - ARRIENDO MES MARZO",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Pago-ARRIENDO-MES-MARZO-33958e9c21ef80c8bed5d7f4441718a5",
+            "public_url": null,
+            "archived": false
         }
     ],
     "metadata": {
-        "ultima_actualizacion": "04/04/2026 06:38 PM",
+        "ultima_actualizacion": "04/04/2026 10:20 PM",
         "estado": "Sincronizado"
     }
 }
