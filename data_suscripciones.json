@@ -2,9 +2,9 @@
     "datos": [
         {
             "object": "page",
-            "id": "18558e9c-21ef-8128-b1c6-d3e1dba85536",
+            "id": "18558e9c-21ef-81ee-be8e-d12a02fc2b93",
             "created_time": "2025-01-24T05:32:00.000Z",
-            "last_edited_time": "2026-03-01T00:48:00.000Z",
+            "last_edited_time": "2025-01-24T05:32:00.000Z",
             "created_by": {
                 "object": "user",
                 "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
@@ -14,13 +14,7 @@
                 "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
             },
             "cover": null,
-            "icon": {
-                "type": "file",
-                "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/deec2d17-7b7c-4f3f-9cec-37fbccf1fa40/man.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=c1b4c769d78fdd2ab7123422c0b58f3f8622f2d3b59ed100791f34d382ea46bb&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
-                }
-            },
+            "icon": null,
             "parent": {
                 "type": "database_id",
                 "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
@@ -37,7 +31,7 @@
                 "Precio": {
                     "id": "%225%3C%7B",
                     "type": "number",
-                    "number": 40000
+                    "number": null
                 },
                 "Etiqueta Costo Mensual": {
                     "id": "%40aDG",
@@ -70,7 +64,7 @@
                     "type": "formula",
                     "formula": {
                         "type": "number",
-                        "number": 480000
+                        "number": null
                     }
                 },
                 "Costo Mensual": {
@@ -78,17 +72,13 @@
                     "type": "formula",
                     "formula": {
                         "type": "number",
-                        "number": 40000
+                        "number": null
                     }
                 },
                 "Categoría": {
                     "id": "Wwck",
                     "type": "relation",
-                    "relation": [
-                        {
-                            "id": "18558e9c-21ef-811e-9735-df47a542b5eb"
-                        }
-                    ],
+                    "relation": [],
                     "has_more": false
                 },
                 "Este Mes?": {
@@ -102,20 +92,12 @@
                 "Status": {
                     "id": "%5Cg%3Bc",
                     "type": "select",
-                    "select": {
-                        "id": "87ed0767-b588-4a82-b4e6-c7740a1eef75",
-                        "name": "Activo",
-                        "color": "purple"
-                    }
+                    "select": null
                 },
                 "Cuenta": {
                     "id": "n%5ChD",
                     "type": "select",
-                    "select": {
-                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
-                        "name": "Mensual",
-                        "color": "default"
-                    }
+                    "select": null
                 },
                 "Fecha Renovación": {
                     "id": "r.U2",
@@ -125,34 +107,16 @@
                 "Servicio": {
                     "id": "title",
                     "type": "title",
-                    "title": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "Barbería",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "default"
-                            },
-                            "plain_text": "Barbería",
-                            "href": null
-                        }
-                    ]
+                    "title": []
                 }
             },
-            "url": "https://www.notion.so/Barber-a-18558e9c21ef8128b1c6d3e1dba85536",
+            "url": "https://www.notion.so/18558e9c21ef81eebe8ed12a02fc2b93",
             "public_url": null,
             "archived": false
         },
         {
             "object": "page",
-            "id": "18558e9c-21ef-812f-a623-d0666a4aa7c0",
+            "id": "18558e9c-21ef-81e4-9ddd-d417723b9be8",
             "created_time": "2025-01-24T05:32:00.000Z",
             "last_edited_time": "2025-01-24T05:32:00.000Z",
             "created_by": {
@@ -167,8 +131,8 @@
             "icon": {
                 "type": "file",
                 "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/d33567b5-6217-4cc1-a63b-5a7826d7e325/prime.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=2132b4e6032af025720de3d20c07313865b47cea98b7816400fe01f73a161c6e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/84d462b6-93e8-45f6-85fd-937e2d4e2693/8679412_netflix_fill_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=a258991d3fc5d91bc87daba0ecc63d4ebb2fee735ea4d8d62340b0c5ca4a5b57&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
                 }
             },
             "parent": {
@@ -187,17 +151,53 @@
                 "Precio": {
                     "id": "%225%3C%7B",
                     "type": "number",
-                    "number": 8000
+                    "number": 10000
                 },
                 "Etiqueta Costo Mensual": {
                     "id": "%40aDG",
                     "type": "rich_text",
-                    "rich_text": []
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Costo Mensual",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "gray"
+                            },
+                            "plain_text": "Costo Mensual",
+                            "href": null
+                        }
+                    ]
                 },
                 "Etiqueta Fecha Renocación": {
                     "id": "EDVQ",
                     "type": "rich_text",
-                    "rich_text": []
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Siguiente Pago",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Siguiente Pago",
+                            "href": null
+                        }
+                    ]
                 },
                 "Prox Renovación": {
                     "id": "Igax",
@@ -205,7 +205,7 @@
                     "formula": {
                         "type": "date",
                         "date": {
-                            "start": "2026-05-01",
+                            "start": "2026-04-28",
                             "end": null,
                             "time_zone": null
                         }
@@ -275,7 +275,7 @@
                     "id": "r.U2",
                     "type": "date",
                     "date": {
-                        "start": "2024-05-01",
+                        "start": "2022-07-28",
                         "end": null,
                         "time_zone": null
                     }
@@ -287,7 +287,7 @@
                         {
                             "type": "text",
                             "text": {
-                                "content": "Prime",
+                                "content": "Netflix",
                                 "link": null
                             },
                             "annotations": {
@@ -298,701 +298,13 @@
                                 "code": false,
                                 "color": "default"
                             },
-                            "plain_text": "Prime",
+                            "plain_text": "Netflix",
                             "href": null
                         }
                     ]
                 }
             },
-            "url": "https://www.notion.so/Prime-18558e9c21ef812fa623d0666a4aa7c0",
-            "public_url": null,
-            "archived": false
-        },
-        {
-            "object": "page",
-            "id": "18558e9c-21ef-813e-8b6a-f57ce3046061",
-            "created_time": "2025-01-24T05:32:00.000Z",
-            "last_edited_time": "2025-01-24T05:32:00.000Z",
-            "created_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "last_edited_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "cover": null,
-            "icon": {
-                "type": "file",
-                "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/f854cc63-6ba8-439a-a910-e0a460761e93/godaddy.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=84cb6017dda2855324cbc4939cfa25866279af18d5236c43944d1fb795bd8de9&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
-                }
-            },
-            "parent": {
-                "type": "database_id",
-                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
-            },
-            "in_trash": false,
-            "is_archived": false,
-            "is_locked": false,
-            "properties": {
-                "Notas": {
-                    "id": "!vXu",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Precio": {
-                    "id": "%225%3C%7B",
-                    "type": "number",
-                    "number": 85000
-                },
-                "Etiqueta Costo Mensual": {
-                    "id": "%40aDG",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Etiqueta Fecha Renocación": {
-                    "id": "EDVQ",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Prox Renovación": {
-                    "id": "Igax",
-                    "type": "formula",
-                    "formula": {
-                        "type": "date",
-                        "date": {
-                            "start": "2026-04-25",
-                            "end": null,
-                            "time_zone": null
-                        }
-                    }
-                },
-                "Días restantes": {
-                    "id": "KVO%40",
-                    "type": "formula",
-                    "formula": {
-                        "type": "string",
-                        "string": " 0 days left"
-                    }
-                },
-                "Costo Anual": {
-                    "id": "MuPm",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 0
-                    }
-                },
-                "Costo Mensual": {
-                    "id": "Rtx%3E",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 0
-                    }
-                },
-                "Categoría": {
-                    "id": "Wwck",
-                    "type": "relation",
-                    "relation": [
-                        {
-                            "id": "18558e9c-21ef-8183-a3fd-e199e4aad086"
-                        }
-                    ],
-                    "has_more": false
-                },
-                "Este Mes?": {
-                    "id": "Zocw",
-                    "type": "formula",
-                    "formula": {
-                        "type": "boolean",
-                        "boolean": true
-                    }
-                },
-                "Status": {
-                    "id": "%5Cg%3Bc",
-                    "type": "select",
-                    "select": {
-                        "id": "9811a759-e06e-4f1e-8ac3-8056719488fa",
-                        "name": "Cancelado",
-                        "color": "brown"
-                    }
-                },
-                "Cuenta": {
-                    "id": "n%5ChD",
-                    "type": "select",
-                    "select": {
-                        "id": "bd8c14e5-1ebc-4819-89a0-4e8e8501d120",
-                        "name": "Anual",
-                        "color": "default"
-                    }
-                },
-                "Fecha Renovación": {
-                    "id": "r.U2",
-                    "type": "date",
-                    "date": {
-                        "start": "2024-04-25",
-                        "end": null,
-                        "time_zone": null
-                    }
-                },
-                "Servicio": {
-                    "id": "title",
-                    "type": "title",
-                    "title": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "GoDaddy ",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "default"
-                            },
-                            "plain_text": "GoDaddy ",
-                            "href": null
-                        }
-                    ]
-                }
-            },
-            "url": "https://www.notion.so/GoDaddy-18558e9c21ef813e8b6af57ce3046061",
-            "public_url": null,
-            "archived": false
-        },
-        {
-            "object": "page",
-            "id": "18558e9c-21ef-8182-9601-fcb7f50b83fd",
-            "created_time": "2025-01-24T05:32:00.000Z",
-            "last_edited_time": "2026-03-01T00:51:00.000Z",
-            "created_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "last_edited_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "cover": null,
-            "icon": {
-                "type": "file",
-                "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/0e633299-ac6f-4905-a017-2c72472117b0/4691375_shopify_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=6157d7a3ca2d67ab090c06b3e07f7c07795489f4945dac6f96968b31c44d55f2&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
-                }
-            },
-            "parent": {
-                "type": "database_id",
-                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
-            },
-            "in_trash": false,
-            "is_archived": false,
-            "is_locked": false,
-            "properties": {
-                "Notas": {
-                    "id": "!vXu",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Precio": {
-                    "id": "%225%3C%7B",
-                    "type": "number",
-                    "number": 4000
-                },
-                "Etiqueta Costo Mensual": {
-                    "id": "%40aDG",
-                    "type": "rich_text",
-                    "rich_text": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "Costo Mensual",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "gray"
-                            },
-                            "plain_text": "Costo Mensual",
-                            "href": null
-                        }
-                    ]
-                },
-                "Etiqueta Fecha Renocación": {
-                    "id": "EDVQ",
-                    "type": "rich_text",
-                    "rich_text": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "Siguiente Pago",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "default"
-                            },
-                            "plain_text": "Siguiente Pago",
-                            "href": null
-                        }
-                    ]
-                },
-                "Prox Renovación": {
-                    "id": "Igax",
-                    "type": "formula",
-                    "formula": {
-                        "type": "date",
-                        "date": null
-                    }
-                },
-                "Días restantes": {
-                    "id": "KVO%40",
-                    "type": "formula",
-                    "formula": {
-                        "type": "string",
-                        "string": " 0 days left"
-                    }
-                },
-                "Costo Anual": {
-                    "id": "MuPm",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 48000
-                    }
-                },
-                "Costo Mensual": {
-                    "id": "Rtx%3E",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 4000
-                    }
-                },
-                "Categoría": {
-                    "id": "Wwck",
-                    "type": "relation",
-                    "relation": [
-                        {
-                            "id": "18558e9c-21ef-8183-a3fd-e199e4aad086"
-                        }
-                    ],
-                    "has_more": false
-                },
-                "Este Mes?": {
-                    "id": "Zocw",
-                    "type": "formula",
-                    "formula": {
-                        "type": "boolean",
-                        "boolean": false
-                    }
-                },
-                "Status": {
-                    "id": "%5Cg%3Bc",
-                    "type": "select",
-                    "select": {
-                        "id": "87ed0767-b588-4a82-b4e6-c7740a1eef75",
-                        "name": "Activo",
-                        "color": "purple"
-                    }
-                },
-                "Cuenta": {
-                    "id": "n%5ChD",
-                    "type": "select",
-                    "select": {
-                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
-                        "name": "Mensual",
-                        "color": "default"
-                    }
-                },
-                "Fecha Renovación": {
-                    "id": "r.U2",
-                    "type": "date",
-                    "date": null
-                },
-                "Servicio": {
-                    "id": "title",
-                    "type": "title",
-                    "title": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "Shopify",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "default"
-                            },
-                            "plain_text": "Shopify",
-                            "href": null
-                        }
-                    ]
-                }
-            },
-            "url": "https://www.notion.so/Shopify-18558e9c21ef81829601fcb7f50b83fd",
-            "public_url": null,
-            "archived": false
-        },
-        {
-            "object": "page",
-            "id": "18558e9c-21ef-81a0-8609-f3fe39671bad",
-            "created_time": "2025-01-24T05:32:00.000Z",
-            "last_edited_time": "2025-03-17T23:46:00.000Z",
-            "created_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "last_edited_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "cover": null,
-            "icon": {
-                "type": "file",
-                "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/e4527e77-1a8f-493e-92aa-5386e00a07e5/gym-equipment.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=59aa474366da9e8999d556d916aa5ca4aae66023c8293f5067bca3fc962f60ee&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
-                }
-            },
-            "parent": {
-                "type": "database_id",
-                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
-            },
-            "in_trash": false,
-            "is_archived": false,
-            "is_locked": false,
-            "properties": {
-                "Notas": {
-                    "id": "!vXu",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Precio": {
-                    "id": "%225%3C%7B",
-                    "type": "number",
-                    "number": 53000
-                },
-                "Etiqueta Costo Mensual": {
-                    "id": "%40aDG",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Etiqueta Fecha Renocación": {
-                    "id": "EDVQ",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Prox Renovación": {
-                    "id": "Igax",
-                    "type": "formula",
-                    "formula": {
-                        "type": "date",
-                        "date": null
-                    }
-                },
-                "Días restantes": {
-                    "id": "KVO%40",
-                    "type": "formula",
-                    "formula": {
-                        "type": "string",
-                        "string": " 0 days left"
-                    }
-                },
-                "Costo Anual": {
-                    "id": "MuPm",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 0
-                    }
-                },
-                "Costo Mensual": {
-                    "id": "Rtx%3E",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 0
-                    }
-                },
-                "Categoría": {
-                    "id": "Wwck",
-                    "type": "relation",
-                    "relation": [
-                        {
-                            "id": "18558e9c-21ef-811e-9735-df47a542b5eb"
-                        }
-                    ],
-                    "has_more": false
-                },
-                "Este Mes?": {
-                    "id": "Zocw",
-                    "type": "formula",
-                    "formula": {
-                        "type": "boolean",
-                        "boolean": false
-                    }
-                },
-                "Status": {
-                    "id": "%5Cg%3Bc",
-                    "type": "select",
-                    "select": {
-                        "id": "9811a759-e06e-4f1e-8ac3-8056719488fa",
-                        "name": "Cancelado",
-                        "color": "brown"
-                    }
-                },
-                "Cuenta": {
-                    "id": "n%5ChD",
-                    "type": "select",
-                    "select": {
-                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
-                        "name": "Mensual",
-                        "color": "default"
-                    }
-                },
-                "Fecha Renovación": {
-                    "id": "r.U2",
-                    "type": "date",
-                    "date": null
-                },
-                "Servicio": {
-                    "id": "title",
-                    "type": "title",
-                    "title": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "Gym",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "default"
-                            },
-                            "plain_text": "Gym",
-                            "href": null
-                        }
-                    ]
-                }
-            },
-            "url": "https://www.notion.so/Gym-18558e9c21ef81a08609f3fe39671bad",
-            "public_url": null,
-            "archived": false
-        },
-        {
-            "object": "page",
-            "id": "18558e9c-21ef-81be-b33d-deddc06b8bad",
-            "created_time": "2025-01-24T05:32:00.000Z",
-            "last_edited_time": "2025-01-24T05:32:00.000Z",
-            "created_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "last_edited_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "cover": null,
-            "icon": {
-                "type": "file",
-                "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/e364e834-dcf9-4708-a0d2-ef72bbca3b0b/7033669_disney_plus_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=2d5cacf089fec3151ba762d33737ec4f71e639e430a572a4800bd5bb9bdcae0d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
-                }
-            },
-            "parent": {
-                "type": "database_id",
-                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
-            },
-            "in_trash": false,
-            "is_archived": false,
-            "is_locked": false,
-            "properties": {
-                "Notas": {
-                    "id": "!vXu",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Precio": {
-                    "id": "%225%3C%7B",
-                    "type": "number",
-                    "number": 5000
-                },
-                "Etiqueta Costo Mensual": {
-                    "id": "%40aDG",
-                    "type": "rich_text",
-                    "rich_text": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "Costo Mensual",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "gray"
-                            },
-                            "plain_text": "Costo Mensual",
-                            "href": null
-                        }
-                    ]
-                },
-                "Etiqueta Fecha Renocación": {
-                    "id": "EDVQ",
-                    "type": "rich_text",
-                    "rich_text": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "Siguiente Pago",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "default"
-                            },
-                            "plain_text": "Siguiente Pago",
-                            "href": null
-                        }
-                    ]
-                },
-                "Prox Renovación": {
-                    "id": "Igax",
-                    "type": "formula",
-                    "formula": {
-                        "type": "date",
-                        "date": {
-                            "start": "2026-05-07",
-                            "end": null,
-                            "time_zone": null
-                        }
-                    }
-                },
-                "Días restantes": {
-                    "id": "KVO%40",
-                    "type": "formula",
-                    "formula": {
-                        "type": "string",
-                        "string": " 0 days left"
-                    }
-                },
-                "Costo Anual": {
-                    "id": "MuPm",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 0
-                    }
-                },
-                "Costo Mensual": {
-                    "id": "Rtx%3E",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 0
-                    }
-                },
-                "Categoría": {
-                    "id": "Wwck",
-                    "type": "relation",
-                    "relation": [
-                        {
-                            "id": "18558e9c-21ef-8169-bab4-d7c35a3ebe43"
-                        }
-                    ],
-                    "has_more": false
-                },
-                "Este Mes?": {
-                    "id": "Zocw",
-                    "type": "formula",
-                    "formula": {
-                        "type": "boolean",
-                        "boolean": false
-                    }
-                },
-                "Status": {
-                    "id": "%5Cg%3Bc",
-                    "type": "select",
-                    "select": {
-                        "id": "9811a759-e06e-4f1e-8ac3-8056719488fa",
-                        "name": "Cancelado",
-                        "color": "brown"
-                    }
-                },
-                "Cuenta": {
-                    "id": "n%5ChD",
-                    "type": "select",
-                    "select": {
-                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
-                        "name": "Mensual",
-                        "color": "default"
-                    }
-                },
-                "Fecha Renovación": {
-                    "id": "r.U2",
-                    "type": "date",
-                    "date": {
-                        "start": "2022-07-07",
-                        "end": null,
-                        "time_zone": null
-                    }
-                },
-                "Servicio": {
-                    "id": "title",
-                    "type": "title",
-                    "title": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "Disney Plus",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "default"
-                            },
-                            "plain_text": "Disney Plus",
-                            "href": null
-                        }
-                    ]
-                }
-            },
-            "url": "https://www.notion.so/Disney-Plus-18558e9c21ef81beb33ddeddc06b8bad",
+            "url": "https://www.notion.so/Netflix-18558e9c21ef81e49dddd417723b9be8",
             "public_url": null,
             "archived": false
         },
@@ -1013,8 +325,8 @@
             "icon": {
                 "type": "file",
                 "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/0dae1256-46cd-4b90-9cca-dc656bc63d2d/5305164_play_video_youtube_youtube_logo_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=870de3152e41126db23833d117afc5ab9d2d0e7d7223d71267ff0356834e7dd1&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/0dae1256-46cd-4b90-9cca-dc656bc63d2d/5305164_play_video_youtube_youtube_logo_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=e52b25876d719737fb35b54bd93e9c44705b002736d967d3b8889aa26a1a3157&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
                 }
             },
             "parent": {
@@ -1195,6 +507,358 @@
         },
         {
             "object": "page",
+            "id": "18558e9c-21ef-812f-a623-d0666a4aa7c0",
+            "created_time": "2025-01-24T05:32:00.000Z",
+            "last_edited_time": "2025-01-24T05:32:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "file",
+                "file": {
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/d33567b5-6217-4cc1-a63b-5a7826d7e325/prime.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=ac3e10ed704b80bf2a536ea4cb08cc2d18e8540a186f2a558dd8e2ecbe95decd&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Notas": {
+                    "id": "!vXu",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Precio": {
+                    "id": "%225%3C%7B",
+                    "type": "number",
+                    "number": 8000
+                },
+                "Etiqueta Costo Mensual": {
+                    "id": "%40aDG",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Etiqueta Fecha Renocación": {
+                    "id": "EDVQ",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Prox Renovación": {
+                    "id": "Igax",
+                    "type": "formula",
+                    "formula": {
+                        "type": "date",
+                        "date": {
+                            "start": "2026-05-01",
+                            "end": null,
+                            "time_zone": null
+                        }
+                    }
+                },
+                "Días restantes": {
+                    "id": "KVO%40",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": " 0 days left"
+                    }
+                },
+                "Costo Anual": {
+                    "id": "MuPm",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 0
+                    }
+                },
+                "Costo Mensual": {
+                    "id": "Rtx%3E",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 0
+                    }
+                },
+                "Categoría": {
+                    "id": "Wwck",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "18558e9c-21ef-8169-bab4-d7c35a3ebe43"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Este Mes?": {
+                    "id": "Zocw",
+                    "type": "formula",
+                    "formula": {
+                        "type": "boolean",
+                        "boolean": false
+                    }
+                },
+                "Status": {
+                    "id": "%5Cg%3Bc",
+                    "type": "select",
+                    "select": {
+                        "id": "9811a759-e06e-4f1e-8ac3-8056719488fa",
+                        "name": "Cancelado",
+                        "color": "brown"
+                    }
+                },
+                "Cuenta": {
+                    "id": "n%5ChD",
+                    "type": "select",
+                    "select": {
+                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
+                        "name": "Mensual",
+                        "color": "default"
+                    }
+                },
+                "Fecha Renovación": {
+                    "id": "r.U2",
+                    "type": "date",
+                    "date": {
+                        "start": "2024-05-01",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Servicio": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Prime",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Prime",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Prime-18558e9c21ef812fa623d0666a4aa7c0",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "18558e9c-21ef-81be-b33d-deddc06b8bad",
+            "created_time": "2025-01-24T05:32:00.000Z",
+            "last_edited_time": "2025-01-24T05:32:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "file",
+                "file": {
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/e364e834-dcf9-4708-a0d2-ef72bbca3b0b/7033669_disney_plus_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=9c530e667129b30f710ee9a2813673d9ac9869d1bc20eda0771168338e7a261b&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.558Z"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Notas": {
+                    "id": "!vXu",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Precio": {
+                    "id": "%225%3C%7B",
+                    "type": "number",
+                    "number": 5000
+                },
+                "Etiqueta Costo Mensual": {
+                    "id": "%40aDG",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Costo Mensual",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "gray"
+                            },
+                            "plain_text": "Costo Mensual",
+                            "href": null
+                        }
+                    ]
+                },
+                "Etiqueta Fecha Renocación": {
+                    "id": "EDVQ",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Siguiente Pago",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Siguiente Pago",
+                            "href": null
+                        }
+                    ]
+                },
+                "Prox Renovación": {
+                    "id": "Igax",
+                    "type": "formula",
+                    "formula": {
+                        "type": "date",
+                        "date": {
+                            "start": "2026-05-07",
+                            "end": null,
+                            "time_zone": null
+                        }
+                    }
+                },
+                "Días restantes": {
+                    "id": "KVO%40",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": " 0 days left"
+                    }
+                },
+                "Costo Anual": {
+                    "id": "MuPm",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 0
+                    }
+                },
+                "Costo Mensual": {
+                    "id": "Rtx%3E",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 0
+                    }
+                },
+                "Categoría": {
+                    "id": "Wwck",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "18558e9c-21ef-8169-bab4-d7c35a3ebe43"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Este Mes?": {
+                    "id": "Zocw",
+                    "type": "formula",
+                    "formula": {
+                        "type": "boolean",
+                        "boolean": false
+                    }
+                },
+                "Status": {
+                    "id": "%5Cg%3Bc",
+                    "type": "select",
+                    "select": {
+                        "id": "9811a759-e06e-4f1e-8ac3-8056719488fa",
+                        "name": "Cancelado",
+                        "color": "brown"
+                    }
+                },
+                "Cuenta": {
+                    "id": "n%5ChD",
+                    "type": "select",
+                    "select": {
+                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
+                        "name": "Mensual",
+                        "color": "default"
+                    }
+                },
+                "Fecha Renovación": {
+                    "id": "r.U2",
+                    "type": "date",
+                    "date": {
+                        "start": "2022-07-07",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Servicio": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Disney Plus",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Disney Plus",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Disney-Plus-18558e9c21ef81beb33ddeddc06b8bad",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
             "id": "18558e9c-21ef-81e3-b921-ea3aa970a28b",
             "created_time": "2025-01-24T05:32:00.000Z",
             "last_edited_time": "2025-03-17T23:46:00.000Z",
@@ -1210,8 +874,8 @@
             "icon": {
                 "type": "file",
                 "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/67f781d0-cd55-4c30-93f4-1ffc722904a0/9034580_notion_logo_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=3367565dce16901507cc4c2e2436d27283847261f394691c6fa0c6a987511ae4&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/67f781d0-cd55-4c30-93f4-1ffc722904a0/9034580_notion_logo_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=3fd8bab60e6bb54fd3c95cc8adc8f43a80ea4b3f37169b6403acbb16acb20122&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
                 }
             },
             "parent": {
@@ -1381,9 +1045,9 @@
         },
         {
             "object": "page",
-            "id": "18558e9c-21ef-81e4-9ddd-d417723b9be8",
+            "id": "18558e9c-21ef-8182-9601-fcb7f50b83fd",
             "created_time": "2025-01-24T05:32:00.000Z",
-            "last_edited_time": "2025-01-24T05:32:00.000Z",
+            "last_edited_time": "2026-03-01T00:51:00.000Z",
             "created_by": {
                 "object": "user",
                 "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
@@ -1396,8 +1060,8 @@
             "icon": {
                 "type": "file",
                 "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/84d462b6-93e8-45f6-85fd-937e2d4e2693/8679412_netflix_fill_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=e0b90799969be1ed29eb8019ef3d0bcaf8026b9b4f3a16fb748e34b8b8fcc534&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/0e633299-ac6f-4905-a017-2c72472117b0/4691375_shopify_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=e850a444cac5bcc3408baabf4d74c42a35ebae7baf1418809fc4de93e9d3de8f&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
                 }
             },
             "parent": {
@@ -1416,7 +1080,7 @@
                 "Precio": {
                     "id": "%225%3C%7B",
                     "type": "number",
-                    "number": 10000
+                    "number": 4000
                 },
                 "Etiqueta Costo Mensual": {
                     "id": "%40aDG",
@@ -1469,164 +1133,6 @@
                     "type": "formula",
                     "formula": {
                         "type": "date",
-                        "date": {
-                            "start": "2026-04-28",
-                            "end": null,
-                            "time_zone": null
-                        }
-                    }
-                },
-                "Días restantes": {
-                    "id": "KVO%40",
-                    "type": "formula",
-                    "formula": {
-                        "type": "string",
-                        "string": " 0 days left"
-                    }
-                },
-                "Costo Anual": {
-                    "id": "MuPm",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 0
-                    }
-                },
-                "Costo Mensual": {
-                    "id": "Rtx%3E",
-                    "type": "formula",
-                    "formula": {
-                        "type": "number",
-                        "number": 0
-                    }
-                },
-                "Categoría": {
-                    "id": "Wwck",
-                    "type": "relation",
-                    "relation": [
-                        {
-                            "id": "18558e9c-21ef-8169-bab4-d7c35a3ebe43"
-                        }
-                    ],
-                    "has_more": false
-                },
-                "Este Mes?": {
-                    "id": "Zocw",
-                    "type": "formula",
-                    "formula": {
-                        "type": "boolean",
-                        "boolean": false
-                    }
-                },
-                "Status": {
-                    "id": "%5Cg%3Bc",
-                    "type": "select",
-                    "select": {
-                        "id": "9811a759-e06e-4f1e-8ac3-8056719488fa",
-                        "name": "Cancelado",
-                        "color": "brown"
-                    }
-                },
-                "Cuenta": {
-                    "id": "n%5ChD",
-                    "type": "select",
-                    "select": {
-                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
-                        "name": "Mensual",
-                        "color": "default"
-                    }
-                },
-                "Fecha Renovación": {
-                    "id": "r.U2",
-                    "type": "date",
-                    "date": {
-                        "start": "2022-07-28",
-                        "end": null,
-                        "time_zone": null
-                    }
-                },
-                "Servicio": {
-                    "id": "title",
-                    "type": "title",
-                    "title": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": "Netflix",
-                                "link": null
-                            },
-                            "annotations": {
-                                "bold": false,
-                                "italic": false,
-                                "strikethrough": false,
-                                "underline": false,
-                                "code": false,
-                                "color": "default"
-                            },
-                            "plain_text": "Netflix",
-                            "href": null
-                        }
-                    ]
-                }
-            },
-            "url": "https://www.notion.so/Netflix-18558e9c21ef81e49dddd417723b9be8",
-            "public_url": null,
-            "archived": false
-        },
-        {
-            "object": "page",
-            "id": "18558e9c-21ef-81eb-ba6f-c3b79b9feb3d",
-            "created_time": "2025-01-24T05:32:00.000Z",
-            "last_edited_time": "2026-03-01T00:50:00.000Z",
-            "created_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "last_edited_by": {
-                "object": "user",
-                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
-            },
-            "cover": null,
-            "icon": {
-                "type": "file",
-                "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/a85d13b1-774b-4c7e-b119-1bf143f302a8/telefono.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=e9df0d74e667d444b4935f5f54e20ea8147cfcebb2d7a3f92fca974b685f71a8&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
-                }
-            },
-            "parent": {
-                "type": "database_id",
-                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
-            },
-            "in_trash": false,
-            "is_archived": false,
-            "is_locked": false,
-            "properties": {
-                "Notas": {
-                    "id": "!vXu",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Precio": {
-                    "id": "%225%3C%7B",
-                    "type": "number",
-                    "number": 20000
-                },
-                "Etiqueta Costo Mensual": {
-                    "id": "%40aDG",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Etiqueta Fecha Renocación": {
-                    "id": "EDVQ",
-                    "type": "rich_text",
-                    "rich_text": []
-                },
-                "Prox Renovación": {
-                    "id": "Igax",
-                    "type": "formula",
-                    "formula": {
-                        "type": "date",
                         "date": null
                     }
                 },
@@ -1643,7 +1149,7 @@
                     "type": "formula",
                     "formula": {
                         "type": "number",
-                        "number": 240000
+                        "number": 48000
                     }
                 },
                 "Costo Mensual": {
@@ -1651,7 +1157,7 @@
                     "type": "formula",
                     "formula": {
                         "type": "number",
-                        "number": 20000
+                        "number": 4000
                     }
                 },
                 "Categoría": {
@@ -1659,7 +1165,7 @@
                     "type": "relation",
                     "relation": [
                         {
-                            "id": "18558e9c-21ef-811e-9735-df47a542b5eb"
+                            "id": "18558e9c-21ef-8183-a3fd-e199e4aad086"
                         }
                     ],
                     "has_more": false
@@ -1702,7 +1208,7 @@
                         {
                             "type": "text",
                             "text": {
-                                "content": "Plan Móvil",
+                                "content": "Shopify",
                                 "link": null
                             },
                             "annotations": {
@@ -1713,13 +1219,171 @@
                                 "code": false,
                                 "color": "default"
                             },
-                            "plain_text": "Plan Móvil",
+                            "plain_text": "Shopify",
                             "href": null
                         }
                     ]
                 }
             },
-            "url": "https://www.notion.so/Plan-M-vil-18558e9c21ef81ebba6fc3b79b9feb3d",
+            "url": "https://www.notion.so/Shopify-18558e9c21ef81829601fcb7f50b83fd",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "18558e9c-21ef-813e-8b6a-f57ce3046061",
+            "created_time": "2025-01-24T05:32:00.000Z",
+            "last_edited_time": "2025-01-24T05:32:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "file",
+                "file": {
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/f854cc63-6ba8-439a-a910-e0a460761e93/godaddy.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=2969ef1acc58b5b8fcbf77cbdde7fda108034d1704fd5e62d4818f3c1d145d5d&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Notas": {
+                    "id": "!vXu",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Precio": {
+                    "id": "%225%3C%7B",
+                    "type": "number",
+                    "number": 85000
+                },
+                "Etiqueta Costo Mensual": {
+                    "id": "%40aDG",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Etiqueta Fecha Renocación": {
+                    "id": "EDVQ",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Prox Renovación": {
+                    "id": "Igax",
+                    "type": "formula",
+                    "formula": {
+                        "type": "date",
+                        "date": {
+                            "start": "2026-04-25",
+                            "end": null,
+                            "time_zone": null
+                        }
+                    }
+                },
+                "Días restantes": {
+                    "id": "KVO%40",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": " 0 days left"
+                    }
+                },
+                "Costo Anual": {
+                    "id": "MuPm",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 0
+                    }
+                },
+                "Costo Mensual": {
+                    "id": "Rtx%3E",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 0
+                    }
+                },
+                "Categoría": {
+                    "id": "Wwck",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "18558e9c-21ef-8183-a3fd-e199e4aad086"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Este Mes?": {
+                    "id": "Zocw",
+                    "type": "formula",
+                    "formula": {
+                        "type": "boolean",
+                        "boolean": true
+                    }
+                },
+                "Status": {
+                    "id": "%5Cg%3Bc",
+                    "type": "select",
+                    "select": {
+                        "id": "9811a759-e06e-4f1e-8ac3-8056719488fa",
+                        "name": "Cancelado",
+                        "color": "brown"
+                    }
+                },
+                "Cuenta": {
+                    "id": "n%5ChD",
+                    "type": "select",
+                    "select": {
+                        "id": "bd8c14e5-1ebc-4819-89a0-4e8e8501d120",
+                        "name": "Anual",
+                        "color": "default"
+                    }
+                },
+                "Fecha Renovación": {
+                    "id": "r.U2",
+                    "type": "date",
+                    "date": {
+                        "start": "2024-04-25",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "Servicio": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "GoDaddy ",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "GoDaddy ",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/GoDaddy-18558e9c21ef813e8b6af57ce3046061",
             "public_url": null,
             "archived": false
         },
@@ -1740,8 +1404,8 @@
             "icon": {
                 "type": "file",
                 "file": {
-                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/f99e103e-8c1a-4f50-82e1-c6c49c7fcb79/621252_rounded_spotify_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466Q72O4PCQ%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T160030Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGcaCXVzLXdlc3QtMiJGMEQCIBLYPpRdFAHHKLTK3Y4zHonw4Q%2FWZ6Vh5S1DtrWdayIpAiAgqB5U9suqGEsYn96Cfx1GSOITe%2FxQEPtXb4HtQcDOhir%2FAwgvEAAaDDYzNzQyMzE4MzgwNSIMaYLQhKfzEeRrmZ4GKtwDQGUVZQRS47we4NhGBMgaknVv6CTqQ7xNJ58KSlKJjPx4sMvtL87ZijXGZFed%2BHkzz1%2FPDsxEy5eJ2XMKJrGhEzkMGr0dMxlez0c5X%2FbQzc79FhcTsmO82pouOt0olixalDuONNbI0nMhC541SjIrVHW%2BaB8yiQjeOmS%2B%2Buclg%2FG7iwJyezAQA%2FHK5HvNz2zOSWhxsrm8VwyBlbMN%2FvBhlPUszK5no35VEa7lunz8If%2BfPfbLQ%2BnbvKVfJD9uFvO6hTgmcaeAObhEjAh5u1NLYUtJpJ6fRI5iM%2BAsiSg%2B4MnnCskF80o%2F8OfGtmPMbCZfR1xwZZNYOSqbgRs%2F8wKCWMmJ8t%2BDMMy9r0IG0TfDzvcpPBIqq7VCWBRze10P9jWDvcRoEKUVBrkI65q0xKhyUM7YpmAkQB6I9ZELQsAYjvA9XKoeTd93trs0mVxmZbWZGn%2FY12vrW1uQZ5OadGpzZP%2B2tq5E1T6lOUsQTEcIiKUhUe4L9LnuNjDq7c8eVKbxA7rjTHodMDYpCjTsyukLasOTflNsmshJuen2l6tkTit0jlAB2V8CC5w%2F8Rmo6qLG1BXH2G5v69MZuVS0YN8XOIAcrQREmDAYddYw97t9Uch8NduIiOINfvQB1w4w4ZDkzgY6pgET0jhQ3ZWxcSYy3xu9eb7C9lS%2BzJmQ8Q4wJ1CXNds4Tuagae8WVCuIwHrs6t6K%2BnLKVJ5J%2BBrsDWO7gwexoTuNp5PwrncaXfyYNbu%2FWwBAQ63H%2FSMVLxnMxhjiAc7DeJveYmNn7P2BboA9q3Dvnn%2FdY5%2FZwJJphXEjXHcM1X4uN2Y5j41A7NSIzZ8Q2T%2FIMgX3cbanfl6MmYiqqUVL0gfW7vU8AWue&X-Amz-Signature=0684f1bdd3ec8c762f1f7317735f939e0694d1f4b4fe0db5aae94bc558cba3b9&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
-                    "expiry_time": "2026-04-10T17:00:30.319Z"
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/f99e103e-8c1a-4f50-82e1-c6c49c7fcb79/621252_rounded_spotify_icon.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=1ce9c8e679a2ce06eca0c274f87ff81ae4b21b520f2d01bacc0cafd9f1ea4790&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
                 }
             },
             "parent": {
@@ -1919,9 +1583,9 @@
         },
         {
             "object": "page",
-            "id": "18558e9c-21ef-81ee-be8e-d12a02fc2b93",
+            "id": "18558e9c-21ef-81eb-ba6f-c3b79b9feb3d",
             "created_time": "2025-01-24T05:32:00.000Z",
-            "last_edited_time": "2025-01-24T05:32:00.000Z",
+            "last_edited_time": "2026-03-01T00:50:00.000Z",
             "created_by": {
                 "object": "user",
                 "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
@@ -1931,7 +1595,13 @@
                 "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
             },
             "cover": null,
-            "icon": null,
+            "icon": {
+                "type": "file",
+                "file": {
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/a85d13b1-774b-4c7e-b119-1bf143f302a8/telefono.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=7ac54fb391bafeb5a242baef7175774af619d5a7a60cc02ecf6fa4438826d4e8&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
+                }
+            },
             "parent": {
                 "type": "database_id",
                 "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
@@ -1948,7 +1618,7 @@
                 "Precio": {
                     "id": "%225%3C%7B",
                     "type": "number",
-                    "number": null
+                    "number": 20000
                 },
                 "Etiqueta Costo Mensual": {
                     "id": "%40aDG",
@@ -1981,7 +1651,7 @@
                     "type": "formula",
                     "formula": {
                         "type": "number",
-                        "number": null
+                        "number": 240000
                     }
                 },
                 "Costo Mensual": {
@@ -1989,13 +1659,17 @@
                     "type": "formula",
                     "formula": {
                         "type": "number",
-                        "number": null
+                        "number": 20000
                     }
                 },
                 "Categoría": {
                     "id": "Wwck",
                     "type": "relation",
-                    "relation": [],
+                    "relation": [
+                        {
+                            "id": "18558e9c-21ef-811e-9735-df47a542b5eb"
+                        }
+                    ],
                     "has_more": false
                 },
                 "Este Mes?": {
@@ -2009,12 +1683,20 @@
                 "Status": {
                     "id": "%5Cg%3Bc",
                     "type": "select",
-                    "select": null
+                    "select": {
+                        "id": "87ed0767-b588-4a82-b4e6-c7740a1eef75",
+                        "name": "Activo",
+                        "color": "purple"
+                    }
                 },
                 "Cuenta": {
                     "id": "n%5ChD",
                     "type": "select",
-                    "select": null
+                    "select": {
+                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
+                        "name": "Mensual",
+                        "color": "default"
+                    }
                 },
                 "Fecha Renovación": {
                     "id": "r.U2",
@@ -2024,16 +1706,334 @@
                 "Servicio": {
                     "id": "title",
                     "type": "title",
-                    "title": []
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Plan Móvil",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Plan Móvil",
+                            "href": null
+                        }
+                    ]
                 }
             },
-            "url": "https://www.notion.so/18558e9c21ef81eebe8ed12a02fc2b93",
+            "url": "https://www.notion.so/Plan-M-vil-18558e9c21ef81ebba6fc3b79b9feb3d",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "18558e9c-21ef-81a0-8609-f3fe39671bad",
+            "created_time": "2025-01-24T05:32:00.000Z",
+            "last_edited_time": "2025-03-17T23:46:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "file",
+                "file": {
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/e4527e77-1a8f-493e-92aa-5386e00a07e5/gym-equipment.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=48423c932043e2ac993938d348050320c4440bdbc0802306ab29d7fe3fb62ee7&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Notas": {
+                    "id": "!vXu",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Precio": {
+                    "id": "%225%3C%7B",
+                    "type": "number",
+                    "number": 53000
+                },
+                "Etiqueta Costo Mensual": {
+                    "id": "%40aDG",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Etiqueta Fecha Renocación": {
+                    "id": "EDVQ",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Prox Renovación": {
+                    "id": "Igax",
+                    "type": "formula",
+                    "formula": {
+                        "type": "date",
+                        "date": null
+                    }
+                },
+                "Días restantes": {
+                    "id": "KVO%40",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": " 0 days left"
+                    }
+                },
+                "Costo Anual": {
+                    "id": "MuPm",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 0
+                    }
+                },
+                "Costo Mensual": {
+                    "id": "Rtx%3E",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 0
+                    }
+                },
+                "Categoría": {
+                    "id": "Wwck",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "18558e9c-21ef-811e-9735-df47a542b5eb"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Este Mes?": {
+                    "id": "Zocw",
+                    "type": "formula",
+                    "formula": {
+                        "type": "boolean",
+                        "boolean": false
+                    }
+                },
+                "Status": {
+                    "id": "%5Cg%3Bc",
+                    "type": "select",
+                    "select": {
+                        "id": "9811a759-e06e-4f1e-8ac3-8056719488fa",
+                        "name": "Cancelado",
+                        "color": "brown"
+                    }
+                },
+                "Cuenta": {
+                    "id": "n%5ChD",
+                    "type": "select",
+                    "select": {
+                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
+                        "name": "Mensual",
+                        "color": "default"
+                    }
+                },
+                "Fecha Renovación": {
+                    "id": "r.U2",
+                    "type": "date",
+                    "date": null
+                },
+                "Servicio": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Gym",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Gym",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Gym-18558e9c21ef81a08609f3fe39671bad",
+            "public_url": null,
+            "archived": false
+        },
+        {
+            "object": "page",
+            "id": "18558e9c-21ef-8128-b1c6-d3e1dba85536",
+            "created_time": "2025-01-24T05:32:00.000Z",
+            "last_edited_time": "2026-03-01T00:48:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "6dad976d-41ab-49f5-9bfb-7a4b0cddcfb2"
+            },
+            "cover": null,
+            "icon": {
+                "type": "file",
+                "file": {
+                    "url": "https://prod-files-secure.s3.us-west-2.amazonaws.com/c900fecb-5707-4c3c-bf93-d803adc452ad/deec2d17-7b7c-4f3f-9cec-37fbccf1fa40/man.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAZI2LB466XVMNXKR3%2F20260410%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260410T175155Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEGkaCXVzLXdlc3QtMiJHMEUCICGQX%2BZF8gMGzbL5504uufHjnVgrA8IuxdiE%2FoeIxn%2FlAiEA7L1cWHMO1AyCDygpZqiuUJCxIKT%2FkCfmpJ%2F8gpGLFuwq%2FwMIMhAAGgw2Mzc0MjMxODM4MDUiDGRZiwFG%2F3UPYDBQtircAyiIVMBSjyGc7KkwrlClFl32VeZrAezo5WatkizF9SBlIy1KLRBh98TG4ITuBX8gjwUknvijdXyph42KUam14YNxYoMGbdbOQENpHpPzT2Zuo2l9L7qvtlP40%2BDq3rsoWdc8%2FieLd6Og6MFsP2kA85dTNdBW8fuQOO7pL%2FKUAkvMwF0yIBFIclGEPwUNC8gX1jzjFMJIBvK%2B%2FE0gv3VQtZQL1%2BI8rbdsvj0VNE0L6DsrPq%2FDxH3cTkDplvcGJsdZgsAAT7LRVKm5jrCtW7xQhES43rtRKpaHGjcxz6jQOBLzV%2BTYvviylAkmigUsK70OmUzFZX2ZBq8QliLtyT0%2FSfYdiVko1zsmF628CS%2BUGygbkcfD7X56o%2BN7sqoVq6Jv5Z%2BNZYu1%2B%2BT4mBwjM5MmjWeQNJOG46m31uKLdC1Tr4%2Fx%2BpquF9WrkG5dITpfB3Nj7nKTCZ4LqnypYK2y7puUlM1sygURsWPOnYIcO2GQV76yyDAy8LatRnoDhn1YOzUzxNbYIcKIbc99viaxnoBBr9S6Ey8Go7WiAY7hk21i%2Bxu8XehbpCPGpKFKOlpeZU9VpW0Y6V%2F81%2Fhn1uqvRZ7UzhDzOgYJCm6WeRMYhnHroLyyQO%2F%2Bggm0NWammxBLMI7N5M4GOqUBAOAEbeqvnmh5TpfJGLNxIT6wAFvGU%2B5woquG%2BmPhwgJIhYy0EyWMgUoytx0vb8AEOA85vInyoVOefobJNz0sU0nWp2%2FxnaZOzdf855EbkvgjkT9KGa81r0%2FssjaV5bRorfEc1XTvEBYpRCsMhaDNvhyvsdqIj9CLBVa5M3ITVAD9a7oV255r9BgpfltVOUz%2FHoGsF1jwE7vHPk81KRiFJnC7CY48&X-Amz-Signature=375e0814a29907a78e73d61196e5e2252410d47253f6473b67fef6c45a1f8f4a&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+                    "expiry_time": "2026-04-10T18:51:55.559Z"
+                }
+            },
+            "parent": {
+                "type": "database_id",
+                "database_id": "18558e9c-21ef-816f-bf69-ee3877b480d1"
+            },
+            "in_trash": false,
+            "is_archived": false,
+            "is_locked": false,
+            "properties": {
+                "Notas": {
+                    "id": "!vXu",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Precio": {
+                    "id": "%225%3C%7B",
+                    "type": "number",
+                    "number": 40000
+                },
+                "Etiqueta Costo Mensual": {
+                    "id": "%40aDG",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Etiqueta Fecha Renocación": {
+                    "id": "EDVQ",
+                    "type": "rich_text",
+                    "rich_text": []
+                },
+                "Prox Renovación": {
+                    "id": "Igax",
+                    "type": "formula",
+                    "formula": {
+                        "type": "date",
+                        "date": null
+                    }
+                },
+                "Días restantes": {
+                    "id": "KVO%40",
+                    "type": "formula",
+                    "formula": {
+                        "type": "string",
+                        "string": " 0 days left"
+                    }
+                },
+                "Costo Anual": {
+                    "id": "MuPm",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 480000
+                    }
+                },
+                "Costo Mensual": {
+                    "id": "Rtx%3E",
+                    "type": "formula",
+                    "formula": {
+                        "type": "number",
+                        "number": 40000
+                    }
+                },
+                "Categoría": {
+                    "id": "Wwck",
+                    "type": "relation",
+                    "relation": [
+                        {
+                            "id": "18558e9c-21ef-811e-9735-df47a542b5eb"
+                        }
+                    ],
+                    "has_more": false
+                },
+                "Este Mes?": {
+                    "id": "Zocw",
+                    "type": "formula",
+                    "formula": {
+                        "type": "boolean",
+                        "boolean": false
+                    }
+                },
+                "Status": {
+                    "id": "%5Cg%3Bc",
+                    "type": "select",
+                    "select": {
+                        "id": "87ed0767-b588-4a82-b4e6-c7740a1eef75",
+                        "name": "Activo",
+                        "color": "purple"
+                    }
+                },
+                "Cuenta": {
+                    "id": "n%5ChD",
+                    "type": "select",
+                    "select": {
+                        "id": "27889a97-240e-4273-ab23-6ad7a02b7629",
+                        "name": "Mensual",
+                        "color": "default"
+                    }
+                },
+                "Fecha Renovación": {
+                    "id": "r.U2",
+                    "type": "date",
+                    "date": null
+                },
+                "Servicio": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Barbería",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Barbería",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Barber-a-18558e9c21ef8128b1c6d3e1dba85536",
             "public_url": null,
             "archived": false
         }
     ],
     "metadata": {
-        "ultima_actualizacion": "10/04/2026 11:00 AM",
+        "ultima_actualizacion": "10/04/2026 12:51 PM",
         "estado": "Sincronizado"
     }
 }
